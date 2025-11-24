@@ -21,11 +21,11 @@ class OrderItem extends Model
         'product_variant_id',
         'product_name',
         'product_sku',
-        'variant_options',
         'quantity',
         'unit_price_pkr',
         'total_price_pkr',
         'customizations',
+        'product_snapshot',
     ];
 
     /**
@@ -39,8 +39,8 @@ class OrderItem extends Model
             'quantity' => 'integer',
             'unit_price_pkr' => 'integer',
             'total_price_pkr' => 'integer',
-            'variant_options' => 'array',
             'customizations' => 'array',
+            'product_snapshot' => 'array',
         ];
     }
 
@@ -75,9 +75,17 @@ class OrderItem extends Model
     {
         $name = $this->product_name;
         
-        if ($this->variant_options) {
+        // Get variant options from product snapshot or variant relationship
+        $variantOptions = null;
+        if ($this->product_snapshot && isset($this->product_snapshot['variant_options'])) {
+            $variantOptions = $this->product_snapshot['variant_options'];
+        } elseif ($this->variant && $this->variant->options_json) {
+            $variantOptions = $this->variant->options_json;
+        }
+        
+        if ($variantOptions) {
             $optionStrings = [];
-            foreach ($this->variant_options as $option => $value) {
+            foreach ($variantOptions as $option => $value) {
                 $optionStrings[] = "$option: $value";
             }
             $name .= ' (' . implode(', ', $optionStrings) . ')';
@@ -151,7 +159,14 @@ class OrderItem extends Model
      */
     public function hasVariantOptions(): bool
     {
-        return !empty($this->variant_options);
+        $variantOptions = null;
+        if ($this->product_snapshot && isset($this->product_snapshot['variant_options'])) {
+            $variantOptions = $this->product_snapshot['variant_options'];
+        } elseif ($this->variant && $this->variant->options_json) {
+            $variantOptions = $this->variant->options_json;
+        }
+        
+        return !empty($variantOptions);
     }
 
     /**
@@ -159,12 +174,19 @@ class OrderItem extends Model
      */
     public function getFormattedVariantOptionsAttribute(): array
     {
-        if (!$this->variant_options) {
+        $variantOptions = null;
+        if ($this->product_snapshot && isset($this->product_snapshot['variant_options'])) {
+            $variantOptions = $this->product_snapshot['variant_options'];
+        } elseif ($this->variant && $this->variant->options_json) {
+            $variantOptions = $this->variant->options_json;
+        }
+        
+        if (!$variantOptions) {
             return [];
         }
 
         $formatted = [];
-        foreach ($this->variant_options as $option => $value) {
+        foreach ($variantOptions as $option => $value) {
             $formatted[] = ucfirst($option) . ': ' . $value;
         }
 

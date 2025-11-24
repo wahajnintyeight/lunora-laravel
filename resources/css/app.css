@@ -50,3 +50,95 @@
     --shadow-jewelry-glow: 0 0 20px rgba(212, 175, 55, 0.3);
     --shadow-jewelry-premium: 0 10px 25px -3px rgba(212, 175, 55, 0.1), 0 4px 6px -2px rgba(212, 175, 55, 0.05);
 }
+
+/* Mobile-responsive utilities */
+.touch-target {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-input {
+    min-height: 44px;
+}
+
+/* Prevent zoom on iOS when input is focused */
+@media screen and (max-width: 767px) {
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="search"],
+    select,
+    textarea {
+        font-size: 16px !important;
+    }
+}
+
+/* Mobile-first responsive breakpoints */
+@media (max-width: 640px) {
+    .mobile-stack > * + * {
+        margin-top: 1rem;
+    }
+    
+    .mobile-full {
+        width: 100%;
+    }
+    
+    .mobile-center {
+        text-align: center;
+    }
+}
+
+/* Touch-friendly spacing */
+.touch-spacing {
+    padding: 0.75rem;
+}
+
+.touch-spacing-sm {
+    padding: 0.5rem;
+}
+
+.touch-spacing-lg {
+    padding: 1rem;
+}
+
+/* Mobile navigation helpers */
+.mobile-menu-item {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    transition: background-color 0.2s ease;
+}
+
+.mobile-menu-item:hover,
+.mobile-menu-item:focus {
+    background-color: rgba(16, 185, 129, 0.1);
+}
+
+/* Responsive text sizing */
+@media (max-width: 640px) {
+    .responsive-text-lg {
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+    }
+    
+    .responsive-text-xl {
+        font-size: 1.25rem;
+        line-height: 1.75rem;
+    }
+    
+    .responsive-text-2xl {
+        font-size: 1.5rem;
+        line-height: 2rem;
+    }
+    
+    .responsive-text-3xl {
+        font-size: 1.875rem;
+        line-height: 2.25rem;
+    }
+}

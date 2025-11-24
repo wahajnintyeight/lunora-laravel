@@ -7,13 +7,12 @@ use App\Notifications\Auth\VerifyEmailNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -83,11 +82,17 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Get the wishlist items for the user.
      * Note: This is a placeholder method for future wishlist functionality.
+     * Returns an empty collection since wishlist is not implemented yet.
      */
-    public function wishlistItems(): HasMany
+    public function wishlistItems()
     {
-        // Return empty relationship for now - wishlist functionality will be implemented later
-        return $this->hasMany(CartItem::class)->whereRaw('1 = 0'); // Always empty
+        // Return empty collection for now - wishlist functionality will be implemented later
+        return new class {
+            public function count() { return 0; }
+            public function get() { return collect([]); }
+            public function first() { return null; }
+            public function exists() { return false; }
+        };
     }
 
     /**

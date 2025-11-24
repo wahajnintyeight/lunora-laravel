@@ -5,11 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
-
 class Coupon extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     /**
      * Coupon type constants.
@@ -27,15 +25,18 @@ class Coupon extends Model
         'name',
         'description',
         'type',
-        'value',
+        'value_pkr',
+        'percentage_value',
         'minimum_order_pkr',
         'maximum_discount_pkr',
-        'usage_limit',
+        'usage_limit_total',
         'usage_limit_per_user',
         'used_count',
         'is_active',
         'starts_at',
         'expires_at',
+        'applicable_categories',
+        'applicable_products',
     ];
 
     /**
@@ -46,15 +47,18 @@ class Coupon extends Model
     protected function casts(): array
     {
         return [
-            'value' => 'integer',
+            'value_pkr' => 'integer',
+            'percentage_value' => 'decimal:2',
             'minimum_order_pkr' => 'integer',
             'maximum_discount_pkr' => 'integer',
-            'usage_limit' => 'integer',
+            'usage_limit_total' => 'integer',
             'usage_limit_per_user' => 'integer',
             'used_count' => 'integer',
             'is_active' => 'boolean',
             'starts_at' => 'datetime',
             'expires_at' => 'datetime',
+            'applicable_categories' => 'array',
+            'applicable_products' => 'array',
         ];
     }
 
@@ -93,7 +97,7 @@ class Coupon extends Model
             return false;
         }
 
-        if ($this->usage_limit && $this->used_count >= $this->usage_limit) {
+        if ($this->usage_limit_total && $this->used_count >= $this->usage_limit_total) {
             return false;
         }
 
@@ -146,9 +150,9 @@ class Coupon extends Model
         $discount = 0;
 
         if ($this->type === self::TYPE_FIXED) {
-            $discount = min($this->value, $orderTotal);
+            $discount = min($this->value_pkr, $orderTotal);
         } elseif ($this->type === self::TYPE_PERCENTAGE) {
-            $discount = (int) round(($orderTotal * $this->value) / 10000); // value is stored as basis points
+            $discount = (int) round(($orderTotal * $this->percentage_value) / 100);
         }
 
         // Apply maximum discount limit if set
@@ -165,12 +169,12 @@ class Coupon extends Model
     public function getFormattedValueAttribute(): string
     {
         if ($this->type === self::TYPE_FIXED) {
-            return 'PKR ' . number_format($this->value / 100, 2);
+            return 'PKR ' . number_format($this->value_pkr / 100, 2);
         } elseif ($this->type === self::TYPE_PERCENTAGE) {
-            return ($this->value / 100) . '%';
+            return $this->percentage_value . '%';
         }
 
-        return (string) $this->value;
+        return '';
     }
 
     /**
@@ -212,10 +216,10 @@ class Coupon extends Model
      */
     public function getRemainingUsageAttribute(): ?int
     {
-        if (!$this->usage_limit) {
+        if (!$this->usage_limit_total) {
             return null;
         }
-        return max(0, $this->usage_limit - $this->used_count);
+        return max(0, $this->usage_limit_total - $this->used_count);
     }
 
     /**
@@ -259,8 +263,8 @@ class Coupon extends Model
                   ->orWhere('expires_at', '>=', $now);
             })
             ->where(function ($q) {
-                $q->whereNull('usage_limit')
-                  ->orWhereRaw('used_count < usage_limit');
+                $q->whereNull('usage_limit_total')
+                  ->orWhereRaw('used_count < usage_limit_total');
             });
     }
 

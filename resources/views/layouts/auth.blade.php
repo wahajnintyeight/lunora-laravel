@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="relative min-h-full">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
 <head>
     <!-- Required Meta Tags Always Come First -->
     <meta charset="utf-8">
@@ -52,6 +52,22 @@
     </script>
     
     <style>
+        /* Mobile-first responsive form inputs */
+        .form-input {
+            min-height: 44px; /* Touch-friendly minimum height */
+        }
+        
+        /* Prevent zoom on iOS when input is focused */
+        @media screen and (max-width: 767px) {
+            input[type="text"],
+            input[type="email"],
+            input[type="password"],
+            select,
+            textarea {
+                font-size: 16px !important;
+            }
+        }
+        
         @keyframes typing {
             0% {
                 opacity: 1;
@@ -69,7 +85,7 @@
     </style>
 </head>
 
-<body class="dark:bg-neutral-900">
+<body class="h-full dark:bg-neutral-900">
     <!-- Header -->
     @include('partials.shop.header')
 
@@ -80,14 +96,14 @@
         <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23059669" fill-opacity="0.03"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] dark:bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.02"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"></div>
         
         <!-- Content -->
-        <div class="relative flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 min-h-[calc(100vh-200px)]">
+        <div class="relative flex flex-col justify-center py-8 px-4 sm:py-12 sm:px-6 lg:px-8 min-h-[calc(100vh-200px)]">
             <div class="w-full max-w-md mx-auto">
                 <!-- Page Title -->
-                <div class="text-center mb-8">
-                    <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+                <div class="text-center mb-6 sm:mb-8">
+                    <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
                         @yield('page_title')
                     </h2>
-                    <p class="mt-2 text-sm text-gray-600 dark:text-neutral-400">
+                    <p class="mt-2 text-sm sm:text-base text-gray-600 dark:text-neutral-400">
                         @yield('page_subtitle')
                     </p>
                 </div>
@@ -102,7 +118,7 @@
                 </div>
 
                 <!-- Additional Links -->
-                <div class="mt-6 text-center">
+                <div class="mt-4 sm:mt-6 text-center">
                     @yield('additional_links')
                 </div>
             </div>
@@ -114,11 +130,6 @@
 
     <!-- Modals and Overlays -->
     @include('partials.shop.modals')
-
-    <!-- Scripts -->
-    @stack('scripts')
-</body>
-</html>ain>
 
     <!-- Scripts -->
     @stack('scripts')

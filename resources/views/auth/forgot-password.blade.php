@@ -12,10 +12,10 @@
 
     <!-- Email -->
     <div>
-        <label for="email" class="block text-sm font-medium text-gray-700 dark:text-neutral-300">
+        <label for="email" class="block text-sm font-medium text-gray-700 dark:text-neutral-300 mb-2">
             Email address
         </label>
-        <div class="mt-1 relative">
+        <div class="relative">
             <input id="email" 
                    name="email" 
                    type="email" 
@@ -23,7 +23,7 @@
                    required 
                    autofocus 
                    autocomplete="email"
-                   class="block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500 @error('email') border-red-300 dark:border-red-600 @enderror"
+                   class="form-input block w-full px-4 py-3 text-base border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500 @error('email') border-red-300 dark:border-red-600 @enderror"
                    placeholder="Enter your email address">
             <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                 <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -43,7 +43,7 @@
     <!-- Send Reset Link Button -->
     <div>
         <button type="submit" 
-                class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200">
+                class="group relative w-full flex justify-center py-3 px-4 min-h-[44px] border border-transparent text-base font-medium rounded-lg text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200">
             <span class="absolute left-0 inset-y-0 flex items-center pl-3">
                 <svg class="h-5 w-5 text-emerald-500 group-hover:text-emerald-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path d="M3 4a2 2 0 012-2h10a2 2 0 012 2v1.586l-4.293 4.293a1 1 0 01-1.414 0L7 5.586V4z" />
@@ -58,15 +58,15 @@
 
 @section('additional_links')
 <div class="text-center space-y-2">
-    <p class="text-sm text-gray-600 dark:text-neutral-400">
+    <p class="text-sm sm:text-base text-gray-600 dark:text-neutral-400">
         Remember your password? 
-        <a href="{{ route('login') }}" class="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300">
+        <a href="{{ route('login') }}" class="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 touch-target">
             Back to sign in
         </a>
     </p>
-    <p class="text-sm text-gray-600 dark:text-neutral-400">
+    <p class="text-sm sm:text-base text-gray-600 dark:text-neutral-400">
         Don't have an account? 
-        <a href="{{ route('register') }}" class="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300">
+        <a href="{{ route('register') }}" class="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 touch-target">
             Create one here
         </a>
     </p>

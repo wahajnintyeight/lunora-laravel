@@ -17,7 +17,7 @@
 
     <!-- Message -->
     <div class="space-y-3">
-        <p class="text-sm text-gray-600 dark:text-neutral-400">
+        <p class="text-sm sm:text-base text-gray-600 dark:text-neutral-400">
             Before continuing, please check your email for a verification link. If you didn't receive the email, we can send you another one.
         </p>
     </div>
@@ -26,7 +26,7 @@
     <form method="POST" action="{{ route('verification.send') }}">
         @csrf
         <button type="submit" 
-                class="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200">
+                class="w-full flex justify-center py-3 px-4 min-h-[44px] border border-transparent text-base font-medium rounded-lg text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 touch-target">
             Resend verification email
         </button>
     </form>
@@ -45,7 +45,7 @@
     <form method="POST" action="{{ route('logout') }}">
         @csrf
         <button type="submit" 
-                class="w-full flex justify-center py-3 px-4 border border-gray-300 dark:border-neutral-600 text-sm font-medium rounded-lg text-gray-700 dark:text-neutral-300 bg-white dark:bg-neutral-700 hover:bg-gray-50 dark:hover:bg-neutral-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors duration-200">
+                class="w-full flex justify-center py-3 px-4 min-h-[44px] border border-gray-300 dark:border-neutral-600 text-base font-medium rounded-lg text-gray-700 dark:text-neutral-300 bg-white dark:bg-neutral-700 hover:bg-gray-50 dark:hover:bg-neutral-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors duration-200 touch-target">
             Sign out
         </button>
     </form>
@@ -54,9 +54,9 @@
 
 @section('additional_links')
 <div class="text-center">
-    <p class="text-sm text-gray-600 dark:text-neutral-400">
+    <p class="text-sm sm:text-base text-gray-600 dark:text-neutral-400">
         Need help? 
-        <a href="#" class="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300">
+        <a href="#" class="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 touch-target">
             Contact support
         </a>
     </p>

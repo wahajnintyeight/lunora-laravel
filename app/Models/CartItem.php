@@ -21,8 +21,8 @@ class CartItem extends Model
         'product_variant_id',
         'quantity',
         'unit_price_pkr',
-        'total_price_pkr',
         'customizations',
+        'product_snapshot',
     ];
 
     /**
@@ -35,8 +35,8 @@ class CartItem extends Model
         return [
             'quantity' => 'integer',
             'unit_price_pkr' => 'integer',
-            'total_price_pkr' => 'integer',
             'customizations' => 'array',
+            'product_snapshot' => 'array',
         ];
     }
 
@@ -89,6 +89,14 @@ class CartItem extends Model
     public function getFormattedUnitPriceAttribute(): string
     {
         return 'PKR ' . number_format($this->unit_price_pkr / 100, 2);
+    }
+
+    /**
+     * Get the total price for this item.
+     */
+    public function getTotalPricePkrAttribute(): int
+    {
+        return $this->quantity * $this->unit_price_pkr;
     }
 
     /**
@@ -167,25 +175,5 @@ class CartItem extends Model
         return $this->product->stock;
     }
 
-    /**
-     * Update the total price based on quantity and unit price.
-     */
-    public function updateTotalPrice(): void
-    {
-        $this->total_price_pkr = $this->quantity * $this->unit_price_pkr;
-        $this->save();
-    }
 
-    /**
-     * Boot the model.
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::saving(function ($cartItem) {
-            // Automatically calculate total price
-            $cartItem->total_price_pkr = $cartItem->quantity * $cartItem->unit_price_pkr;
-        });
-    }
 }

@@ -30,7 +30,7 @@ class OrderAddress extends Model
         'address_line_1',
         'address_line_2',
         'city',
-        'state',
+        'state_province',
         'postal_code',
         'country',
         'phone',
@@ -70,7 +70,7 @@ class OrderAddress extends Model
             $address[] = $this->address_line_2;
         }
         
-        $cityStatePostal = trim($this->city . ', ' . $this->state . ' ' . $this->postal_code);
+        $cityStatePostal = trim($this->city . ', ' . $this->state_province . ' ' . $this->postal_code);
         if ($cityStatePostal !== ', ') {
             $address[] = $cityStatePostal;
         }

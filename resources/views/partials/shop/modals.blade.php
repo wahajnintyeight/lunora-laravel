@@ -77,7 +77,9 @@
     <div class="p-4 overflow-y-auto">
         @auth
             @php
-                $cartItems = auth()->user()->carts()->where('status', 'active')->with('product')->get();
+                $cartService = app(\App\Services\CartService::class);
+                $cart = $cartService->getOrCreateCart(auth()->user(), session()->getId());
+                $cartItems = $cart->items()->with('product')->get();
             @endphp
             @if($cartItems->count() > 0)
                 <div class="space-y-4">

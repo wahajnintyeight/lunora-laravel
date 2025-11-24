@@ -19,8 +19,8 @@ class CouponRedemption extends Model
         'coupon_id',
         'user_id',
         'order_id',
+        'email',
         'discount_amount_pkr',
-        'redeemed_at',
     ];
 
     /**

@@ -43,8 +43,6 @@ class Order extends Model
         'placed_at',
         'shipped_at',
         'delivered_at',
-        'cancelled_at',
-        'refunded_at',
     ];
 
     /**
@@ -62,8 +60,6 @@ class Order extends Model
             'placed_at' => 'datetime',
             'shipped_at' => 'datetime',
             'delivered_at' => 'datetime',
-            'cancelled_at' => 'datetime',
-            'refunded_at' => 'datetime',
         ];
     }
 
@@ -264,12 +260,6 @@ class Order extends Model
                 break;
             case self::STATUS_DELIVERED:
                 $this->delivered_at = now();
-                break;
-            case self::STATUS_CANCELLED:
-                $this->cancelled_at = now();
-                break;
-            case self::STATUS_REFUNDED:
-                $this->refunded_at = now();
                 break;
         }
 
