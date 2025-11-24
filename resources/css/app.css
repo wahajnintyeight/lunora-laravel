@@ -1,0 +1,52 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+    
+    /* Jewelry Theme Colors */
+    --color-gold: #d4af37;
+    --color-gold-light: #f4e4a6;
+    --color-gold-dark: #b8941f;
+    
+    --color-rose-gold: #e8b4a0;
+    --color-rose-gold-light: #f5d5c8;
+    --color-rose-gold-dark: #d49580;
+    
+    --color-silver: #c0c0c0;
+    --color-silver-light: #e8e8e8;
+    --color-silver-dark: #a0a0a0;
+    
+    --color-diamond: #f8f8ff;
+    --color-diamond-light: #ffffff;
+    --color-diamond-dark: #e6e6fa;
+    
+    --color-emerald: #50c878;
+    --color-emerald-light: #90ee90;
+    --color-emerald-dark: #228b22;
+    
+    --color-ruby: #e0115f;
+    --color-ruby-light: #ff69b4;
+    --color-ruby-dark: #b91372;
+    
+    --color-sapphire: #0f52ba;
+    --color-sapphire-light: #6495ed;
+    --color-sapphire-dark: #003f7f;
+    
+    /* Custom spacing for jewelry layouts */
+    --spacing-jewelry-xs: 0.125rem;
+    --spacing-jewelry-sm: 0.375rem;
+    --spacing-jewelry-md: 0.75rem;
+    --spacing-jewelry-lg: 1.5rem;
+    --spacing-jewelry-xl: 3rem;
+    
+    /* Custom shadows for jewelry elements */
+    --shadow-jewelry-subtle: 0 1px 3px 0 rgba(212, 175, 55, 0.1), 0 1px 2px 0 rgba(212, 175, 55, 0.06);
+    --shadow-jewelry-glow: 0 0 20px rgba(212, 175, 55, 0.3);
+    --shadow-jewelry-premium: 0 10px 25px -3px rgba(212, 175, 55, 0.1), 0 4px 6px -2px rgba(212, 175, 55, 0.05);
+}
