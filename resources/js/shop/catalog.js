@@ -19,6 +19,7 @@ class CatalogManager {
         }
 
         this.productsUrl = this.dropdownRoot.getAttribute('data-catalog-products-url');
+        console.log('CatalogManager: Initialized with products URL', this.productsUrl);
         this.categoriesEndpoint = document.querySelector('meta[name="categories-endpoint"]')?.content;
 
         console.log('CatalogManager: Initialized with endpoint', this.categoriesEndpoint);

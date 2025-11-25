@@ -40,8 +40,15 @@
                 <!-- Catalog Dropdown -->
                 @include('partials.shop.catalog-dropdown')
 
-                <!-- Search Bar -->
-                @include('partials.shop.search-bar')
+                <!-- Search Button (desktop) -->
+                <button type="button" onclick="window.dispatchEvent(new CustomEvent('open-search-modal'))"
+                    class="group inline-flex items-center justify-center rounded-lg p-2 text-[#f59e0b] transition-colors duration-200 hover:bg-[#f59e0b]/10 focus:outline-none focus:ring-2 focus:ring-[#f59e0b] focus:ring-offset-2 focus:ring-offset-[#450a0a]"
+                    aria-label="Open search">
+                    <svg class="size-5 transition-transform duration-200 group-hover:scale-110" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </button>
             </div>
 
             <!-- User Actions (right aligned) -->

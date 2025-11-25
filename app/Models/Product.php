@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+
 class Product extends Model
 {
     use HasFactory;
@@ -76,7 +77,7 @@ class Product extends Model
         if ($primaryImage) {
             return $primaryImage->url;
         }
-        
+
         $firstImage = $this->images()->first();
         return $firstImage ? $firstImage->url : null;
     }
@@ -185,9 +186,9 @@ class Product extends Model
     {
         return $query->where(function ($q) {
             $q->where('stock', '>', 0)
-              ->orWhereHas('variants', function ($variant) {
-                  $variant->where('stock', '>', 0);
-              });
+                ->orWhereHas('variants', function ($variant) {
+                    $variant->where('stock', '>', 0);
+                });
         });
     }
 }

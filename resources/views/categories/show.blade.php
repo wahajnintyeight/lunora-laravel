@@ -1,4 +1,4 @@
-@extends('layouts.shop')
+@extends('layouts.app')
 
 @section('title', $category->name . ' - Lunora Jewelry')
 
@@ -82,29 +82,13 @@
             <h2 class="text-lg sm:text-xl font-semibold text-gray-900 mb-6">Featured in {{ $category->name }}</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 @foreach($featuredProducts as $product)
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow group">
-                        <a href="{{ route('products.show', $product->slug) }}" class="block">
-                            <div class="aspect-square overflow-hidden bg-gray-100">
-                                @if($product->images->count() > 0)
-                                    <img src="{{ $product->images->first()->image_path }}" 
-                                         alt="{{ $product->name }}" 
-                                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                         loading="lazy">
-                                @else
-                                    <div class="w-full h-full flex items-center justify-center">
-                                        <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                        </svg>
-                                    </div>
-                                @endif
-                            </div>
-                            <div class="p-4">
-                                <h3 class="font-semibold text-gray-900 mb-1 group-hover:text-[#f59e0b] transition-colors">{{ $product->name }}</h3>
-                                <p class="text-[#f59e0b] font-bold text-lg">PKR {{ number_format($product->price_pkr / 100, 2) }}</p>
-                                <span class="inline-block bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded-full mt-2">Featured</span>
-                            </div>
-                        </a>
-                    </div>
+                    <x-product-card 
+                        :product="$product"
+                        :showRating="false"
+                        badgeText="Featured"
+                        badgeColor="gold"
+                        imageHeight="h-64"
+                    />
                 @endforeach
             </div>
         </div>
@@ -188,45 +172,13 @@
     @if($products->count() > 0)
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             @foreach($products as $product)
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 group">
-                    <a href="{{ route('products.show', $product->slug) }}" class="block">
-                        <div class="aspect-square overflow-hidden bg-gray-100">
-                            @if($product->images->count() > 0)
-                                <img src="{{ $product->images->first()->image_path }}" 
-                                     alt="{{ $product->name }}" 
-                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                     loading="lazy">
-                            @else
-                                <div class="w-full h-full flex items-center justify-center">
-                                    <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                    </svg>
-                                </div>
-                            @endif
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-semibold text-gray-900 mb-1 line-clamp-2 group-hover:text-[#f59e0b] transition-colors">
-                                {{ $product->name }}
-                            </h3>
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    @if($product->compare_at_price_pkr && $product->compare_at_price_pkr > $product->price_pkr)
-                                        <p class="text-sm text-gray-500 line-through">PKR {{ number_format($product->compare_at_price_pkr / 100, 2) }}</p>
-                                    @endif
-                                    <p class="text-[#f59e0b] font-bold text-lg">PKR {{ number_format($product->price_pkr / 100, 2) }}</p>
-                                </div>
-                                @if($product->is_featured)
-                                    <span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded-full">Featured</span>
-                                @endif
-                            </div>
-                            @if($product->stock <= 5 && $product->stock > 0)
-                                <p class="text-orange-600 text-xs mt-2">Only {{ $product->stock }} left!</p>
-                            @elseif($product->stock == 0)
-                                <p class="text-red-600 text-xs mt-2">Out of stock</p>
-                            @endif
-                        </div>
-                    </a>
-                </div>
+                <x-product-card 
+                    :product="$product"
+                    :showRating="false"
+                    :badgeText="$product->is_featured ? 'Featured' : ($product->stock == 0 ? 'Out of Stock' : null)"
+                    :badgeColor="$product->is_featured ? 'gold' : 'red'"
+                    imageHeight="h-64"
+                />
             @endforeach
         </div>
 

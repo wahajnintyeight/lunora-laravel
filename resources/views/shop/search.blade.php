@@ -1,4 +1,4 @@
-@extends('layouts.shop')
+@extends('layouts.app')
 
 @section('title', 'Search Results - ' . config('app.name'))
 @section('meta_description', 'Search results for jewelry products')

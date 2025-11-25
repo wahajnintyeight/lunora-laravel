@@ -1,11 +1,11 @@
-@extends('layouts.shop')
+@extends('layouts.app')
 
 @section('title', $product->name . ' - Lunora Jewelry')
 
 @section('content')
-<div class="container mx-auto px-4 py-8">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
     <!-- Breadcrumbs -->
-    <nav class="mb-6">
+    <nav class="mb-8">
         <ol class="flex items-center space-x-2 text-sm">
             <li><a href="{{ route('home') }}" class="text-[#f59e0b] hover:text-emerald-700">Home</a></li>
             <li class="text-gray-400">/</li>
@@ -17,7 +17,7 @@
         </ol>
     </nav>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
         <!-- Product Images -->
         <div>
             @if($product->images->count() > 0)
@@ -36,7 +36,7 @@
                             @foreach($product->images as $image)
                                 <img src="{{ $image->thumbnail_url }}" 
                                      alt="{{ $product->name }}" 
-                                     class="w-20 h-20 object-cover rounded-md cursor-pointer border-2 {{ $loop->first ? 'border-emerald-500' : 'border-gray-200' }} hover:border-emerald-500 transition-colors"
+                                     class="w-20 h-20 object-cover rounded-md cursor-pointer border-2 {{ $loop->first ? 'border-gold-500' : 'border-gray-200' }} hover:border-gold-500 transition-colors"
                                      onclick="changeMainImage('{{ $image->medium_url }}', this)">
                             @endforeach
                         </div>
@@ -53,7 +53,7 @@
         <div>
             <div class="mb-4">
                 @if($product->is_featured)
-                    <span class="bg-emerald-100 text-emerald-800 text-sm px-3 py-1 rounded-full">Featured</span>
+                    <span class="bg-gold-100 text-gold-800 text-sm px-3 py-1 rounded-full">Featured</span>
                 @endif
             </div>
 
@@ -63,7 +63,7 @@
                 @if($product->compare_at_price_pkr && $product->compare_at_price_pkr > $product->price_pkr)
                     <p class="text-lg text-gray-500 line-through">PKR {{ number_format($product->compare_at_price_pkr / 100, 2) }}</p>
                 @endif
-                <p id="current-price" class="text-3xl text-[#f59e0b] font-bold">PKR {{ number_format($product->price_pkr / 100, 2) }}</p>
+                <p id="current-price" class="text-3xl text-gold-500 font-bold">PKR {{ number_format($product->price_pkr / 100, 2) }}</p>
             </div>
             
             @if($product->description)
@@ -107,7 +107,7 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">{{ $optionName }}</label>
                                 <select name="options[{{ $optionName }}]" 
-                                        class="variant-option w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                        class="variant-option w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-gold-500 focus:border-gold-500"
                                         data-option="{{ $optionName }}"
                                         required>
                                     <option value="">Select {{ $optionName }}</option>
@@ -133,7 +133,7 @@
                                name="customization[engraving]" 
                                maxlength="20"
                                placeholder="Enter text for engraving..."
-                               class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500">
+                               class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-gold-500 focus:border-gold-500">
                         <p class="text-xs text-gray-500 mt-1">Additional charges may apply for engraving</p>
                     </div>
 
@@ -145,7 +145,7 @@
                                   name="customization[instructions]" 
                                   rows="3"
                                   placeholder="Any special requests or instructions..."
-                                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500"></textarea>
+                                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-gold-500 focus:border-gold-500"></textarea>
                     </div>
                 </div>
 
@@ -166,7 +166,7 @@
                                value="1" 
                                min="1" 
                                max="{{ $availableStock }}"
-                               class="w-20 text-center border border-gray-300 rounded-md px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500">
+                               class="w-20 text-center border border-gray-300 rounded-md px-3 py-2 focus:ring-gold-500 focus:border-gold-500">
                         <button type="button" 
                                 onclick="changeQuantity(1)" 
                                 class="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-md hover:bg-gray-50">
@@ -180,7 +180,7 @@
                 <!-- Add to Cart Button -->
                 <button type="submit" 
                         id="add-to-cart-btn"
-                        class="w-full bg-[#f59e0b] text-white py-3 px-6 rounded-lg font-semibold hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        class="w-full bg-gold-500 text-white py-3 px-6 rounded-lg font-semibold hover:bg-gold-600 focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         {{ $availableStock == 0 ? 'disabled' : '' }}>
                     @if($availableStock == 0)
                         Out of Stock
@@ -193,27 +193,15 @@
     </div>
 
     @if($relatedProducts->count() > 0)
-        <div class="mt-16">
-            <h2 class="text-2xl font-semibold text-gray-900 mb-6">Related Products</h2>
+        <div class="mt-16 lg:mt-20">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-8">Related Products</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 @foreach($relatedProducts as $relatedProduct)
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                        <a href="{{ route('products.show', $relatedProduct->slug) }}" class="block">
-                            @if($relatedProduct->images->count() > 0)
-                                <img src="{{ $relatedProduct->images->first()->medium_url }}" 
-                                     alt="{{ $relatedProduct->name }}" 
-                                     class="w-full h-48 object-cover">
-                            @else
-                                <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
-                                    <span class="text-gray-400">No Image</span>
-                                </div>
-                            @endif
-                            <div class="p-4">
-                                <h3 class="font-semibold text-gray-900 mb-1">{{ $relatedProduct->name }}</h3>
-                                <p class="text-[#f59e0b] font-bold">PKR {{ number_format($relatedProduct->price_pkr / 100, 2) }}</p>
-                            </div>
-                        </a>
-                    </div>
+                    <x-product-card 
+                        :product="$relatedProduct"
+                        :showRating="false"
+                        imageHeight="h-48"
+                    />
                 @endforeach
             </div>
         </div>
@@ -227,11 +215,11 @@ function changeMainImage(imageSrc, thumbnail) {
     
     // Update thumbnail borders
     document.querySelectorAll('.aspect-square + div img').forEach(img => {
-        img.classList.remove('border-emerald-500');
+        img.classList.remove('border-gold-500');
         img.classList.add('border-gray-200');
     });
     thumbnail.classList.remove('border-gray-200');
-    thumbnail.classList.add('border-emerald-500');
+    thumbnail.classList.add('border-gold-500');
 }
 
 // Change quantity

@@ -1,4 +1,5 @@
-<!-- Search Bar -->
+@if(request()->routeIs('search'))
+<!-- Search Bar (visible only on search page) -->
 <div class="flex-1 max-w-2xl">
     <form action="{{ route('search') }}" method="GET" class="relative" autocomplete="off">
         <div class="relative">
@@ -41,5 +42,9 @@
         </div>
     </form>
 </div>
+@else
+<!-- Placeholder to maintain layout spacing -->
+<div class="flex-1 max-w-2xl"></div>
+@endif
 
 <!-- End Search Bar -->

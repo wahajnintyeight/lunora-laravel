@@ -1,4 +1,4 @@
-@extends('layouts.shop')
+@extends('layouts.app')
 
 @section('title', 'Shop - ' . config('app.name'))
 @section('meta_description', 'Discover our exquisite collection of premium jewelry including rings, necklaces, earrings, and bracelets.')

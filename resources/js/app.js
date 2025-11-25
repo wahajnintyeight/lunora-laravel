@@ -1,6 +1,72 @@
 import './bootstrap';
+import './components';
+import Alpine from 'alpinejs';
 import { initRealtimeProductSearch } from './shop/search';
 import { initCatalogFilter } from './shop/catalog';
+
+// Initialize Alpine
+window.Alpine = Alpine;
+Alpine.start();
+
+console.log('Alpine.js initialized:', window.Alpine);
+
+// Debug: Listen for the search modal event
+document.addEventListener('open-search-modal', () => {
+    console.log('open-search-modal event received!');
+});
+
+// Add to Cart Function
+window.addToCart = function(productId) {
+    console.log('Adding product', productId, 'to cart');
+    
+    // Make AJAX request to add product to cart
+    fetch(`/cart/add/${productId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        },
+        body: JSON.stringify({
+            quantity: 1
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Show success message
+            showNotification('Product added to cart!', 'success');
+            // Update cart count if available
+            if (window.updateCartCount) {
+                window.updateCartCount(data.cartCount);
+            }
+        } else {
+            showNotification(data.message || 'Failed to add product to cart', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error adding to cart:', error);
+        showNotification('Error adding product to cart', 'error');
+    });
+};
+
+// Notification Helper
+window.showNotification = function(message, type = 'info') {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg text-white z-50 animate-fade-in ${
+        type === 'success' ? 'bg-green-500' :
+        type === 'error' ? 'bg-red-500' :
+        'bg-blue-500'
+    }`;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+};
 
 // Mobile Menu Controller
 class MobileMenuController {

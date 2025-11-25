@@ -1,318 +1,272 @@
-@extends('layouts.shop')
+@extends('layouts.app')
 
 @section('title', 'Products - Lunora Jewelry')
 
 @section('content')
-<div class="container mx-auto px-4 py-6 sm:py-8">
-    <!-- Mobile Filter Toggle -->
-    <div class="lg:hidden mb-4">
-        <button type="button" 
-                id="mobile-filter-toggle"
-                class="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 rounded-lg px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
-            </svg>
-            Filters & Sort
-            <span class="ml-auto">
-                <svg class="w-5 h-5 transform transition-transform" id="filter-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                </svg>
-            </span>
-        </button>
-    </div>
-
-    <div class="flex flex-col lg:flex-row gap-6 lg:gap-8">
-        <!-- Filters Sidebar -->
-        <div class="lg:w-1/4">
-            <div id="filters-panel" class="hidden lg:block bg-white rounded-lg shadow-md p-4 sm:p-6">
-                <div class="flex items-center justify-between mb-4 lg:mb-4">
-                    <h2 class="text-lg font-semibold text-gray-900">Filters</h2>
-                    <button type="button" 
-                            id="mobile-filter-close"
-                            class="lg:hidden p-2 text-gray-400 hover:text-gray-600">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-                
-                <form method="GET" action="{{ route('products.index') }}" id="filter-form">
-                    <!-- Search -->
-                    <div class="mb-6">
-                        <label for="search" class="block text-sm font-medium text-gray-700 mb-2">Search</label>
-                        <input type="text" 
-                               id="search" 
-                               name="search" 
-                               value="{{ request('search') }}"
-                               placeholder="Search products..."
-                               class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500">
-                    </div>
-
-                    <!-- Categories -->
-                    @if($categories->count() > 0)
-                    <div class="mb-6">
-                        <label for="category" class="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                        <select id="category" name="category" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500">
-                            <option value="">All Categories</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->slug }}" {{ request('category') == $category->slug ? 'selected' : '' }}>
-                                    {{ $category->name }} ({{ $category->products_count }})
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    @endif
-
-                    <!-- Price Range -->
-                    @if($priceRange && $priceRange->min_price && $priceRange->max_price)
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Price Range (PKR)</label>
-                        <div class="flex gap-2">
-                            <input type="number" 
-                                   name="min_price" 
-                                   value="{{ request('min_price') }}"
-                                   placeholder="Min: {{ number_format($priceRange->min_price / 100, 0) }}"
-                                   class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500">
-                            <input type="number" 
-                                   name="max_price" 
-                                   value="{{ request('max_price') }}"
-                                   placeholder="Max: {{ number_format($priceRange->max_price / 100, 0) }}"
-                                   class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500">
-                        </div>
-                    </div>
-                    @endif
-
-                    <!-- Material -->
-                    @if($materials->count() > 0)
-                    <div class="mb-6">
-                        <label for="material" class="block text-sm font-medium text-gray-700 mb-2">Material</label>
-                        <select id="material" name="material" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500">
-                            <option value="">All Materials</option>
-                            @foreach($materials as $material)
-                                <option value="{{ $material }}" {{ request('material') == $material ? 'selected' : '' }}>
-                                    {{ $material }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    @endif
-
-                    <!-- Brand -->
-                    @if($brands->count() > 0)
-                    <div class="mb-6">
-                        <label for="brand" class="block text-sm font-medium text-gray-700 mb-2">Brand</label>
-                        <select id="brand" name="brand" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500">
-                            <option value="">All Brands</option>
-                            @foreach($brands as $brand)
-                                <option value="{{ $brand }}" {{ request('brand') == $brand ? 'selected' : '' }}>
-                                    {{ $brand }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    @endif
-
-                    <div class="flex flex-col sm:flex-row gap-2">
-                        <button type="submit" class="flex-1 bg-[#f59e0b] text-white py-3 px-4 rounded-md hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 font-medium">
-                            Apply Filters
-                        </button>
-                        <a href="{{ route('products.index') }}" class="flex-1 bg-gray-200 text-gray-700 py-3 px-4 rounded-md text-center hover:bg-gray-300 font-medium">
-                            Clear All
-                        </a>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Products -->
-        <div class="lg:w-3/4">
-            <!-- Header with sorting -->
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+<div class="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <!-- Page Header -->
+    <div class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
-                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Products</h1>
-                    <p class="text-gray-600 mt-1">
-                        {{ $products->total() }} {{ Str::plural('product', $products->total()) }} found
-                        @if(request()->hasAny(['search', 'category', 'material', 'brand', 'min_price', 'max_price']))
-                            <span class="text-sm">
-                                • <a href="{{ route('products.index') }}" class="text-[#f59e0b] hover:text-emerald-700">Clear filters</a>
-                            </span>
+                    <h1 class="text-3xl sm:text-4xl font-bold text-gray-900">
+                        @if(request('search'))
+                            Search Results
+                        @elseif(request('category'))
+                            {{ ucfirst(request('category')) }}
+                        @else
+                            Our Collection
+                        @endif
+                    </h1>
+                    <div class="h-1 w-16 bg-gradient-to-r from-gold-500 to-maroon-950 rounded-full mt-3"></div>
+                    <p class="text-gray-600 mt-3">
+                        @if(request('search'))
+                            <span class="font-semibold text-gray-900">{{ $products->total() }}</span> results for 
+                            "<span class="text-maroon-950 font-medium">{{ request('search') }}</span>"
+                        @else
+                            Discover <span class="font-semibold text-gray-900">{{ $products->total() }}</span> exquisite pieces
                         @endif
                     </p>
                 </div>
                 
-                <div class="w-full sm:w-auto">
-                    <form method="GET" action="{{ route('products.index') }}" class="flex gap-2">
-                        @foreach(request()->except(['sort', 'direction']) as $key => $value)
-                            <input type="hidden" name="{{ $key }}" value="{{ $value }}">
-                        @endforeach
-                        
-                        <div class="flex items-center gap-2 w-full sm:w-auto">
-                            <label for="sort" class="text-sm text-gray-600 whitespace-nowrap">Sort by:</label>
-                            <select name="sort" id="sort" onchange="this.form.submit()" 
-                                    class="flex-1 sm:flex-none border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-emerald-500 focus:border-emerald-500">
-                                <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>Name A-Z</option>
-                                <option value="price" {{ request('sort') == 'price' ? 'selected' : '' }}>Price: Low to High</option>
-                                <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Price: High to Low</option>
-                                <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest First</option>
-                                <option value="featured" {{ request('sort') == 'featured' ? 'selected' : '' }}>Featured</option>
+                <!-- Mobile Filter Toggle -->
+                <button type="button" 
+                        id="mobile-filter-toggle"
+                        class="lg:hidden flex items-center justify-center gap-2 bg-maroon-950 text-white rounded-lg px-5 py-3 font-semibold hover:bg-maroon-900 transition-colors border-2 border-gold-500">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
+                    </svg>
+                    Filters
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Filters Sidebar -->
+            <aside class="lg:w-72 flex-shrink-0">
+                <div id="filters-panel" class="hidden lg:block bg-white rounded-xl shadow-lg border-2 border-gold-500/30 overflow-hidden">
+                    <!-- Filter Header -->
+                    <div class="bg-gradient-to-r from-maroon-950 to-maroon-900 px-6 py-4 flex items-center justify-between">
+                        <h2 class="text-lg font-semibold text-white flex items-center gap-2">
+                            <svg class="w-5 h-5 text-gold-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
+                            </svg>
+                            Filters
+                        </h2>
+                        <button type="button" id="mobile-filter-close" class="lg:hidden text-white hover:text-gold-500">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <form method="GET" action="{{ route('products.index') }}" id="filter-form" class="p-6 space-y-6">
+                        <!-- Search -->
+                        <div>
+                            <label for="search" class="block text-sm font-semibold text-gray-900 mb-2">Search Products</label>
+                            <div class="relative">
+                                <input type="text" 
+                                       id="search" 
+                                       name="search" 
+                                       value="{{ request('search') }}"
+                                       placeholder="Search..."
+                                       class="w-full border-2 border-gray-200 rounded-lg px-4 py-3 pl-10 focus:ring-2 focus:ring-gold-500 focus:border-gold-500 transition-colors">
+                                <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Categories -->
+                        @if($categories->count() > 0)
+                        <div>
+                            <label for="category" class="block text-sm font-semibold text-gray-900 mb-2">Category</label>
+                            <select id="category" name="category" class="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-gold-500 focus:border-gold-500 transition-colors bg-white">
+                                <option value="">All Categories</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->slug }}" {{ request('category') == $category->slug ? 'selected' : '' }}>
+                                        {{ $category->name }} ({{ $category->products_count }})
+                                    </option>
+                                @endforeach
                             </select>
+                        </div>
+                        @endif
+
+                        <!-- Price Range -->
+                        @if($priceRange && $priceRange->min_price && $priceRange->max_price)
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-900 mb-2">Price Range (PKR)</label>
+                            <div class="grid grid-cols-2 gap-3">
+                                <input type="number" 
+                                       name="min_price" 
+                                       value="{{ request('min_price') }}"
+                                       placeholder="Min"
+                                       class="border-2 border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-gold-500 focus:border-gold-500 transition-colors">
+                                <input type="number" 
+                                       name="max_price" 
+                                       value="{{ request('max_price') }}"
+                                       placeholder="Max"
+                                       class="border-2 border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-gold-500 focus:border-gold-500 transition-colors">
+                            </div>
+                        </div>
+                        @endif
+
+                        <!-- Material -->
+                        @if($materials->count() > 0)
+                        <div>
+                            <label for="material" class="block text-sm font-semibold text-gray-900 mb-2">Material</label>
+                            <select id="material" name="material" class="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-gold-500 focus:border-gold-500 transition-colors bg-white">
+                                <option value="">All Materials</option>
+                                @foreach($materials as $material)
+                                    <option value="{{ $material }}" {{ request('material') == $material ? 'selected' : '' }}>
+                                        {{ $material }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @endif
+
+                        <!-- Brand -->
+                        @if($brands->count() > 0)
+                        <div>
+                            <label for="brand" class="block text-sm font-semibold text-gray-900 mb-2">Brand</label>
+                            <select id="brand" name="brand" class="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-gold-500 focus:border-gold-500 transition-colors bg-white">
+                                <option value="">All Brands</option>
+                                @foreach($brands as $brand)
+                                    <option value="{{ $brand }}" {{ request('brand') == $brand ? 'selected' : '' }}>
+                                        {{ $brand }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @endif
+
+                        <!-- Action Buttons -->
+                        <div class="pt-4 space-y-3">
+                            <button type="submit" class="w-full bg-maroon-950 text-white py-3 px-4 rounded-lg font-semibold hover:bg-maroon-900 transition-colors border-2 border-gold-500 hover:border-gold-400">
+                                Apply Filters
+                            </button>
+                            <a href="{{ route('products.index') }}" class="block w-full bg-gray-100 text-gray-700 py-3 px-4 rounded-lg text-center font-medium hover:bg-gray-200 transition-colors">
+                                Clear All
+                            </a>
                         </div>
                     </form>
                 </div>
-            </div>
+            </aside>
 
-            <!-- Active Filters Display -->
-            @if(request()->hasAny(['search', 'category', 'material', 'brand', 'min_price', 'max_price']))
-                <div class="mb-6">
-                    <div class="flex flex-wrap items-center gap-2">
-                        <span class="text-sm text-gray-600">Active filters:</span>
-                        
-                        @if(request('search'))
-                            <span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 text-sm px-3 py-1 rounded-full">
-                                Search: "{{ request('search') }}"
-                                <a href="{{ request()->fullUrlWithQuery(['search' => null]) }}" class="text-[#f59e0b] hover:text-emerald-800">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                    </svg>
-                                </a>
-                            </span>
-                        @endif
-                        
-                        @if(request('category'))
-                            <span class="inline-flex items-center gap-1 bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">
-                                Category: {{ request('category') }}
-                                <a href="{{ request()->fullUrlWithQuery(['category' => null]) }}" class="text-blue-600 hover:text-blue-800">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                    </svg>
-                                </a>
-                            </span>
-                        @endif
-                        
-                        @if(request('material'))
-                            <span class="inline-flex items-center gap-1 bg-purple-100 text-purple-800 text-sm px-3 py-1 rounded-full">
-                                Material: {{ request('material') }}
-                                <a href="{{ request()->fullUrlWithQuery(['material' => null]) }}" class="text-purple-600 hover:text-purple-800">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                    </svg>
-                                </a>
-                            </span>
-                        @endif
-                        
-                        @if(request('brand'))
-                            <span class="inline-flex items-center gap-1 bg-orange-100 text-orange-800 text-sm px-3 py-1 rounded-full">
-                                Brand: {{ request('brand') }}
-                                <a href="{{ request()->fullUrlWithQuery(['brand' => null]) }}" class="text-orange-600 hover:text-orange-800">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                    </svg>
-                                </a>
-                            </span>
-                        @endif
-                        
-                        @if(request('min_price') || request('max_price'))
-                            <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-800 text-sm px-3 py-1 rounded-full">
-                                Price: 
-                                @if(request('min_price'))PKR {{ number_format(request('min_price')) }}@endif
-                                @if(request('min_price') && request('max_price')) - @endif
-                                @if(request('max_price'))PKR {{ number_format(request('max_price')) }}@endif
-                                <a href="{{ request()->fullUrlWithQuery(['min_price' => null, 'max_price' => null]) }}" class="text-gray-600 hover:text-gray-800">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                    </svg>
-                                </a>
-                            </span>
-                        @endif
-                    </div>
-                </div>
-            @endif
-
-            @if($products->count() > 0)
-                <!-- Products Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                    @foreach($products as $product)
-                        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 group">
-                            <a href="{{ route('products.show', $product->slug) }}" class="block">
-                                <!-- Product Image -->
-                                <div class="aspect-square overflow-hidden bg-gray-100">
-                                    @if($product->images->count() > 0)
-                                        <img src="{{ $product->images->first()->image_path }}" 
-                                             alt="{{ $product->name }}" 
-                                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                             loading="lazy">
-                                    @else
-                                        <div class="w-full h-full flex items-center justify-center">
-                                            <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                            </svg>
-                                        </div>
-                                    @endif
-                                </div>
-                                
-                                <!-- Product Info -->
-                                <div class="p-4">
-                                    <h3 class="font-semibold text-gray-900 mb-1 line-clamp-2 group-hover:text-[#f59e0b] transition-colors">
-                                        {{ $product->name }}
-                                    </h3>
-                                    <p class="text-sm text-gray-600 mb-3">{{ $product->category->name }}</p>
-                                    
-                                    <!-- Price and Badges -->
-                                    <div class="flex items-start justify-between mb-2">
-                                        <div class="flex-1">
-                                            @if($product->compare_at_price_pkr && $product->compare_at_price_pkr > $product->price_pkr)
-                                                <p class="text-sm text-gray-500 line-through">PKR {{ number_format($product->compare_at_price_pkr / 100, 2) }}</p>
-                                            @endif
-                                            <p class="text-[#f59e0b] font-bold text-lg">PKR {{ number_format($product->price_pkr / 100, 2) }}</p>
-                                        </div>
-                                        
-                                        <!-- Badges -->
-                                        <div class="flex flex-col gap-1 items-end">
-                                            @if($product->is_featured)
-                                                <span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded-full font-medium">Featured</span>
-                                            @endif
-                                            @if($product->stock <= 5 && $product->stock > 0)
-                                                <span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full font-medium">Low Stock</span>
-                                            @elseif($product->stock == 0)
-                                                <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full font-medium">Out of Stock</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Stock Status -->
-                                    @if($product->stock <= 5 && $product->stock > 0)
-                                        <p class="text-orange-600 text-xs">Only {{ $product->stock }} left in stock</p>
-                                    @elseif($product->stock == 0)
-                                        <p class="text-red-600 text-xs">Currently out of stock</p>
-                                    @else
-                                        <p class="text-green-600 text-xs">In stock ({{ $product->stock }} available)</p>
-                                    @endif
-                                </div>
+            <!-- Products Section -->
+            <main class="flex-1">
+                <!-- Sort & Active Filters Bar -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <!-- Active Filters -->
+                        @if(request()->hasAny(['search', 'category', 'material', 'brand', 'min_price', 'max_price']))
+                        <div class="flex flex-wrap items-center gap-2">
+                            @if(request('search'))
+                                <span class="inline-flex items-center gap-1 bg-gold-100 text-gold-800 text-sm px-3 py-1.5 rounded-full font-medium">
+                                    "{{ request('search') }}"
+                                    <a href="{{ request()->fullUrlWithQuery(['search' => null]) }}" class="text-gold-600 hover:text-gold-800 ml-1">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </a>
+                                </span>
+                            @endif
+                            @if(request('category'))
+                                <span class="inline-flex items-center gap-1 bg-maroon-100 text-maroon-800 text-sm px-3 py-1.5 rounded-full font-medium">
+                                    {{ ucfirst(request('category')) }}
+                                    <a href="{{ request()->fullUrlWithQuery(['category' => null]) }}" class="text-maroon-600 hover:text-maroon-800 ml-1">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </a>
+                                </span>
+                            @endif
+                            @if(request('material'))
+                                <span class="inline-flex items-center gap-1 bg-purple-100 text-purple-800 text-sm px-3 py-1.5 rounded-full font-medium">
+                                    {{ request('material') }}
+                                    <a href="{{ request()->fullUrlWithQuery(['material' => null]) }}" class="text-purple-600 hover:text-purple-800 ml-1">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </a>
+                                </span>
+                            @endif
+                            <a href="{{ route('products.index') }}" class="text-sm text-gray-500 hover:text-maroon-950 underline">
+                                Clear all
                             </a>
                         </div>
-                    @endforeach
-                </div>
-
-                <!-- Pagination -->
-                <div class="mt-8">
-                    {{ $products->withQueryString()->links() }}
-                </div>
-            @else
-                <div class="text-center py-12">
-                    <div class="max-w-md mx-auto">
-                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.5-.816-6.207-2.175.277-.079.556-.175.831-.29a6 6 0 1110.752 0c.275.115.554.211.831.29A7.962 7.962 0 0112 15z" />
-                        </svg>
-                        <h3 class="mt-2 text-sm font-medium text-gray-900">No products found</h3>
-                        <p class="mt-1 text-sm text-gray-500">Try adjusting your search or filter criteria.</p>
-                        <div class="mt-6">
-                            <a href="{{ route('products.index') }}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#f59e0b] hover:bg-emerald-700">
-                                View All Products
-                            </a>
+                        @else
+                        <div class="text-sm text-gray-500">
+                            Showing all products
                         </div>
+                        @endif
+                        
+                        <!-- Sort -->
+                        <form method="GET" action="{{ route('products.index') }}" class="flex items-center gap-3">
+                            @foreach(request()->except(['sort']) as $key => $value)
+                                @if($value)
+                                <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                                @endif
+                            @endforeach
+                            <label for="sort" class="text-sm font-medium text-gray-700 whitespace-nowrap">Sort:</label>
+                            <select name="sort" id="sort" onchange="this.form.submit()" 
+                                    class="border-2 border-gray-200 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-gold-500 focus:border-gold-500 bg-white font-medium">
+                                <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest</option>
+                                <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>Name A-Z</option>
+                                <option value="price" {{ request('sort') == 'price' ? 'selected' : '' }}>Price: Low to High</option>
+                                <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Price: High to Low</option>
+                                <option value="featured" {{ request('sort') == 'featured' ? 'selected' : '' }}>Featured</option>
+                            </select>
+                        </form>
                     </div>
                 </div>
-            @endif
+
+                @if($products->count() > 0)
+                    <!-- Products Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8">
+                        @foreach($products as $product)
+                            <x-product-card 
+                                :product="$product"
+                                :showRating="false"
+                                :badgeText="$product->is_featured ? 'Featured' : ($product->stock == 0 ? 'Out of Stock' : null)"
+                                :badgeColor="$product->is_featured ? 'gold' : 'red'"
+                                imageHeight="h-72"
+                            />
+                        @endforeach
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="mt-12">
+                        {{ $products->withQueryString()->links() }}
+                    </div>
+                @else
+                    <!-- Empty State -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 py-16 px-8 text-center">
+                        <div class="inline-flex items-center justify-center w-20 h-20 bg-gray-100 rounded-full mb-6">
+                            <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">No products found</h3>
+                        <p class="text-gray-600 mb-8 max-w-md mx-auto">
+                            @if(request('search'))
+                                We couldn't find any products matching "<span class="font-semibold">{{ request('search') }}</span>". Try adjusting your search or filters.
+                            @else
+                                Try adjusting your filter criteria to find what you're looking for.
+                            @endif
+                        </p>
+                        <a href="{{ route('products.index') }}" class="inline-flex items-center px-6 py-3 bg-maroon-950 text-white font-semibold rounded-lg hover:bg-maroon-900 transition-colors border-2 border-gold-500">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                            </svg>
+                            View All Products
+                        </a>
+                    </div>
+                @endif
+            </main>
         </div>
     </div>
 </div>
@@ -337,18 +291,38 @@
             background: white;
             z-index: 50;
             overflow-y: auto;
-            transform: translateY(100%);
+            transform: translateX(-100%);
             transition: transform 0.3s ease-in-out;
         }
         
         #filters-panel.show {
-            transform: translateY(0);
-        }
-        
-        #filters-panel .container {
-            padding: 1rem;
+            transform: translateX(0);
         }
     }
+    
+    /* Staggered animation for products */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .grid > * {
+        animation: fadeInUp 0.4s ease-out forwards;
+    }
+    
+    .grid > *:nth-child(1) { animation-delay: 0.05s; }
+    .grid > *:nth-child(2) { animation-delay: 0.1s; }
+    .grid > *:nth-child(3) { animation-delay: 0.15s; }
+    .grid > *:nth-child(4) { animation-delay: 0.2s; }
+    .grid > *:nth-child(5) { animation-delay: 0.25s; }
+    .grid > *:nth-child(6) { animation-delay: 0.3s; }
+    .grid > *:nth-child(n+7) { animation-delay: 0.35s; }
 </style>
 @endpush
 
@@ -358,42 +332,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileFilterToggle = document.getElementById('mobile-filter-toggle');
     const filtersPanel = document.getElementById('filters-panel');
     const mobileFilterClose = document.getElementById('mobile-filter-close');
-    const filterChevron = document.getElementById('filter-chevron');
     
     // Toggle mobile filters
     mobileFilterToggle?.addEventListener('click', function() {
         filtersPanel.classList.toggle('show');
         filtersPanel.classList.toggle('hidden');
-        filterChevron.classList.toggle('rotate-180');
-        
-        // Prevent body scroll when filters are open
-        if (filtersPanel.classList.contains('show')) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-        }
+        document.body.style.overflow = filtersPanel.classList.contains('show') ? 'hidden' : '';
     });
     
     // Close mobile filters
     mobileFilterClose?.addEventListener('click', function() {
         filtersPanel.classList.remove('show');
         filtersPanel.classList.add('hidden');
-        filterChevron.classList.remove('rotate-180');
         document.body.style.overflow = '';
-    });
-    
-    // Close filters when clicking outside (mobile only)
-    document.addEventListener('click', function(e) {
-        if (window.innerWidth < 1024) {
-            if (!filtersPanel.contains(e.target) && !mobileFilterToggle.contains(e.target)) {
-                if (filtersPanel.classList.contains('show')) {
-                    filtersPanel.classList.remove('show');
-                    filtersPanel.classList.add('hidden');
-                    filterChevron.classList.remove('rotate-180');
-                    document.body.style.overflow = '';
-                }
-            }
-        }
     });
     
     // Handle window resize
@@ -401,7 +352,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (window.innerWidth >= 1024) {
             filtersPanel.classList.remove('show', 'hidden');
             document.body.style.overflow = '';
-            filterChevron.classList.remove('rotate-180');
         } else if (!filtersPanel.classList.contains('show')) {
             filtersPanel.classList.add('hidden');
         }

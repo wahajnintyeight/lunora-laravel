@@ -31,6 +31,7 @@
 
     <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- CSS -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -298,20 +299,22 @@
 
 <body class="h-full dark:bg-neutral-900">
     <!-- Header -->
-    @include('partials.shop.header')
+    @include('components.navbar')
 
     <!-- Main Content -->
     <main class="relative overflow-hidden min-h-screen">
-        <!-- Background Pattern -->
+        <!-- Background Pattern - Gold and Maroon Theme -->
         <div
-            class="absolute inset-0 bg-gradient-to-br from-emerald-50 via-white to-emerald-50 dark:from-neutral-900 dark:via-neutral-800 dark:to-neutral-900">
+            class="absolute inset-0 bg-gradient-to-br from-[#fef3c7] via-[#fcd34d] to-[#f59e0b] dark:from-[#450a0a] dark:via-[#5c0e0e] dark:to-[#7a1212]">
         </div>
+        <!-- Decorative overlay with maroon accent -->
+        <div class="absolute inset-0 bg-gradient-to-t from-[#450a0a]/20 via-transparent to-transparent"></div>
         <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60"
-            xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23059669"
-            fill-opacity="0.03"%3E%3Ccircle cx="30" cy="30" r="2" /%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]
+            xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23450a0a"
+            fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="2" /%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]
             dark:bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60"
-            xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff"
-            fill-opacity="0.02"%3E%3Ccircle cx="30" cy="30" r="2" /%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]">
+            xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23f59e0b"
+            fill-opacity="0.03"%3E%3Ccircle cx="30" cy="30" r="2" /%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]">
         </div>
 
         <!-- Content -->
@@ -329,7 +332,7 @@
 
                 <!-- Auth Card -->
                 <div
-                    class="auth-card bg-white dark:bg-neutral-800 py-6 px-4 shadow-xl shadow-gray-100/50 dark:shadow-neutral-900/50 rounded-2xl border border-gray-100 dark:border-neutral-700 sm:py-8 sm:px-8">
+                    class="auth-card bg-white dark:bg-[#2a0606] py-6 px-4 shadow-2xl shadow-[#450a0a]/30 dark:shadow-[#000000]/50 rounded-2xl border-2 border-[#f59e0b] dark:border-[#f59e0b]/40 sm:py-8 sm:px-8 backdrop-blur-sm">
                     <!-- Flash Messages -->
                     @include('partials.auth.flash-messages')
 
@@ -348,7 +351,7 @@
     </main>
 
     <!-- Footer -->
-    @include('partials.shop.footer')
+    @include('components.footer')
 
     <!-- Modals and Overlays -->
     @include('partials.shop.modals')

@@ -1,10 +1,47 @@
 @import 'tailwindcss';
 @import './mobile-cart-checkout.css';
 @import './main.min.css';
+@import './components.css';
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
+
+/* Tailwind v4 Theme Configuration - Lunora Jewelry Brand Colors */
+@theme {
+    /* Gold color palette */
+    --color-gold-50: #fffbeb;
+    --color-gold-100: #fef3c7;
+    --color-gold-200: #fde68a;
+    --color-gold-300: #fcd34d;
+    --color-gold-400: #fbbf24;
+    --color-gold-500: #f59e0b;
+    --color-gold-600: #d97706;
+    --color-gold-700: #b45309;
+    --color-gold-800: #92400e;
+    --color-gold-900: #78350f;
+    --color-gold-950: #451a03;
+    
+    /* Maroon color palette */
+    --color-maroon-50: #fdf2f2;
+    --color-maroon-100: #fce7e7;
+    --color-maroon-200: #fbd5d5;
+    --color-maroon-300: #f8b4b4;
+    --color-maroon-400: #f87171;
+    --color-maroon-500: #ef4444;
+    --color-maroon-600: #dc2626;
+    --color-maroon-700: #b91c1c;
+    --color-maroon-800: #991b1b;
+    --color-maroon-900: #7f1d1d;
+    --color-maroon-950: #450a0a;
+    
+    /* Lunora brand colors */
+    --color-lunora-primary: #450a0a;
+    --color-lunora-accent: #f59e0b;
+    --color-lunora-light: #fef3c7;
+    --color-lunora-dark: #2a0606;
+}
 
 /* Custom Golden & Maroon Theme for Lunora Jewelry */
 

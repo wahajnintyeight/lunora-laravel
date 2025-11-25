@@ -1,4 +1,4 @@
-@extends('layouts.shop')
+@extends('layouts.app')
 
 @section('title', 'My Profile - ' . config('app.name'))
 @section('meta_description', 'Manage your Lunora account settings and view your jewelry collection preferences.')

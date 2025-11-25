@@ -29,14 +29,14 @@ export default {
                     900: '#111827',
                     950: '#030712',
                 },
-                // Custom brand colors based on logo
+                // Custom brand colors - Lunora Jewelry Theme
                 'gold': {
                     50: '#fffbeb',
                     100: '#fef3c7',
                     200: '#fde68a',
                     300: '#fcd34d',
                     400: '#fbbf24',
-                    500: '#f59e0b', // Primary gold
+                    500: '#f59e0b', // Primary gold - accent color
                     600: '#d97706',
                     700: '#b45309',
                     800: '#92400e',
@@ -50,11 +50,18 @@ export default {
                     300: '#f8b4b4',
                     400: '#f87171',
                     500: '#ef4444',
-                    600: '#dc2626', // Primary maroon
+                    600: '#dc2626',
                     700: '#b91c1c',
                     800: '#991b1b',
                     900: '#7f1d1d',
-                    950: '#450a0a',
+                    950: '#450a0a', // Primary maroon - main brand color
+                },
+                // Lunora brand primary colors
+                'lunora': {
+                    'primary': '#450a0a',      // Maroon - main brand color
+                    'accent': '#f59e0b',       // Gold - accent color
+                    'light': '#fef3c7',        // Light gold
+                    'dark': '#2a0606',         // Dark maroon for dark mode
                 },
             },
         },

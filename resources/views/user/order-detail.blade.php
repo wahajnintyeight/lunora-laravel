@@ -1,4 +1,4 @@
-@extends('layouts.shop')
+@extends('layouts.app')
 
 @section('title', 'Order #' . $order->order_number . ' - Lunora Jewelry')
 

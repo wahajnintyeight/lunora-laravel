@@ -13,6 +13,59 @@ use Illuminate\Support\Facades\Route;
 // Home route
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+// Shop routes (alias for products)
+Route::get('/shop', [ProductController::class, 'index'])->name('shop.index');
+
+// Collections routes
+Route::get('/collections', [CategoryController::class, 'index'])->name('collections.index');
+
+// Static pages
+Route::get('/about', function () {
+    return view('pages.about');
+})->name('about');
+
+Route::get('/contact', function () {
+    return view('pages.contact');
+})->name('contact');
+
+Route::get('/faq', function () {
+    return view('pages.faq');
+})->name('faq');
+
+Route::get('/shipping', function () {
+    return view('pages.shipping');
+})->name('shipping');
+
+Route::get('/returns', function () {
+    return view('pages.returns');
+})->name('returns');
+
+Route::get('/warranty', function () {
+    return view('pages.warranty');
+})->name('warranty');
+
+Route::get('/blog', function () {
+    return view('pages.blog');
+})->name('blog.index');
+
+Route::get('/custom', function () {
+    return view('pages.custom');
+})->name('custom.index');
+
+Route::get('/wishlist', function () {
+    return view('pages.wishlist');
+})->name('wishlist.index');
+
+Route::get('/orders', function () {
+    return redirect()->route('user.orders');
+})->name('orders.index')->middleware('auth');
+
+// Newsletter subscription
+Route::post('/newsletter/subscribe', function () {
+    // Newsletter subscription logic here
+    return back()->with('success', 'Thank you for subscribing to our newsletter!');
+})->name('newsletter.subscribe');
+
 // Product routes
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{product:slug}', [ProductController::class, 'show'])->name('products.show');
@@ -40,6 +93,8 @@ Route::middleware(['rate.limit:cart-actions'])->group(function () {
     Route::post('/cart/clear', [\App\Http\Controllers\CartController::class, 'clear'])->name('cart.clear');
 });
 Route::get('/cart/count', [\App\Http\Controllers\CartController::class, 'count'])->name('cart.count');
+Route::get('/api/cart/count', [\App\Http\Controllers\CartController::class, 'count'])->name('api.cart.count');
+Route::post('/api/cart/add', [\App\Http\Controllers\CartController::class, 'add'])->name('api.cart.add');
 
 // Checkout routes
 Route::get('/checkout', [\App\Http\Controllers\CheckoutController::class, 'index'])->name('checkout.index');
