@@ -5,9 +5,11 @@
     <!-- Required Meta Tags Always Come First -->
     <meta charset="utf-8">
     <meta name="robots" content="max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, viewport-fit=cover">
     <meta name="description" content="@yield('meta_description', 'Lunora - Premium Jewelry eCommerce Platform')">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="search-suggestions-endpoint" content="{{ route('products.suggestions') }}">
+    <meta name="categories-endpoint" content="{{ route('categories.suggestions') }}">
 
     <!-- Mobile Web App Meta Tags -->
     <meta name="mobile-web-app-capable" content="yes">
@@ -43,6 +45,82 @@
 
     <!-- CSS -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- Preline UI JavaScript -->
+    <script src="{{ asset('vendor/preline/dist/index.js') }}"></script>
+    
+    <!-- Preline UI CDN Fallback -->
+    <script>
+        // Check if Preline UI loaded, if not load from CDN
+        if (typeof window.HSStaticMethods === 'undefined') {
+            const script = document.createElement('script');
+            script.src = '//cdn.jsdelivr.net/npm/preline@latest/dist/preline.js';
+            script.onload = function() {
+                if (typeof window.HSStaticMethods !== 'undefined') {
+                    window.HSStaticMethods.autoInit();
+                }
+            };
+            document.head.appendChild(script);
+        }
+    </script>
+
+    <!-- Preline UI Initialization -->
+    <script>
+        // Initialize Preline UI components after DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Preline UI
+            if (typeof window.HSStaticMethods !== 'undefined') {
+                window.HSStaticMethods.autoInit();
+            }
+            
+            // Force re-initialization for dropdowns specifically
+            setTimeout(() => {
+                if (typeof window.HSDropdown !== 'undefined') {
+                    window.HSDropdown.autoInit();
+                    
+                    // Force initialize all dropdown elements
+                    document.querySelectorAll('.hs-dropdown').forEach(dropdown => {
+                        try {
+                            new window.HSDropdown(dropdown);
+                        } catch (e) {
+                            // Ignore errors for already initialized dropdowns
+                        }
+                    });
+                }
+            }, 100);
+        });
+
+        // Re-initialize on window load for any late-loading elements
+        window.addEventListener('load', () => {
+            if (typeof window.HSStaticMethods !== 'undefined') {
+                window.HSStaticMethods.autoInit();
+            }
+            
+            // Additional initialization for specific components
+            if (typeof window.HSDropdown !== 'undefined') {
+                window.HSDropdown.autoInit();
+                
+                // Force initialize all dropdown elements again
+                document.querySelectorAll('.hs-dropdown').forEach(dropdown => {
+                    try {
+                        new window.HSDropdown(dropdown);
+                    } catch (e) {
+                        // Ignore errors for already initialized dropdowns
+                    }
+                });
+            }
+        });
+
+        // Handle dynamic content initialization
+        function initializePrelineComponents() {
+            if (typeof window.HSStaticMethods !== 'undefined') {
+                window.HSStaticMethods.autoInit();
+            }
+        }
+
+        // Export for global use
+        window.initializePrelineComponents = initializePrelineComponents;
+    </script>
 
     <!-- Additional Styles -->
     @stack('styles')
@@ -97,6 +175,12 @@
             html, body {
                 overflow-x: hidden;
             }
+            
+            /* Safe area handling for notched devices */
+            body {
+                padding-left: env(safe-area-inset-left);
+                padding-right: env(safe-area-inset-right);
+            }
         }
 
         /* Smooth scrolling for better UX */
@@ -104,16 +188,36 @@
             scroll-behavior: smooth;
         }
 
-        /* Focus styles for accessibility */
+        /* Enhanced focus styles for accessibility */
         *:focus {
-            outline: 2px solid #10b981;
+            outline: 3px solid #10b981;
             outline-offset: 2px;
+        }
+
+        /* Better focus for mobile */
+        @media (max-width: 767px) {
+            *:focus {
+                outline-width: 4px;
+            }
         }
 
         /* Loading state for better perceived performance */
         .loading {
             opacity: 0.7;
             pointer-events: none;
+            position: relative;
+        }
+
+        /* Mobile menu overlay */
+        #mobile-menu-overlay {
+            backdrop-filter: blur(4px);
+        }
+
+        /* Prevent body scroll when mobile menu is open */
+        body.mobile-menu-open {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
         }
     </style>
 </head>
@@ -143,51 +247,63 @@
 
     <!-- Mobile-specific JavaScript -->
     <script>
-        // Prevent zoom on input focus for iOS
-        document.addEventListener('touchstart', function() {}, true);
-        
-        // Handle mobile menu interactions
+        // Enhanced mobile support
         document.addEventListener('DOMContentLoaded', function() {
-            // Close mobile menu when clicking outside
-            document.addEventListener('click', function(e) {
-                const mobileMenu = document.getElementById('mobile-menu');
-                const menuToggle = document.querySelector('[data-hs-collapse="#mobile-menu"]');
-                
-                if (mobileMenu && !mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
-                    if (!mobileMenu.classList.contains('hidden')) {
-                        menuToggle.click();
-                    }
+            // Detect mobile device
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            if (isMobile) {
+                document.body.classList.add('mobile-device');
+            }
+            
+            // Handle viewport height on mobile (address bar issue)
+            function setViewportHeight() {
+                const vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            }
+            
+            setViewportHeight();
+            window.addEventListener('resize', setViewportHeight);
+            window.addEventListener('orientationchange', () => {
+                setTimeout(setViewportHeight, 100);
+            });
+            
+            // Prevent zoom on double tap for iOS
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function (event) {
+                const now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
                 }
-            });
-
-            // Handle cart count updates
-            window.updateCartCount = function(count) {
-                const cartCountElements = document.querySelectorAll('.cart-count');
-                cartCountElements.forEach(element => {
-                    element.textContent = count;
-                    if (count > 0) {
-                        element.style.display = 'flex';
-                    } else {
-                        element.style.display = 'none';
+                lastTouchEnd = now;
+            }, false);
+            
+            // Enhanced performance for mobile
+            if (isMobile) {
+                // Reduce animations on low-end devices
+                const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2;
+                if (isLowEndDevice) {
+                    document.body.classList.add('reduce-motion');
+                }
+                
+                // Optimize scroll performance
+                let ticking = false;
+                function updateScrollPosition() {
+                    // Add scroll-based optimizations here
+                    ticking = false;
+                }
+                
+                window.addEventListener('scroll', function() {
+                    if (!ticking) {
+                        requestAnimationFrame(updateScrollPosition);
+                        ticking = true;
                     }
-                });
-            };
-
-            // Smooth scroll for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                });
-            });
+                }, { passive: true });
+            }
         });
     </script>
+
+    <!-- Mobile Cart and Checkout Optimization -->
+    <script src="{{ asset('js/mobile-cart-checkout.js') }}"></script>
 </body>
 
 </html>

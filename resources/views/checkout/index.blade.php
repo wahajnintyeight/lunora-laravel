@@ -3,48 +3,47 @@
 @section('title', 'Checkout - Lunora Jewelry')
 
 @section('content')
-<div class="container mx-auto px-4 py-8">
+<div class="container mx-auto px-4 py-4 sm:py-8">
     <div class="max-w-6xl mx-auto">
-        <!-- Progress Indicator -->
-        <div class="mb-8">
-            <div class="flex items-center justify-center">
-                <div class="flex items-center">
+        <!-- Progress Indicator - Mobile Optimized -->
+        <div class="mb-6 sm:mb-8" data-checkout-progress>
+            <div class="flex items-center justify-center overflow-x-auto">
+                <div class="flex items-center min-w-max px-4">
                     <div class="flex items-center text-emerald-600">
-                        <div class="w-8 h-8 bg-emerald-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-emerald-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
                             1
                         </div>
-                        <span class="ml-2 text-sm font-medium">Cart</span>
+                        <span class="ml-2 text-sm sm:text-base font-medium">Cart</span>
                     </div>
-                    <div class="w-16 h-0.5 bg-emerald-600 mx-4"></div>
+                    <div class="w-8 sm:w-16 h-0.5 bg-emerald-600 mx-2 sm:mx-4"></div>
                     <div class="flex items-center text-emerald-600">
-                        <div class="w-8 h-8 bg-emerald-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-emerald-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
                             2
                         </div>
-                        <span class="ml-2 text-sm font-medium">Checkout</span>
+                        <span class="ml-2 text-sm sm:text-base font-medium">Checkout</span>
                     </div>
-                    <div class="w-16 h-0.5 bg-gray-300 mx-4"></div>
+                    <div class="w-8 sm:w-16 h-0.5 bg-gray-300 mx-2 sm:mx-4"></div>
                     <div class="flex items-center text-gray-400">
-                        <div class="w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-sm font-medium">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-sm font-medium">
                             3
                         </div>
-                        <span class="ml-2 text-sm font-medium">Confirmation</span>
+                        <span class="ml-2 text-sm sm:text-base font-medium">Confirmation</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <form action="{{ route('checkout.store') }}" method="POST" id="checkout-form" class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8" data-checkout-container>
+        <form action="{{ route('checkout.store') }}" method="POST" id="checkout-form" class="lg:col-span-2 space-y-4 sm:space-y-6 lg:space-y-8 order-2 lg:order-1" data-checkout-form data-mobile-validation>
             @csrf
-            
-            <!-- Checkout Form -->
-            <div class="lg:col-span-2 space-y-6 lg:space-y-8 order-2 lg:order-1">
                 <!-- Customer Information -->
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h2 class="text-xl font-semibold text-gray-900 mb-6">Customer Information</h2>
+                <div class="bg-white rounded-lg shadow-md p-4 sm:p-6" data-form-section data-section-title="Customer Information">
+                    <h2 class="text-lg sm:text-xl font-semibold text-gray-900 mb-4 sm:mb-6 responsive-text-xl">Customer Information</h2>
+                    <div data-section-content>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                        <div class="sm:col-span-2 sm:col-span-1">
+                            <label for="email" class="block text-sm sm:text-base font-medium text-gray-700 mb-2">
                                 Email Address <span class="text-red-500">*</span>
                             </label>
                             <input type="email" 
@@ -52,14 +51,14 @@
                                    name="email" 
                                    value="{{ old('email', auth()->user()->email ?? '') }}"
                                    required
-                                   class="w-full min-h-[44px] px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 @error('email') border-red-500 @enderror">
+                                   class="form-input w-full px-4 py-3 text-base sm:text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200 @error('email') border-red-500 @enderror">
                             @error('email')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
                         
-                        <div>
-                            <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">
+                        <div class="sm:col-span-2 sm:col-span-1">
+                            <label for="phone" class="block text-sm sm:text-base font-medium text-gray-700 mb-2">
                                 Phone Number <span class="text-red-500">*</span>
                             </label>
                             <input type="tel" 
@@ -68,17 +67,19 @@
                                    value="{{ old('phone') }}"
                                    required
                                    placeholder="+92 300 1234567"
-                                   class="w-full min-h-[44px] px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 @error('phone') border-red-500 @enderror">
+                                   class="form-input w-full px-4 py-3 text-base sm:text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200 @error('phone') border-red-500 @enderror">
                             @error('phone')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
+                    </div>
                     </div>
                 </div>
 
                 <!-- Shipping Address -->
-                <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="bg-white rounded-lg shadow-md p-6" data-form-section data-section-title="Shipping Address">
                     <h2 class="text-xl font-semibold text-gray-900 mb-6">Shipping Address</h2>
+                    <div data-section-content>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
@@ -211,11 +212,13 @@
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
+                    </div>
                 </div>
 
                 <!-- Billing Address -->
-                <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="bg-white rounded-lg shadow-md p-6" data-form-section data-section-title="Billing Address">
                     <h2 class="text-xl font-semibold text-gray-900 mb-6">Billing Address</h2>
+                    <div data-section-content>
                     
                     <div class="mb-6">
                         <label class="flex items-center">
@@ -355,11 +358,13 @@
                             @enderror
                         </div>
                     </div>
+                    </div>
                 </div>
 
                 <!-- Order Notes -->
-                <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="bg-white rounded-lg shadow-md p-6" data-form-section data-section-title="Order Notes">
                     <h2 class="text-xl font-semibold text-gray-900 mb-6">Order Notes (Optional)</h2>
+                    <div data-section-content>
                     
                     <div>
                         <label for="notes" class="block text-sm font-medium text-gray-700 mb-2">
@@ -374,10 +379,12 @@
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
+                    </div>
                 </div>
 
                 <!-- Terms and Conditions -->
-                <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="bg-white rounded-lg shadow-md p-6" data-form-section data-section-title="Terms & Conditions">
+                    <div data-section-content>
                     <div class="flex items-start">
                         <input type="checkbox" 
                                id="terms_accepted" 
@@ -393,13 +400,24 @@
                     @error('terms_accepted')
                         <p class="mt-1 text-sm text-red-600 ml-7">{{ $message }}</p>
                     @enderror
+                    </div>
                 </div>
-            </div>
+
+                <!-- Submit Button -->
+                <div class="mt-6">
+                    <button type="submit" 
+                            class="w-full bg-emerald-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 text-base transition-colors duration-200"
+                            data-checkout-submit>
+                        Complete Order
+                    </button>
+                </div>
+            </form>
 
             <!-- Order Summary -->
             <div class="lg:col-span-1 order-1 lg:order-2">
-                <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 lg:sticky lg:top-4">
+                <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 lg:sticky lg:top-4" data-order-summary>
                     <h2 class="text-xl font-semibold text-gray-900 mb-6">Order Summary</h2>
+                    <div data-summary-content>
                     
                     <!-- Cart Items -->
                     <div class="space-y-4 mb-6">
@@ -509,9 +527,10 @@
                             Secure Checkout
                         </div>
                     </div>
+                    </div>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 

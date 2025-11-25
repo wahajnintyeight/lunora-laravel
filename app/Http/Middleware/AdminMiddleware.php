@@ -15,7 +15,7 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check() || !Auth::user()->isAdmin()) {
+        if (!Auth::check() || Auth::user()->role !== 'admin') {
             abort(403, 'Access denied. Admin privileges required.');
         }
 
@@ -26,7 +26,7 @@ class AdminMiddleware
                 'action' => $request->method() . ' ' . $request->path(),
                 'ip_address' => $request->ip(),
                 'user_agent' => $request->userAgent(),
-                'changes' => $request->except(['password', '_token', '_method']),
+                'new_values' => $request->except(['password', '_token', '_method']),
                 'performed_at' => now(),
             ]);
         }

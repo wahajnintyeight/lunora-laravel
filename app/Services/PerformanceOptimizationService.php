@@ -18,7 +18,7 @@ class PerformanceOptimizationService
         return $query->with([
             'category:id,name,slug',
             'images' => function ($query) {
-                $query->select('id', 'product_id', 'image_path', 'alt_text', 'sort_order')
+                $query->select('id', 'product_id', 'file_path', 'alt_text', 'sort_order')
                       ->orderBy('sort_order');
             }
         ])->select([
@@ -205,9 +205,9 @@ class PerformanceOptimizationService
                 $product->images = $product->images->map(function ($image) {
                     // Add responsive image URLs
                     $image->responsive_urls = [
-                        'thumbnail' => $this->getResponsiveImageUrl($image->image_path, 'thumbnail'),
-                        'medium' => $this->getResponsiveImageUrl($image->image_path, 'medium'),
-                        'large' => $this->getResponsiveImageUrl($image->image_path, 'large'),
+                        'thumbnail' => $image->thumbnail_url ?? $this->getResponsiveImageUrl($image->file_path, 'thumbnail'),
+                        'medium' => $image->medium_url ?? $this->getResponsiveImageUrl($image->file_path, 'medium'),
+                        'large' => $image->url ?? $this->getResponsiveImageUrl($image->file_path, 'large'),
                     ];
                     
                     return $image;

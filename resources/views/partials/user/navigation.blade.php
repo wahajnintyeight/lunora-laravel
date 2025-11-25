@@ -16,15 +16,6 @@
     <div class="hidden lg:block" id="mobile-nav-menu">
         <ul class="space-y-2 p-4">
             <li>
-                <a href="{{ route('user.dashboard') }}" 
-                   class="flex items-center px-3 py-3 text-sm font-medium rounded-md min-h-[44px] touch-target transition-colors {{ request()->routeIs('user.dashboard') ? 'text-emerald-600 bg-emerald-50' : 'text-gray-700 hover:text-emerald-600 hover:bg-emerald-50' }}">
-                    <svg class="mr-3 h-4 w-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
-                    </svg>
-                    Dashboard
-                </a>
-            </li>
-            <li>
                 <a href="{{ route('user.profile') }}" 
                    class="flex items-center px-3 py-3 text-sm font-medium rounded-md min-h-[44px] touch-target transition-colors {{ request()->routeIs('user.profile') ? 'text-emerald-600 bg-emerald-50' : 'text-gray-700 hover:text-emerald-600 hover:bg-emerald-50' }}">
                     <svg class="mr-3 h-4 w-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -60,6 +51,17 @@
                     Settings
                 </a>
             </li>
+            @if(auth()->user() && auth()->user()->role === 'admin')
+            <li class="border-t pt-2 mt-2">
+                <a href="{{ route('admin.dashboard') }}" 
+                   class="flex items-center px-3 py-3 text-sm font-medium rounded-md min-h-[44px] touch-target transition-colors {{ request()->routeIs('admin.*') ? 'text-emerald-600 bg-emerald-50' : 'text-gray-700 hover:text-emerald-600 hover:bg-emerald-50' }}">
+                    <svg class="mr-3 h-4 w-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10.5 1.5H5a3.5 3.5 0 00-3.5 3.5v10A3.5 3.5 0 005 18.5h10a3.5 3.5 0 003.5-3.5V9.5m-15-4h14m-7 7v-4m0 4v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Admin Dashboard
+                </a>
+            </li>
+            @endif
         </ul>
     </div>
 </nav>

@@ -2,27 +2,77 @@
 
 <div class="space-y-4">
     @if($product->images->count() > 0)
-        <!-- Main Image Display -->
-        <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden">
+        <!-- Main Image Display - Mobile Optimized -->
+        <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden relative touch-gallery" data-touch-gallery>
             <img id="main-image" 
                  src="{{ $product->images->where('is_primary', true)->first()?->medium_url ?? $product->images->first()->medium_url }}" 
                  alt="{{ $product->images->where('is_primary', true)->first()?->alt_text ?? $product->name }}"
-                 class="w-full h-full object-cover cursor-zoom-in"
+                 class="w-full h-full object-cover cursor-zoom-in touch-target"
                  onclick="openImageModal(this.src, this.alt)">
+            
+            @if($product->images->count() > 1)
+                <!-- Mobile Navigation Arrows -->
+                <button type="button" 
+                        onclick="navigateMainImage(-1)"
+                        class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black sm:hidden touch-target"
+                        aria-label="Previous image">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                
+                <button type="button" 
+                        onclick="navigateMainImage(1)"
+                        class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black sm:hidden touch-target"
+                        aria-label="Next image">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </button>
+                
+                <!-- Mobile Image Indicators -->
+                <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1 sm:hidden">
+                    @foreach($product->images->sortBy('sort_order') as $image)
+                        <button type="button" 
+                                onclick="changeMainImageByIndex({{ $loop->index }})"
+                                class="w-2 h-2 rounded-full bg-white bg-opacity-50 hover:bg-opacity-75 focus:outline-none focus:ring-1 focus:ring-white {{ $loop->first ? 'bg-opacity-100' : '' }}"
+                                data-gallery-indicator
+                                aria-label="View image {{ $loop->iteration }}">
+                        </button>
+                    @endforeach
+                </div>
+            @endif
         </div>
 
         @if($product->images->count() > 1)
-            <!-- Thumbnail Navigation -->
-            <div class="grid grid-cols-4 gap-2 sm:grid-cols-6 lg:grid-cols-4">
+            <!-- Thumbnail Navigation - Mobile Optimized -->
+            <div class="hidden sm:grid grid-cols-4 gap-2 sm:grid-cols-6 lg:grid-cols-4">
                 @foreach($product->images->sortBy('sort_order') as $image)
                     <button type="button" 
-                            class="aspect-square bg-gray-100 rounded-lg overflow-hidden border-2 border-transparent hover:border-emerald-500 focus:border-emerald-500 focus:outline-none transition-colors {{ $loop->first ? 'border-emerald-500' : '' }}"
-                            onclick="changeMainImage('{{ $image->medium_url }}', '{{ $image->alt_text }}', this)">
+                            class="touch-target aspect-square bg-gray-100 rounded-lg overflow-hidden border-2 border-transparent hover:border-emerald-500 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-all duration-200 {{ $loop->first ? 'border-emerald-500' : '' }}"
+                            onclick="changeMainImage('{{ $image->medium_url }}', '{{ $image->alt_text }}', this, {{ $loop->index }})"
+                            aria-label="View image {{ $loop->iteration }}">
                         <img src="{{ $image->thumbnail_url }}" 
                              alt="{{ $image->alt_text }}"
                              class="w-full h-full object-cover">
                     </button>
                 @endforeach
+            </div>
+            
+            <!-- Mobile Horizontal Scroll Thumbnails -->
+            <div class="sm:hidden">
+                <div class="flex space-x-2 overflow-x-auto pb-2 scrollbar-hide">
+                    @foreach($product->images->sortBy('sort_order') as $image)
+                        <button type="button" 
+                                class="touch-target flex-shrink-0 w-16 h-16 bg-gray-100 rounded-lg overflow-hidden border-2 border-transparent hover:border-emerald-500 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-all duration-200 {{ $loop->first ? 'border-emerald-500' : '' }}"
+                                onclick="changeMainImage('{{ $image->medium_url }}', '{{ $image->alt_text }}', this, {{ $loop->index }})"
+                                aria-label="View image {{ $loop->iteration }}">
+                            <img src="{{ $image->thumbnail_url }}" 
+                                 alt="{{ $image->alt_text }}"
+                                 class="w-full h-full object-cover">
+                        </button>
+                    @endforeach
+                </div>
             </div>
         @endif
 
@@ -109,7 +159,7 @@ const images = @json($product->images->sortBy('sort_order')->values()->map(funct
     ];
 }));
 
-function changeMainImage(src, alt, thumbnail) {
+function changeMainImage(src, alt, thumbnail, index = null) {
     const mainImage = document.getElementById('main-image');
     mainImage.src = src;
     mainImage.alt = alt;
@@ -122,10 +172,67 @@ function changeMainImage(src, alt, thumbnail) {
     thumbnail.classList.remove('border-transparent');
     thumbnail.classList.add('border-emerald-500');
     
-    // Update counter
-    const thumbnails = Array.from(document.querySelectorAll('[onclick*="changeMainImage"]'));
-    currentImageIndex = thumbnails.indexOf(thumbnail);
+    // Update current index
+    if (index !== null) {
+        currentImageIndex = index;
+    } else {
+        const thumbnails = Array.from(document.querySelectorAll('[onclick*="changeMainImage"]'));
+        currentImageIndex = thumbnails.indexOf(thumbnail);
+    }
+    
     updateImageCounter();
+    updateMobileIndicators();
+}
+
+function changeMainImageByIndex(index) {
+    if (index >= 0 && index < images.length) {
+        currentImageIndex = index;
+        const image = images[index];
+        const mainImage = document.getElementById('main-image');
+        mainImage.src = image.medium_url;
+        mainImage.alt = image.alt_text;
+        
+        // Update thumbnails
+        document.querySelectorAll('[onclick*="changeMainImage"]').forEach((btn, i) => {
+            if (i === index) {
+                btn.classList.remove('border-transparent');
+                btn.classList.add('border-emerald-500');
+            } else {
+                btn.classList.remove('border-emerald-500');
+                btn.classList.add('border-transparent');
+            }
+        });
+        
+        updateImageCounter();
+        updateMobileIndicators();
+    }
+}
+
+function navigateMainImage(direction) {
+    if (images.length <= 1) return;
+    
+    let newIndex = currentImageIndex + direction;
+    
+    if (newIndex < 0) {
+        newIndex = images.length - 1;
+    } else if (newIndex >= images.length) {
+        newIndex = 0;
+    }
+    
+    changeMainImageByIndex(newIndex);
+}
+
+function updateMobileIndicators() {
+    const indicators = document.querySelectorAll('[data-gallery-indicator]');
+    indicators.forEach((indicator, index) => {
+        if (index === currentImageIndex) {
+            indicator.classList.remove('bg-opacity-50');
+            indicator.classList.add('bg-opacity-100');
+        } else {
+            indicator.classList.remove('bg-opacity-100');
+            indicator.classList.add('bg-opacity-50');
+        }
+    });
 }
 
 function updateImageCounter() {

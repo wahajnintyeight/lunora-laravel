@@ -33,7 +33,7 @@ class SecurityMonitoringService
                 'action' => $event,
                 'ip_address' => request()->ip(),
                 'user_agent' => request()->userAgent(),
-                'changes' => $data,
+                'new_values' => $data,
                 'performed_at' => now(),
             ]);
         }

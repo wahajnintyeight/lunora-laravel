@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="relative min-h-full">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -49,5 +50,6 @@
     </script>
 
     @stack('scripts')
-</body>
+    </body>
+
 </html>

@@ -1,14 +1,17 @@
 <!-- Mobile Categories -->
 <div class="px-2">
-    <h3 class="text-sm font-semibold text-gray-800 dark:text-neutral-200 mb-3">Shop by Category</h3>
+    <h3 class="text-base font-semibold text-gray-800 dark:text-neutral-200 mb-4">Shop by Category</h3>
     <div class="space-y-1">
-        <a href="{{ route('products.index') }}" class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 dark:text-neutral-200 dark:hover:bg-neutral-700">
-            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <a 
+            href="{{ route('products.index') }}" 
+            class="mobile-menu-item flex items-center gap-x-3 py-3 px-3 rounded-lg text-base text-gray-800 hover:bg-emerald-50 hover:text-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:bg-emerald-50 focus:text-emerald-600 dark:text-neutral-200 dark:hover:bg-emerald-900/20 dark:hover:text-emerald-400 dark:focus:bg-emerald-900/20 dark:focus:text-emerald-400 transition-all duration-200"
+        >
+            <svg class="shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"/>
                 <path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"/>
                 <path d="M12 3v6"/>
             </svg>
-            All Products
+            <span class="font-medium">All Products</span>
         </a>
         
         @php
@@ -23,20 +26,26 @@
         @endphp
         
         @foreach($mobileCategories as $category)
-            <a href="{{ route('products.index', ['category' => $category['slug']]) }}" class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 dark:text-neutral-200 dark:hover:bg-neutral-700">
-                <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <a 
+                href="{{ route('products.index', ['category' => $category['slug']]) }}" 
+                class="mobile-menu-item flex items-center gap-x-3 py-3 px-3 rounded-lg text-base text-gray-800 hover:bg-emerald-50 hover:text-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:bg-emerald-50 focus:text-emerald-600 dark:text-neutral-200 dark:hover:bg-emerald-900/20 dark:hover:text-emerald-400 dark:focus:bg-emerald-900/20 dark:focus:text-emerald-400 transition-all duration-200"
+            >
+                <svg class="shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="3"/>
                     <path d="M12 1v6m0 6v6"/>
                 </svg>
-                {{ $category['name'] }}
+                <span class="font-medium">{{ $category['name'] }}</span>
             </a>
         @endforeach
         
-        <a href="{{ route('categories.index') }}" class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-emerald-600 hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-emerald-900/20">
-            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <a 
+            href="{{ route('categories.index') }}" 
+            class="mobile-menu-item flex items-center gap-x-3 py-3 px-3 rounded-lg text-base text-emerald-600 hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-emerald-900/20 dark:focus:bg-emerald-900/20 transition-all duration-200"
+        >
+            <svg class="shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 3h18v18H3zM9 9h6v6H9z"/>
             </svg>
-            View All Categories
+            <span class="font-medium">View All Categories</span>
         </a>
     </div>
 </div>

@@ -119,7 +119,7 @@ lass="grid lg:grid-cols-3 gap-6">
                     @foreach($order->items as $item)
                         <div class="flex items-start gap-4 p-4 border border-gray-200 rounded-lg dark:border-neutral-700">
                             @if($item->product->featured_image)
-                                <img src="{{ Storage::url($item->product->featured_image) }}" alt="{{ $item->product->name }}" class="w-16 h-16 object-cover rounded-lg">
+                                <img src="{{ $item->product->featured_image }}" alt="{{ $item->product->name }}" class="w-16 h-16 object-cover rounded-lg">
                             @else
                                 <div class="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center dark:bg-neutral-700">
                                     <svg class="w-8 h-8 text-gray-400" fill="currentColor" viewBox="0 0 20 20">

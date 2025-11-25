@@ -1,0 +1,347 @@
+/* Mobile Cart and Checkout Optimization Styles */
+
+/* Touch-friendly controls - scoped to avoid conflicts */
+.cart-page .touch-target,
+.checkout-page .touch-target,
+[data-cart-container] .touch-target,
+[data-checkout-container] .touch-target {
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.touch-active {
+    transform: scale(0.95);
+    opacity: 0.8;
+}
+
+/* Quantity controls */
+.quantity-control button:active {
+    background-color: #f3f4f6;
+    transform: scale(0.95);
+}
+
+/* Product gallery */
+.product-gallery {
+    position: relative;
+}
+
+.product-gallery img {
+    transition: opacity 0.3s ease;
+}
+
+.product-gallery img.hidden {
+    display: none;
+}
+
+.gallery-indicators {
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 4px;
+}
+
+.gallery-indicators .indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    transition: background-color 0.3s ease;
+}
+
+.gallery-indicators .indicator.active {
+    background-color: white;
+}
+
+/* Cart item animations */
+[data-cart-item].updating {
+    opacity: 0.7;
+    transform: scale(0.98);
+    transition: all 0.3s ease;
+}
+
+[data-cart-item].swipe-active {
+    background-color: #fee2e2;
+}
+
+/* Mobile progress indicator */
+.mobile-progress-indicator {
+    background: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background-color: #e5e7eb;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #10b981;
+    transition: width 0.3s ease;
+    width: 66%;
+}
+
+.progress-steps {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+}
+
+.progress-steps .step {
+    color: #6b7280;
+}
+
+.progress-steps .step.active {
+    color: #10b981;
+    font-weight: 500;
+}
+
+/* Form sections */
+[data-form-section] {
+    transition: all 0.3s ease;
+}
+
+[data-form-section]:not(.expanded) [data-section-content] {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+}
+
+[data-form-section].expanded [data-section-content] {
+    max-height: none;
+    opacity: 1;
+}
+
+.section-nav-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    transition: all 0.2s ease;
+}
+
+.section-nav-btn:hover {
+    background: #f3f4f6;
+}
+
+.section-nav-btn .section-number {
+    width: 24px;
+    height: 24px;
+    background: #10b981;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.section-nav-btn .chevron {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.2s ease;
+}
+
+[data-form-section].expanded .section-nav-btn .chevron {
+    transform: rotate(90deg);
+}
+
+/* Sticky checkout button */
+.sticky-checkout-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 1rem;
+    border-top: 1px solid #e5e7eb;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    z-index: 50;
+}
+
+.sticky-checkout-container.visible {
+    transform: translateY(0);
+}
+
+/* Mobile validation */
+.mobile-validation-message {
+    font-size: 0.875rem;
+    color: #dc2626;
+    margin-top: 0.25rem;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: all 0.2s ease;
+}
+
+.mobile-validation-message.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+input.invalid,
+select.invalid,
+textarea.invalid {
+    border-color: #dc2626;
+    box-shadow: 0 0 0 1px #dc2626;
+}
+
+input.valid,
+select.valid,
+textarea.valid {
+    border-color: #10b981;
+    box-shadow: 0 0 0 1px #10b981;
+}
+
+/* Order summary collapsible */
+[data-order-summary].collapsed [data-summary-content] {
+    display: none;
+}
+
+.summary-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.5rem 0;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.summary-toggle .chevron {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.2s ease;
+}
+
+[data-order-summary].collapsed .summary-toggle .chevron {
+    transform: rotate(180deg);
+}
+
+/* Pull to refresh */
+[data-cart-container].pull-refresh-active::before {
+    content: "Release to refresh";
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #10b981;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    z-index: 10;
+}
+
+/* Mobile file upload */
+.mobile-file-upload {
+    position: relative;
+}
+
+.file-upload-btn {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: #f3f4f6;
+    border: 2px dashed #d1d5db;
+    border-radius: 0.5rem;
+    color: #6b7280;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+}
+
+.file-upload-btn:hover {
+    background: #e5e7eb;
+    border-color: #9ca3af;
+}
+
+.file-preview {
+    margin-top: 0.5rem;
+}
+
+.file-preview img {
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 0.25rem;
+}
+
+.file-name {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+    /* Hide desktop progress on mobile */
+    [data-checkout-progress] {
+        display: none;
+    }
+    
+    /* Show mobile progress */
+    .mobile-progress-indicator {
+        display: block;
+    }
+    
+    /* Form inputs larger on mobile */
+    .form-input {
+        font-size: 16px; /* Prevents zoom on iOS */
+        padding: 0.875rem 1rem;
+    }
+    
+    /* Touch-friendly buttons */
+    button, .btn {
+        min-height: 48px;
+        padding: 0.875rem 1.5rem;
+    }
+    
+    /* Larger quantity controls */
+    .quantity-control button {
+        width: 48px;
+        height: 48px;
+    }
+    
+    .quantity-control input {
+        font-size: 18px;
+        padding: 0.75rem;
+    }
+}
+
+@media (min-width: 768px) {
+    /* Hide mobile progress on desktop */
+    .mobile-progress-indicator {
+        display: none;
+    }
+    
+    /* Show desktop progress */
+    [data-checkout-progress] {
+        display: block;
+    }
+    
+    /* Expand all form sections on desktop */
+    [data-form-section] [data-section-content] {
+        max-height: none !important;
+        opacity: 1 !important;
+    }
+    
+    .section-nav-btn {
+        display: none;
+    }
+}

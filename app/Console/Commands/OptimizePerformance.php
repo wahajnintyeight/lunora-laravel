@@ -93,14 +93,14 @@ class OptimizePerformance extends Command
             // Analyze tables for optimization
             $this->info('Analyzing database tables...');
             $tables = ['products', 'categories', 'orders', 'users', 'carts', 'product_images'];
-            
+
             foreach ($tables as $table) {
                 DB::statement("ANALYZE TABLE {$table}");
             }
 
             // Get performance metrics
             $metrics = $performanceService->getPerformanceMetrics();
-            
+
             if (isset($metrics['database']['slow_queries'])) {
                 $this->info("Database slow queries: {$metrics['database']['slow_queries']}");
             }
@@ -141,7 +141,7 @@ class OptimizePerformance extends Command
         try {
             // Optimize cache storage
             $results = $performanceService->optimizeCacheStorage();
-            
+
             if ($results['cleaned_entries'] > 0) {
                 $this->info("Cleaned up {$results['cleaned_entries']} cache entries");
             }
@@ -166,33 +166,33 @@ class OptimizePerformance extends Command
         $this->info('Cleaning up orphaned images...');
 
         $storagePath = storage_path('app/public/products');
-        
+
         if (!is_dir($storagePath)) {
             return;
         }
 
         $imageFiles = glob($storagePath . '/original/*');
         $validImages = DB::table('product_images')->pluck('image_path')->toArray();
-        
+
         $cleanedCount = 0;
         foreach ($imageFiles as $imageFile) {
             $relativePath = 'products/original/' . basename($imageFile);
-            
+
             if (!in_array($relativePath, $validImages)) {
                 if (unlink($imageFile)) {
                     $cleanedCount++;
-                    
+
                     // Also remove thumbnails and medium sizes
                     $filename = pathinfo($imageFile, PATHINFO_FILENAME);
                     $extension = pathinfo($imageFile, PATHINFO_EXTENSION);
-                    
+
                     $thumbnailPath = $storagePath . '/thumbnails/' . $filename . '.' . $extension;
                     $mediumPath = $storagePath . '/medium/' . $filename . '.' . $extension;
-                    
+
                     if (file_exists($thumbnailPath)) {
                         unlink($thumbnailPath);
                     }
-                    
+
                     if (file_exists($mediumPath)) {
                         unlink($mediumPath);
                     }
@@ -212,10 +212,10 @@ class OptimizePerformance extends Command
     {
         $logPath = storage_path('logs');
         $cutoffDate = now()->subDays(30);
-        
+
         $logFiles = glob($logPath . '/*.log');
         $cleanedCount = 0;
-        
+
         foreach ($logFiles as $logFile) {
             if (filemtime($logFile) < $cutoffDate->timestamp) {
                 if (unlink($logFile)) {

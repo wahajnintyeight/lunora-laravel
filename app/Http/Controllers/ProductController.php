@@ -211,6 +211,38 @@ class ProductController extends Controller
     }
 
     /**
+     * Provide lightweight JSON product suggestions for realtime search (AJAX).
+     */
+    public function searchSuggestions(Request $request)
+    {
+        $searchTerm = $request->get('q', '');
+
+        if (strlen($searchTerm) < 2) {
+            return response()->json(['products' => []]);
+        }
+
+        // Reuse cache service to benefit from existing search optimization
+        $searchResults = $this->cacheService->getSearchResults($searchTerm, 1, 8);
+        $products = $searchResults['products'];
+
+        $payload = $products->map(function (Product $product) {
+            return [
+                'id' => $product->id,
+                'name' => $product->name,
+                'slug' => $product->slug,
+                'url' => route('products.show', $product->slug),
+                'category' => optional($product->category)->name,
+                'price' => 'PKR ' . number_format($product->price_pkr / 100, 2),
+                'thumbnail_url' => optional($product->images->first())->thumbnail_url,
+            ];
+        })->values();
+
+        return response()->json([
+            'products' => $payload,
+        ]);
+    }
+
+    /**
      * Get product variants based on selected options (AJAX endpoint).
      */
     public function getVariants(Request $request, Product $product)

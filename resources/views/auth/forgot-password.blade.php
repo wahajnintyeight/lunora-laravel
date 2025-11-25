@@ -57,18 +57,26 @@
 @endsection
 
 @section('additional_links')
-<div class="text-center space-y-2">
-    <p class="text-sm sm:text-base text-gray-600 dark:text-neutral-400">
-        Remember your password? 
-        <a href="{{ route('login') }}" class="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 touch-target">
-            Back to sign in
-        </a>
-    </p>
-    <p class="text-sm sm:text-base text-gray-600 dark:text-neutral-400">
-        Don't have an account? 
-        <a href="{{ route('register') }}" class="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 touch-target">
-            Create one here
-        </a>
-    </p>
+<div class="text-center space-y-4">
+    <div class="space-y-3">
+        <p class="text-sm sm:text-base text-gray-600 dark:text-neutral-400 leading-relaxed">
+            Remember your password? 
+            <a href="{{ route('login') }}" class="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 touch-target transition-colors duration-200 underline decoration-2 underline-offset-2">
+                Back to sign in
+            </a>
+        </p>
+        <p class="text-sm sm:text-base text-gray-600 dark:text-neutral-400 leading-relaxed">
+            Don't have an account? 
+            <a href="{{ route('register') }}" class="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 touch-target transition-colors duration-200 underline decoration-2 underline-offset-2">
+                Create one here
+            </a>
+        </p>
+    </div>
+    <div class="pt-3 border-t border-gray-200 dark:border-neutral-700">
+        <p class="text-xs sm:text-sm text-gray-500 dark:text-neutral-500 leading-relaxed">
+            Having trouble? Contact our 
+            <a href="#" class="text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 underline">support team</a>
+        </p>
+    </div>
 </div>
 @endsection

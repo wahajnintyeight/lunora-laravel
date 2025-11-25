@@ -18,6 +18,7 @@ Route::get('/products', [ProductController::class, 'index'])->name('products.ind
 Route::get('/products/{product:slug}', [ProductController::class, 'show'])->name('products.show');
 Route::get('/products/{product}/variants', [ProductController::class, 'getVariants'])->name('products.variants');
 Route::get('/search', [ProductController::class, 'search'])->name('search')->middleware('rate.limit:search');
+Route::get('/api/products/suggestions', [ProductController::class, 'searchSuggestions'])->name('products.suggestions')->middleware('rate.limit:search');
 
 // Category routes
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');

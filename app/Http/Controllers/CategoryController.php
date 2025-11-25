@@ -209,7 +209,12 @@ class CategoryController extends Controller
      */
     public function suggestions(Request $request)
     {
+        // If no query, return all categories for catalog dropdown
         $query = $request->get('q', '');
+        
+        if (empty($query)) {
+            return $this->getCatalogCategories();
+        }
         
         if (strlen($query) < 2) {
             return response()->json(['suggestions' => []]);
@@ -232,6 +237,67 @@ class CategoryController extends Controller
                     'name' => $category->name,
                     'slug' => $category->slug,
                     'url' => route('category.show', $category->slug),
+                ];
+            })
+        ]);
+    }
+
+    /**
+     * Get all categories with hierarchy for catalog dropdown.
+     */
+    protected function getCatalogCategories()
+    {
+        $categories = Category::with(['children' => function ($query) {
+                $query->where('is_active', true)
+                    ->with(['children' => function ($q) {
+                        $q->where('is_active', true)
+                            ->withCount(['products' => function ($pq) {
+                                $pq->where('is_active', true)->where('stock', '>', 0);
+                            }])
+                            ->orderBy('sort_order')
+                            ->orderBy('name');
+                    }])
+                    ->withCount(['products' => function ($q) {
+                        $q->where('is_active', true)->where('stock', '>', 0);
+                    }])
+                    ->orderBy('sort_order')
+                    ->orderBy('name');
+            }])
+            ->whereNull('parent_id')
+            ->where('is_active', true)
+            ->withCount(['products' => function ($query) {
+                $query->where('is_active', true)->where('stock', '>', 0);
+            }])
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->get();
+
+        return response()->json([
+            'categories' => $categories->map(function ($category) {
+                return [
+                    'id' => $category->id,
+                    'name' => $category->name,
+                    'slug' => $category->slug,
+                    'url' => route('category.show', $category->slug),
+                    'products_count' => $category->products_count,
+                    'children' => $category->children->map(function ($child) {
+                        return [
+                            'id' => $child->id,
+                            'name' => $child->name,
+                            'slug' => $child->slug,
+                            'url' => route('category.show', $child->slug),
+                            'products_count' => $child->products_count,
+                            'children' => $child->children->map(function ($grandchild) {
+                                return [
+                                    'id' => $grandchild->id,
+                                    'name' => $grandchild->name,
+                                    'slug' => $grandchild->slug,
+                                    'url' => route('category.show', $grandchild->slug),
+                                    'products_count' => $grandchild->products_count,
+                                ];
+                            })
+                        ];
+                    })
                 ];
             })
         ]);

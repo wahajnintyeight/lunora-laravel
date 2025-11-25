@@ -166,7 +166,7 @@ class ProductController extends AdminController
         try {
             // Delete product images
             foreach ($product->images as $image) {
-                Storage::disk('public')->delete($image->image_path);
+                // Image file cleanup is handled by ProductImage model events
                 $image->delete();
             }
 
@@ -221,7 +221,7 @@ class ProductController extends AdminController
                     foreach ($products as $product) {
                         // Delete product images
                         foreach ($product->images as $image) {
-                            Storage::disk('public')->delete($image->image_path);
+                            // Image file cleanup is handled by ProductImage model events
                             $image->delete();
                         }
 
@@ -253,12 +253,15 @@ class ProductController extends AdminController
     public function deleteImage(ProductImage $image)
     {
         try {
-            Storage::disk('public')->delete($image->image_path);
+            // Image file cleanup is handled by ProductImage model events
             $image->delete();
 
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to delete image: ' . $e->getMessage(),
+            ], 422);
         }
     }
 
@@ -282,7 +285,10 @@ class ProductController extends AdminController
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to reorder images: ' . $e->getMessage(),
+            ], 500);
         }
     }
 
@@ -475,10 +481,10 @@ class ProductController extends AdminController
             // Store original image
             $image->storeAs('products', $filename, 'public');
 
-            // Save to database
+            // Save to database (legacy path stored in file_path)
             ProductImage::create([
                 'product_id' => $product->id,
-                'image_path' => $path,
+                'file_path' => $path,
                 'alt_text' => $product->name,
                 'sort_order' => $product->images()->count() + $index + 1,
             ]);

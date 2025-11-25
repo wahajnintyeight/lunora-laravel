@@ -34,7 +34,7 @@ class LazyLoadingMiddleware
     {
         // Add loading="lazy" to img tags that don't already have it
         $content = preg_replace_callback(
-            '/<img([^>]*?)(?<!loading=["\'][^"\']*)[^>]*>/i',
+            '/<img\b[^>]*>/i',
             function ($matches) {
                 $imgTag = $matches[0];
                 
@@ -59,7 +59,7 @@ class LazyLoadingMiddleware
 
         // Add decoding="async" for better performance
         $content = preg_replace_callback(
-            '/<img([^>]*?)(?<!decoding=["\'][^"\']*)[^>]*>/i',
+            '/<img\b[^>]*>/i',
             function ($matches) {
                 $imgTag = $matches[0];
                 

@@ -25,7 +25,7 @@
                     <!-- Main Image -->
                     <div class="aspect-square">
                         <img id="main-image" 
-                             src="{{ $product->images->first()->image_path }}" 
+                             src="{{ $product->images->first()->medium_url }}" 
                              alt="{{ $product->name }}" 
                              class="w-full h-full object-cover rounded-lg">
                     </div>
@@ -34,10 +34,10 @@
                     @if($product->images->count() > 1)
                         <div class="flex gap-2 overflow-x-auto">
                             @foreach($product->images as $image)
-                                <img src="{{ $image->image_path }}" 
+                                <img src="{{ $image->thumbnail_url }}" 
                                      alt="{{ $product->name }}" 
                                      class="w-20 h-20 object-cover rounded-md cursor-pointer border-2 {{ $loop->first ? 'border-emerald-500' : 'border-gray-200' }} hover:border-emerald-500 transition-colors"
-                                     onclick="changeMainImage('{{ $image->image_path }}', this)">
+                                     onclick="changeMainImage('{{ $image->medium_url }}', this)">
                             @endforeach
                         </div>
                     @endif
@@ -200,7 +200,7 @@
                     <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
                         <a href="{{ route('products.show', $relatedProduct->slug) }}" class="block">
                             @if($relatedProduct->images->count() > 0)
-                                <img src="{{ $relatedProduct->images->first()->image_path }}" 
+                                <img src="{{ $relatedProduct->images->first()->medium_url }}" 
                                      alt="{{ $relatedProduct->name }}" 
                                      class="w-full h-48 object-cover">
                             @else

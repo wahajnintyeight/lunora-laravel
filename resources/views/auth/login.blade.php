@@ -62,19 +62,19 @@
     </div>
 
     <!-- Remember Me & Forgot Password -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0">
         <div class="flex items-center">
             <input id="remember" 
                    name="remember" 
                    type="checkbox" 
-                   class="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded dark:border-neutral-600 dark:bg-neutral-700">
-            <label for="remember" class="ml-2 block text-sm text-gray-700 dark:text-neutral-300">
+                   class="h-5 w-5 text-emerald-600 focus:ring-emerald-500 focus:ring-2 border-gray-300 rounded dark:border-neutral-600 dark:bg-neutral-700 touch-target">
+            <label for="remember" class="ml-3 block text-sm sm:text-base text-gray-700 dark:text-neutral-300 cursor-pointer touch-target">
                 Remember me
             </label>
         </div>
 
-        <div class="text-sm">
-            <a href="{{ route('password.request') }}" class="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 touch-target">
+        <div class="text-sm sm:text-base">
+            <a href="{{ route('password.request') }}" class="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 touch-target transition-colors duration-200">
                 Forgot your password?
             </a>
         </div>
@@ -120,12 +120,20 @@
 @endsection
 
 @section('additional_links')
-<div class="text-center">
-    <p class="text-sm sm:text-base text-gray-600 dark:text-neutral-400">
+<div class="text-center space-y-3">
+    <p class="text-sm sm:text-base text-gray-600 dark:text-neutral-400 leading-relaxed">
         Don't have an account? 
-        <a href="{{ route('register') }}" class="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 touch-target">
+        <a href="{{ route('register') }}" class="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 touch-target transition-colors duration-200 underline decoration-2 underline-offset-2">
             Create one here
         </a>
     </p>
+    <div class="pt-2 border-t border-gray-200 dark:border-neutral-700">
+        <p class="text-xs sm:text-sm text-gray-500 dark:text-neutral-500">
+            By signing in, you agree to our 
+            <a href="#" class="text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 underline">Terms</a> 
+            and 
+            <a href="#" class="text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 underline">Privacy Policy</a>
+        </p>
+    </div>
 </div>
 @endsection

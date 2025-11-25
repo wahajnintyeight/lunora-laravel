@@ -135,12 +135,20 @@
 @endsection
 
 @section('additional_links')
-<div class="text-center">
-    <p class="text-sm sm:text-base text-gray-600 dark:text-neutral-400">
+<div class="text-center space-y-3">
+    <p class="text-sm sm:text-base text-gray-600 dark:text-neutral-400 leading-relaxed">
         Already have an account? 
-        <a href="{{ route('login') }}" class="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 touch-target">
+        <a href="{{ route('login') }}" class="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 touch-target transition-colors duration-200 underline decoration-2 underline-offset-2">
             Sign in here
         </a>
     </p>
+    <div class="pt-2 border-t border-gray-200 dark:border-neutral-700">
+        <p class="text-xs sm:text-sm text-gray-500 dark:text-neutral-500 leading-relaxed">
+            By creating an account, you agree to our 
+            <a href="#" class="text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 underline">Terms of Service</a> 
+            and 
+            <a href="#" class="text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 underline">Privacy Policy</a>
+        </p>
+    </div>
 </div>
 @endsection

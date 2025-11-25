@@ -1,5 +1,6 @@
 @import 'tailwindcss';
-
+@import './mobile-cart-checkout.css';
+@import './main.min.css';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
@@ -58,6 +59,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .form-input {
@@ -91,6 +93,17 @@
     .mobile-center {
         text-align: center;
     }
+    
+    /* Prevent horizontal scroll */
+    html, body {
+        overflow-x: hidden;
+    }
+    
+    /* Improve touch targets */
+    button, a, input[type="button"], input[type="submit"] {
+        min-height: 44px;
+        min-width: 44px;
+    }
 }
 
 /* Touch-friendly spacing */
@@ -112,12 +125,54 @@
     display: flex;
     align-items: center;
     padding: 0.75rem 1rem;
-    transition: background-color 0.2s ease;
+    transition: all 0.2s ease;
+    border-radius: 0.5rem;
 }
 
 .mobile-menu-item:hover,
 .mobile-menu-item:focus {
     background-color: rgba(16, 185, 129, 0.1);
+    transform: translateX(4px);
+}
+
+/* Mobile menu animations */
+.mobile-menu-open .mobile-menu-open\:hidden {
+    display: none;
+}
+
+.mobile-menu-open .mobile-menu-open\:block {
+    display: block;
+}
+
+/* Smooth transitions for mobile interactions */
+.transition-mobile {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Loading states */
+.loading {
+    opacity: 0.7;
+    pointer-events: none;
+    position: relative;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 /* Responsive text sizing */
@@ -140,5 +195,191 @@
     .responsive-text-3xl {
         font-size: 1.875rem;
         line-height: 2.25rem;
+    }
+}
+
+/* Mobile-specific focus styles */
+@media (max-width: 767px) {
+    *:focus {
+        outline: 3px solid #10b981;
+        outline-offset: 2px;
+    }
+    
+    /* Larger tap targets for mobile */
+    .mobile-tap-target {
+        min-height: 48px;
+        min-width: 48px;
+        padding: 12px;
+    }
+}
+
+/* Touch gesture support */
+.touch-gallery {
+    touch-action: pan-x;
+    user-select: none;
+}
+
+.touch-gallery img {
+    pointer-events: none;
+}
+
+/* Mobile error states */
+.mobile-error {
+    animation: slideInError 0.3s ease-out;
+}
+
+@keyframes slideInError {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Improved mobile dropdown */
+@media (max-width: 1023px) {
+    .hs-dropdown-menu {
+        position: fixed !important;
+        top: auto !important;
+        left: 1rem !important;
+        right: 1rem !important;
+        width: auto !important;
+        max-height: 70vh;
+        overflow-y: auto;
+        border-radius: 1rem;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+}
+
+/* Mobile-optimized catalog dropdown */
+@media (max-width: 767px) {
+    .catalog-mobile-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+        padding: 1rem;
+    }
+    
+    .catalog-mobile-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;
+        text-align: center;
+        border-radius: 0.75rem;
+        transition: all 0.2s ease;
+    }
+    
+    .catalog-mobile-item:hover {
+        background-color: rgba(16, 185, 129, 0.1);
+        transform: translateY(-2px);
+    }
+}
+
+/* Mobile gallery enhancements */
+.touch-gallery {
+    touch-action: pan-x;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.touch-gallery img {
+    pointer-events: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+}
+
+/* Hide scrollbar for mobile thumbnail scroll */
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+/* Mobile cart quantity controls */
+@media (max-width: 640px) {
+    .mobile-quantity-control {
+        min-width: 120px;
+    }
+    
+    .mobile-quantity-control button {
+        min-width: 40px;
+        min-height: 40px;
+    }
+    
+    .mobile-quantity-control input {
+        min-height: 40px;
+        font-size: 16px;
+    }
+}
+
+/* Mobile checkout progress indicator */
+@media (max-width: 640px) {
+    .checkout-progress {
+        padding: 0 1rem;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    
+    .checkout-progress::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .checkout-progress-item {
+        min-width: 80px;
+        flex-shrink: 0;
+    }
+}
+
+/* Mobile form improvements */
+@media (max-width: 767px) {
+    .mobile-form-section {
+        margin-bottom: 1.5rem;
+    }
+    
+    .mobile-form-section:last-child {
+        margin-bottom: 0;
+    }
+    
+    .mobile-form-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .mobile-form-grid.two-col {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+    }
+}
+
+/* Improved mobile modal */
+@media (max-width: 640px) {
+    .mobile-modal {
+        margin: 0;
+        border-radius: 0;
+        min-height: 100vh;
+        max-height: 100vh;
+        overflow-y: auto;
+    }
+    
+    .mobile-modal-content {
+        padding: 1rem;
+    }
+    
+    .mobile-modal-image {
+        max-height: 60vh;
+        width: auto;
+        max-width: 100%;
     }
 }

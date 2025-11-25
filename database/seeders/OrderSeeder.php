@@ -65,8 +65,18 @@ class OrderSeeder extends Seeder
     {
         $placedAt = now()->subDays(rand(1, 30));
         
+        // Generate unique order number
+        $baseOrderNumber = 'LUN-' . str_pad($orderNumber + 1000, 6, '0', STR_PAD_LEFT);
+        $orderNumber = $baseOrderNumber;
+        $counter = 1;
+        
+        while (Order::where('order_number', $orderNumber)->exists()) {
+            $orderNumber = $baseOrderNumber . '-' . $counter;
+            $counter++;
+        }
+        
         return Order::create([
-            'order_number' => 'LUN-' . str_pad($orderNumber, 6, '0', STR_PAD_LEFT),
+            'order_number' => $orderNumber,
             'user_id' => $customer->id,
             'email' => $customer->email,
             'phone' => '+92 300 ' . rand(1000000, 9999999),
@@ -100,12 +110,18 @@ class OrderSeeder extends Seeder
                 'order_id' => $order->id,
                 'product_id' => $product->id,
                 'product_variant_id' => $variant?->id,
-                'name' => $product->name,
-                'sku' => $variant?->sku ?? $product->sku,
-                'price_pkr' => $price,
+                'product_name' => $product->name,
+                'product_sku' => $variant?->sku ?? $product->sku,
+                'unit_price_pkr' => $price,
                 'quantity' => $quantity,
-                'total_pkr' => $price * $quantity,
+                'total_price_pkr' => $price * $quantity,
                 'customizations' => $this->getRandomCustomizations($product),
+                'product_snapshot' => [
+                    'name' => $product->name,
+                    'sku' => $product->sku,
+                    'price' => $product->price_pkr,
+                    'variant_options' => $variant?->options_json,
+                ],
             ]);
         }
     }
@@ -128,7 +144,7 @@ class OrderSeeder extends Seeder
             'address_line_1' => 'House # ' . rand(1, 999) . ', Street # ' . rand(1, 50),
             'address_line_2' => $area,
             'city' => $city,
-            'state' => 'Punjab',
+            'state_province' => 'Punjab',
             'postal_code' => rand(10000, 99999),
             'country' => 'Pakistan',
             'phone' => $order->phone,
@@ -144,7 +160,7 @@ class OrderSeeder extends Seeder
             'address_line_1' => 'House # ' . rand(1, 999) . ', Street # ' . rand(1, 50),
             'address_line_2' => $area,
             'city' => $city,
-            'state' => 'Punjab',
+            'state_province' => 'Punjab',
             'postal_code' => rand(10000, 99999),
             'country' => 'Pakistan',
             'phone' => $order->phone,
@@ -155,12 +171,17 @@ class OrderSeeder extends Seeder
     {
         $order->update(['coupon_code' => $coupon->code]);
         
+        // Calculate discount amount
+        $subtotal = $order->items->sum('total_price_pkr');
+        $discountAmount = $coupon->calculateDiscount($subtotal);
+        
         // Create coupon redemption
         CouponRedemption::create([
             'coupon_id' => $coupon->id,
             'user_id' => $customer->id,
             'order_id' => $order->id,
-            'redeemed_at' => $order->placed_at,
+            'email' => $customer->email,
+            'discount_amount_pkr' => $discountAmount,
         ]);
         
         // Increment coupon usage
@@ -169,7 +190,7 @@ class OrderSeeder extends Seeder
 
     private function recalculateOrderTotals(Order $order): void
     {
-        $subtotal = $order->items->sum('total_pkr');
+        $subtotal = $order->items->sum('total_price_pkr');
         $discount = 0;
         
         if ($order->coupon_code) {

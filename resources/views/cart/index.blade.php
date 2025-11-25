@@ -3,8 +3,8 @@
 @section('title', 'Shopping Cart - Lunora Jewelry')
 
 @section('content')
-<div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold text-gray-900 mb-8">Shopping Cart</h1>
+<div class="container mx-auto px-4 py-4 sm:py-8">
+    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8 responsive-text-3xl">Shopping Cart</h1>
 
     @if(!empty($validationErrors))
         <div class="bg-yellow-50 border border-yellow-200 rounded-md p-4 mb-6">
@@ -29,26 +29,38 @@
     @endif
 
     @if($cart->items->count() > 0)
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8" data-cart-container>
             <!-- Cart Items -->
             <div class="lg:col-span-2 order-2 lg:order-1">
                 <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                    <div class="px-6 py-4 border-b border-gray-200">
-                        <h2 class="text-lg font-semibold text-gray-900">Cart Items ({{ $cart->items->sum('quantity') }})</h2>
+                    <div class="px-4 sm:px-6 py-4 border-b border-gray-200">
+                        <h2 class="text-lg sm:text-xl font-semibold text-gray-900 responsive-text-xl">Cart Items ({{ $cart->items->sum('quantity') }})</h2>
                     </div>
                     
                     <div class="divide-y divide-gray-200">
                         @foreach($cart->items as $item)
-                            <div class="p-6" id="cart-item-{{ $item->id }}">
+                            <div class="p-4 sm:p-6" id="cart-item-{{ $item->id }}" data-cart-item="{{ $item->id }}">
                                 <div class="flex items-start space-x-3 sm:space-x-4">
                                     <!-- Product Image -->
                                     <div class="flex-shrink-0">
                                         @if($item->product->images->count() > 0)
-                                            <img src="{{ $item->product->images->first()->image_path }}" 
-                                                 alt="{{ $item->product->name }}" 
-                                                 class="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg">
+                                            <div class="product-gallery" data-product-gallery>
+                                                @foreach($item->product->images as $index => $image)
+                                                    <img src="{{ $image->image_path }}" 
+                                                         alt="{{ $item->product->name }}" 
+                                                         class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg {{ $index === 0 ? 'active' : 'hidden' }}"
+                                                         data-gallery-image="{{ $index }}">
+                                                @endforeach
+                                                @if($item->product->images->count() > 1)
+                                                    <div class="gallery-indicators">
+                                                        @foreach($item->product->images as $index => $image)
+                                                            <span class="indicator {{ $index === 0 ? 'active' : '' }}" data-gallery-indicator="{{ $index }}"></span>
+                                                        @endforeach
+                                                    </div>
+                                                @endif
+                                            </div>
                                         @else
-                                            <div class="w-16 h-16 sm:w-20 sm:h-20 bg-gray-200 rounded-lg flex items-center justify-center">
+                                            <div class="w-20 h-20 sm:w-24 sm:h-24 bg-gray-200 rounded-lg flex items-center justify-center">
                                                 <span class="text-gray-400 text-xs">No Image</span>
                                             </div>
                                         @endif
@@ -189,25 +201,28 @@
                                                 </div>
                                             </div>
 
-                                            <!-- Remove Button -->
+                                            <!-- Remove Button - Mobile Optimized -->
                                             <button type="button" 
                                                     onclick="removeItem({{ $item->id }})"
-                                                    class="text-gray-400 hover:text-red-500 ml-4">
+                                                    class="touch-target text-gray-400 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 rounded-md p-1 ml-2 sm:ml-4 transition-colors duration-200"
+                                                    aria-label="Remove item from cart">
                                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
                                                 </svg>
                                             </button>
                                         </div>
 
-                                        <!-- Quantity and Price -->
+                                        <!-- Quantity and Price - Mobile Optimized -->
                                         <div class="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
                                             <div class="flex items-center space-x-3">
                                                 <label class="text-sm font-medium text-gray-700">Qty:</label>
-                                                <div class="flex items-center border border-gray-300 rounded-md">
+                                                <div class="quantity-control flex items-center border border-gray-300 rounded-lg overflow-hidden" data-quantity-control>
                                                     <button type="button" 
                                                             onclick="updateQuantity({{ $item->id }}, {{ $item->quantity - 1 }})"
-                                                            class="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-gray-800 hover:bg-gray-50">
-                                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                            data-quantity-decrease
+                                                            class="touch-target w-12 h-12 sm:w-10 sm:h-10 flex items-center justify-center text-gray-600 hover:text-gray-800 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-inset transition-colors duration-200 active:bg-gray-100"
+                                                            aria-label="Decrease quantity">
+                                                        <svg class="w-5 h-5 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 20 20">
                                                             <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
                                                         </svg>
                                                     </button>
@@ -216,12 +231,15 @@
                                                            value="{{ $item->quantity }}" 
                                                            min="1" 
                                                            max="100"
-                                                           class="w-12 text-center border-0 py-1 text-sm focus:ring-0"
-                                                           onchange="updateQuantity({{ $item->id }}, this.value)">
+                                                           class="w-16 sm:w-14 text-center border-0 py-3 sm:py-2 text-lg sm:text-base focus:ring-0 focus:outline-none"
+                                                           onchange="updateQuantity({{ $item->id }}, this.value)"
+                                                           aria-label="Quantity">
                                                     <button type="button" 
                                                             onclick="updateQuantity({{ $item->id }}, {{ $item->quantity + 1 }})"
-                                                            class="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-gray-800 hover:bg-gray-50">
-                                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                            data-quantity-increase
+                                                            class="touch-target w-12 h-12 sm:w-10 sm:h-10 flex items-center justify-center text-gray-600 hover:text-gray-800 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-inset transition-colors duration-200 active:bg-gray-100"
+                                                            aria-label="Increase quantity">
+                                                        <svg class="w-5 h-5 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 20 20">
                                                             <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
                                                         </svg>
                                                     </button>
@@ -258,8 +276,9 @@
 
             <!-- Order Summary -->
             <div class="lg:col-span-1 order-1 lg:order-2">
-                <div class="bg-white rounded-lg shadow-md p-6 sticky top-4">
-                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Order Summary</h2>
+                <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 sticky top-4" data-cart-summary>
+                    <h2 class="text-lg sm:text-xl font-semibold text-gray-900 mb-4 responsive-text-xl">Order Summary</h2>
+                    <div data-summary-content>
                     
                     <!-- Coupon Code -->
                     <div class="mb-6">
@@ -319,12 +338,14 @@
                         </div>
                     </div>
 
-                    <!-- Checkout Button -->
+                    <!-- Checkout Button - Mobile Optimized -->
                     <div class="mt-6">
                         <a href="{{ route('checkout.index') }}" 
-                           class="w-full bg-emerald-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 text-center block">
+                           class="touch-target w-full bg-emerald-600 text-white py-4 sm:py-3 px-6 rounded-lg font-semibold hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 text-center block text-base sm:text-sm transition-colors duration-200"
+                           data-checkout-button>
                             Proceed to Checkout
                         </a>
+                    </div>
                     </div>
 
                     <!-- Security Badge -->

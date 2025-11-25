@@ -50,6 +50,10 @@ class ProductImage extends Model
      */
     public function getUrlAttribute(): string
     {
+        if ($this->isExternalUrl()) {
+            return $this->file_path;
+        }
+
         return Storage::url($this->file_path);
     }
 
@@ -58,13 +62,17 @@ class ProductImage extends Model
      */
     public function getThumbnailUrlAttribute(): string
     {
+        if ($this->isExternalUrl()) {
+            return $this->url;
+        }
+
         $pathInfo = pathinfo($this->file_path);
         $thumbnailPath = $pathInfo['dirname'] . '/thumbnails/' . $pathInfo['filename'] . '-thumb.' . $pathInfo['extension'];
-        
+
         if (Storage::exists($thumbnailPath)) {
             return Storage::url($thumbnailPath);
         }
-        
+
         return $this->url;
     }
 
@@ -73,13 +81,17 @@ class ProductImage extends Model
      */
     public function getMediumUrlAttribute(): string
     {
+        if ($this->isExternalUrl()) {
+            return $this->url;
+        }
+
         $pathInfo = pathinfo($this->file_path);
         $mediumPath = $pathInfo['dirname'] . '/medium/' . $pathInfo['filename'] . '-medium.' . $pathInfo['extension'];
-        
+
         if (Storage::exists($mediumPath)) {
             return Storage::url($mediumPath);
         }
-        
+
         return $this->url;
     }
 
@@ -91,6 +103,12 @@ class ProductImage extends Model
         return $query->where('is_primary', true);
     }
 
+    protected function isExternalUrl(): bool
+    {
+        return is_string($this->file_path)
+            && preg_match('#^https?://#i', $this->file_path) === 1;
+    }
+
     /**
      * Boot the model.
      */
@@ -99,16 +117,20 @@ class ProductImage extends Model
         parent::boot();
 
         static::deleting(function ($image) {
+            if ($image->isExternalUrl()) {
+                return;
+            }
+
             // Delete the actual file when the model is deleted
             if (Storage::exists($image->file_path)) {
                 Storage::delete($image->file_path);
             }
-            
+
             // Delete thumbnails and medium images
             $pathInfo = pathinfo($image->file_path);
             $thumbnailPath = $pathInfo['dirname'] . '/thumbnails/' . $pathInfo['filename'] . '-thumb.' . $pathInfo['extension'];
             $mediumPath = $pathInfo['dirname'] . '/medium/' . $pathInfo['filename'] . '-medium.' . $pathInfo['extension'];
-            
+
             if (Storage::exists($thumbnailPath)) {
                 Storage::delete($thumbnailPath);
             }

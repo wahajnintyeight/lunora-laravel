@@ -74,11 +74,11 @@ class Product extends Model
     {
         $primaryImage = $this->images()->where('is_primary', true)->first();
         if ($primaryImage) {
-            return $primaryImage->file_path;
+            return $primaryImage->url;
         }
         
         $firstImage = $this->images()->first();
-        return $firstImage ? $firstImage->file_path : null;
+        return $firstImage ? $firstImage->url : null;
     }
 
     /**
