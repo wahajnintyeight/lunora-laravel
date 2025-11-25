@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Services\SecurityMonitoringService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,10 @@ use Illuminate\View\View;
 
 class LoginController extends Controller
 {
+    public function __construct(
+        protected SecurityMonitoringService $securityService
+    ) {}
+
     /**
      * Show the login form.
      */
@@ -24,9 +29,23 @@ class LoginController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $credentials = $request->only('email', 'password');
+        // Check for suspicious activity
+        if ($this->securityService->checkSuspiciousActivity($request)) {
+            // Continue with normal flow but log the activity
+        }
 
-        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+        try {
+            $request->authenticate();
+
+            // Clear failed login attempts on successful login
+            $this->securityService->clearFailedLogins($request->ip());
+
+            // Log successful login
+            $this->securityService->logSecurityEvent('successful_login', [
+                'email' => $request->input('email'),
+                'ip' => $request->ip(),
+            ]);
+
             $request->session()->regenerate();
 
             // Update last login timestamp
@@ -34,11 +53,15 @@ class LoginController extends Controller
 
             return redirect()->intended(route('home'))
                 ->with('success', 'Welcome back!');
-        }
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Record failed login attempt
+            $this->securityService->recordFailedLogin(
+                $request->input('email'),
+                $request->ip()
+            );
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+            throw $e;
+        }
     }
 
     /**
@@ -46,6 +69,11 @@ class LoginController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        // Log logout event
+        $this->securityService->logSecurityEvent('user_logout', [
+            'user_id' => auth()->id(),
+        ]);
+
         Auth::logout();
 
         $request->session()->invalidate();

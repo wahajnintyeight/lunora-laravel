@@ -4,11 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-
 class Page extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -20,10 +18,10 @@ class Page extends Model
         'slug',
         'content',
         'excerpt',
-        'meta_title',
-        'meta_description',
+        'meta_data',
         'is_published',
-        'published_at',
+        'sort_order',
+        'template',
     ];
 
     /**
@@ -34,8 +32,9 @@ class Page extends Model
     protected function casts(): array
     {
         return [
+            'meta_data' => 'array',
             'is_published' => 'boolean',
-            'published_at' => 'datetime',
+            'sort_order' => 'integer',
         ];
     }
 
@@ -72,17 +71,17 @@ class Page extends Model
     /**
      * Get the meta title or fallback to title.
      */
-    public function getMetaTitleAttribute($value): string
+    public function getMetaTitleAttribute(): string
     {
-        return $value ?: $this->title;
+        return $this->meta_data['title'] ?? $this->title;
     }
 
     /**
      * Get the meta description or fallback to excerpt.
      */
-    public function getMetaDescriptionAttribute($value): string
+    public function getMetaDescriptionAttribute(): string
     {
-        return $value ?: $this->excerpt;
+        return $this->meta_data['description'] ?? $this->excerpt;
     }
 
     /**
@@ -90,8 +89,7 @@ class Page extends Model
      */
     public function isPublished(): bool
     {
-        return $this->is_published && 
-               ($this->published_at === null || $this->published_at->isPast());
+        return $this->is_published;
     }
 
     /**
@@ -99,11 +97,7 @@ class Page extends Model
      */
     public function scopePublished($query)
     {
-        return $query->where('is_published', true)
-            ->where(function ($q) {
-                $q->whereNull('published_at')
-                  ->orWhere('published_at', '<=', now());
-            });
+        return $query->where('is_published', true);
     }
 
     /**
@@ -122,23 +116,5 @@ class Page extends Model
         return $query->where('slug', $slug);
     }
 
-    /**
-     * Boot the model.
-     */
-    protected static function boot()
-    {
-        parent::boot();
 
-        static::creating(function ($page) {
-            if (empty($page->published_at) && $page->is_published) {
-                $page->published_at = now();
-            }
-        });
-
-        static::updating(function ($page) {
-            if ($page->is_published && $page->isDirty('is_published') && empty($page->published_at)) {
-                $page->published_at = now();
-            }
-        });
-    }
 }

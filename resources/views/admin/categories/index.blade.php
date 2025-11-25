@@ -15,6 +15,23 @@
     </div>
 
     <div class="flex justify-end items-center gap-x-2">
+        <div class="hs-dropdown relative inline-block">
+            <button type="button" class="hs-dropdown-toggle py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
+                View: {{ request('view') === 'tree' ? 'Tree' : 'List' }}
+                <svg class="hs-dropdown-open:rotate-180 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m6 9 6 6 6-6"/>
+                </svg>
+            </button>
+            <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-32 z-10 bg-white shadow-md rounded-lg p-2 mt-2 dark:bg-neutral-800 dark:border dark:border-neutral-700">
+                <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700" href="{{ route('admin.categories.index', ['view' => 'list']) }}">
+                    List View
+                </a>
+                <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700" href="{{ route('admin.categories.index', ['view' => 'tree']) }}">
+                    Tree View
+                </a>
+            </div>
+        </div>
+        
         <a class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" href="{{ route('admin.categories.create') }}">
             <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 12h14"/>
@@ -37,6 +54,86 @@
         {{ session('error') }}
     </div>
 @endif
+
+<!-- Filters -->
+<div class="bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-neutral-800 dark:border-neutral-700 mb-5">
+    <div class="px-6 py-4">
+        <form method="GET" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <input type="hidden" name="view" value="{{ request('view', 'list') }}">
+            
+            <!-- Search -->
+            <div>
+                <label for="search" class="block text-sm font-medium mb-2 dark:text-white">Search</label>
+                <input type="text" id="search" name="search" value="{{ request('search') }}" class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" placeholder="Search categories...">
+            </div>
+
+            <!-- Parent Category -->
+            <div>
+                <label for="parent" class="block text-sm font-medium mb-2 dark:text-white">Parent Category</label>
+                <select name="parent" id="parent" class="py-2 px-3 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:focus:ring-neutral-600">
+                    <option value="">All Categories</option>
+                    <option value="root" {{ request('parent') === 'root' ? 'selected' : '' }}>Root Categories Only</option>
+                    @foreach($parentCategories as $category)
+                        <option value="{{ $category->id }}" {{ request('parent') == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <!-- Status -->
+            <div>
+                <label for="status" class="block text-sm font-medium mb-2 dark:text-white">Status</label>
+                <select name="status" id="status" class="py-2 px-3 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:focus:ring-neutral-600">
+                    <option value="">All Status</option>
+                    <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Active</option>
+                    <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Inactive</option>
+                </select>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex items-end gap-x-2">
+                <button type="submit" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700">
+                    Filter
+                </button>
+                <a href="{{ route('admin.categories.index', ['view' => request('view', 'list')]) }}" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
+                    Clear
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- End Filters -->
+
+<!-- Bulk Actions -->
+<div id="bulk-actions" class="bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-neutral-800 dark:border-neutral-700 mb-5" style="display: none;">
+    <div class="px-6 py-4">
+        <form id="bulk-action-form" method="POST" action="{{ route('admin.categories.bulk-action') }}">
+            @csrf
+            <div class="flex items-center gap-x-4">
+                <span class="text-sm font-medium text-gray-800 dark:text-neutral-200">
+                    <span id="selected-count">0</span> categories selected
+                </span>
+                
+                <select name="action" id="bulk-action-select" class="py-2 px-3 pe-9 block border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400">
+                    <option value="">Choose action...</option>
+                    <option value="activate">Activate</option>
+                    <option value="deactivate">Deactivate</option>
+                    <option value="delete">Delete</option>
+                </select>
+                
+                <button type="submit" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                    Apply
+                </button>
+                
+                <button type="button" id="clear-selection" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
+                    Clear Selection
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- End Bulk Actions -->
 
 <!-- Categories Table -->
 <div class="flex flex-col">
@@ -76,6 +173,12 @@
                     <thead class="bg-gray-50 dark:bg-neutral-800">
                         <tr>
                             <th scope="col" class="ps-6 py-3 text-start">
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="select-all" class="shrink-0 border-gray-200 rounded text-blue-600 focus:ring-blue-500 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
+                                </div>
+                            </th>
+
+                            <th scope="col" class="px-6 py-3 text-start">
                                 <div class="flex items-center gap-x-2">
                                     <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-neutral-200">
                                         Name
@@ -120,6 +223,14 @@
                             <tr class="hover:bg-gray-50 dark:hover:bg-neutral-700">
                                 <td class="size-px whitespace-nowrap">
                                     <div class="ps-6 py-3">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" name="categories[]" value="{{ $category->id }}" class="category-checkbox shrink-0 border-gray-200 rounded text-blue-600 focus:ring-blue-500 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="size-px whitespace-nowrap">
+                                    <div class="px-6 py-3">
                                         <div class="flex items-center gap-x-3">
                                             <div class="grow">
                                                 <span class="block text-sm font-semibold text-gray-800 dark:text-neutral-200">
@@ -249,3 +360,103 @@
 </div>
 <!-- End Categories Table -->
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const selectAllCheckbox = document.getElementById('select-all');
+    const categoryCheckboxes = document.querySelectorAll('.category-checkbox');
+    const bulkActionsDiv = document.getElementById('bulk-actions');
+    const selectedCountSpan = document.getElementById('selected-count');
+    const bulkActionForm = document.getElementById('bulk-action-form');
+    const clearSelectionBtn = document.getElementById('clear-selection');
+
+    function updateBulkActions() {
+        const checkedBoxes = document.querySelectorAll('.category-checkbox:checked');
+        const count = checkedBoxes.length;
+        
+        selectedCountSpan.textContent = count;
+        
+        if (count > 0) {
+            bulkActionsDiv.style.display = 'block';
+            
+            // Add hidden inputs for selected categories
+            const existingInputs = bulkActionForm.querySelectorAll('input[name="categories[]"]');
+            existingInputs.forEach(input => input.remove());
+            
+            checkedBoxes.forEach(checkbox => {
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'categories[]';
+                hiddenInput.value = checkbox.value;
+                bulkActionForm.appendChild(hiddenInput);
+            });
+        } else {
+            bulkActionsDiv.style.display = 'none';
+        }
+        
+        // Update select all checkbox state
+        if (count === 0) {
+            selectAllCheckbox.indeterminate = false;
+            selectAllCheckbox.checked = false;
+        } else if (count === categoryCheckboxes.length) {
+            selectAllCheckbox.indeterminate = false;
+            selectAllCheckbox.checked = true;
+        } else {
+            selectAllCheckbox.indeterminate = true;
+        }
+    }
+
+    // Select all functionality
+    selectAllCheckbox.addEventListener('change', function() {
+        categoryCheckboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+        updateBulkActions();
+    });
+
+    // Individual checkbox functionality
+    categoryCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updateBulkActions);
+    });
+
+    // Clear selection
+    clearSelectionBtn.addEventListener('click', function() {
+        categoryCheckboxes.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+        selectAllCheckbox.checked = false;
+        updateBulkActions();
+    });
+
+    // Bulk action form submission
+    bulkActionForm.addEventListener('submit', function(e) {
+        const action = document.getElementById('bulk-action-select').value;
+        if (!action) {
+            e.preventDefault();
+            alert('Please select an action.');
+            return;
+        }
+
+        const checkedBoxes = document.querySelectorAll('.category-checkbox:checked');
+        if (checkedBoxes.length === 0) {
+            e.preventDefault();
+            alert('Please select at least one category.');
+            return;
+        }
+
+        if (action === 'delete') {
+            if (!confirm(`Are you sure you want to delete ${checkedBoxes.length} category(ies)? This action cannot be undone.`)) {
+                e.preventDefault();
+                return;
+            }
+        } else {
+            if (!confirm(`Are you sure you want to ${action} ${checkedBoxes.length} category(ies)?`)) {
+                e.preventDefault();
+                return;
+            }
+        }
+    });
+});
+</script>
+@endpush

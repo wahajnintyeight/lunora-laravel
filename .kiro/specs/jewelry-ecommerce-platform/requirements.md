@@ -118,7 +118,7 @@ Lunora is a modern jewelry e-commerce platform built with Laravel 11 that enable
 5. WHEN an admin manages categories THEN the system SHALL support hierarchical category structure with drag-and-drop reordering
 6. WHEN an admin bulk updates products THEN the system SHALL allow selecting multiple products for batch operations
 7. WHEN an admin exports data THEN the system SHALL generate CSV files for orders, products, and customers
-8. WHEN admin interface loads THEN the system SHALL use responsive Tailwind-based components for optimal user experience
+8. WHEN admin interface loads THEN the system SHALL use responsive custom Tailwind-based components for optimal user experience
 9. IF unauthorized user accesses admin routes THEN the system SHALL redirect to login with error message
 
 ### Requirement 9: Content Management and Static Pages

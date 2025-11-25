@@ -17,7 +17,7 @@ The application follows a layered architecture pattern:
 │                    Presentation Layer                        │
 │  ┌─────────────────┐  ┌─────────────────┐  ┌──────────────┐ │
 │  │   Blade Views   │  │  API Routes     │  │  Admin Panel │ │
-│  │   (Tailwind)    │  │  (Sanctum)      │  │  (Filament)  │ │
+│  │   (Tailwind)    │  │  (Sanctum)      │  │  (Custom)    │ │
 │  └─────────────────┘  └─────────────────┘  └──────────────┘ │
 └─────────────────────────────────────────────────────────────┘
 ┌─────────────────────────────────────────────────────────────┐
@@ -49,7 +49,7 @@ The application follows a layered architecture pattern:
 -   **Database**: MySQL 8.0
 -   **Authentication**: Laravel Sanctum + Laravel Socialite (Google)
 -   **Frontend**: Blade templates with Tailwind CSS
--   **Admin Panel**: Laravel Filament
+-   **Admin Panel**: Custom Blade templates with Tailwind CSS
 -   **File Storage**: Local filesystem with public disk
 -   **Email**: SMTP via host provider
 -   **Image Processing**: Intervention Image for thumbnails
@@ -236,25 +236,31 @@ class CheckoutController extends Controller
 }
 ```
 
-#### Admin Controllers (Filament Resources)
+#### Admin Controllers (Custom Dashboard)
 
 ```php
-class ProductResource extends Resource
+class Admin\DashboardController extends Controller
 {
-    protected static ?string $model = Product::class;
-
-    public static function form(Form $form): Form; // Product form with images, variants
-    public static function table(Table $table): Table; // Product listing with filters
-    public static function getRelations(): array; // Images, variants relations
+    public function index(): View; // Admin dashboard with metrics
+    public function analytics(): View; // Sales analytics and reports
 }
 
-class OrderResource extends Resource
+class Admin\ProductController extends Controller
 {
-    protected static ?string $model = Order::class;
+    public function index(Request $request): View; // Product listing with filters
+    public function create(): View; // Product creation form
+    public function store(Request $request): RedirectResponse; // Store product
+    public function edit(Product $product): View; // Product edit form
+    public function update(Request $request, Product $product): RedirectResponse; // Update product
+    public function destroy(Product $product): RedirectResponse; // Delete product
+}
 
-    public static function form(Form $form): Form; // Order management form
-    public static function table(Table $table): Table; // Orders listing with status filters
-    public static function getActions(): array; // Status update actions
+class Admin\OrderController extends Controller
+{
+    public function index(Request $request): View; // Order listing with filters
+    public function show(Order $order): View; // Order detail view
+    public function updateStatus(Request $request, Order $order): RedirectResponse; // Update order status
+    public function export(Request $request): Response; // Export orders to CSV
 }
 ```
 
@@ -482,9 +488,9 @@ The platform uses a mobile-first approach with the following breakpoints:
 /* lg: 1024px+ (Desktop) */
 
 .container {
-  @apply px-4 sm:px-6 lg:px-8;
-  max-width: 1280px;
-  margin: 0 auto;
+    @apply px-4 sm:px-6 lg:px-8;
+    max-width: 1280px;
+    margin: 0 auto;
 }
 ```
 
@@ -534,7 +540,7 @@ class MobileHeader
 
     private function isMobile(): bool
     {
-        return request()->header('User-Agent') && 
+        return request()->header('User-Agent') &&
                preg_match('/Mobile|Android|iPhone/', request()->header('User-Agent'));
     }
 }
@@ -555,7 +561,7 @@ class MobileHeader
 <body class="h-full">
     {{-- Full Header Component --}}
     @include('partials.shop.header')
-    
+
     {{-- Main Content with Mobile Optimization --}}
     <main class="min-h-screen flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div class="w-full max-w-md mx-auto">
@@ -563,7 +569,7 @@ class MobileHeader
             @yield('content')
         </div>
     </main>
-    
+
     {{-- Full Footer Component --}}
     @include('partials.shop.footer')
 </body>
@@ -578,40 +584,40 @@ class MobileHeader
 // Mobile Menu Toggle Functionality
 class MobileMenuController {
     constructor() {
-        this.menuButton = document.querySelector('[data-mobile-menu-toggle]');
-        this.menu = document.querySelector('[data-mobile-menu]');
-        this.overlay = document.querySelector('[data-mobile-overlay]');
-        
+        this.menuButton = document.querySelector("[data-mobile-menu-toggle]");
+        this.menu = document.querySelector("[data-mobile-menu]");
+        this.overlay = document.querySelector("[data-mobile-overlay]");
+
         this.bindEvents();
     }
 
     bindEvents() {
-        this.menuButton?.addEventListener('click', () => this.toggleMenu());
-        this.overlay?.addEventListener('click', () => this.closeMenu());
-        
+        this.menuButton?.addEventListener("click", () => this.toggleMenu());
+        this.overlay?.addEventListener("click", () => this.closeMenu());
+
         // Close menu on escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') this.closeMenu();
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") this.closeMenu();
         });
     }
 
     toggleMenu() {
-        const isOpen = this.menu.classList.contains('translate-x-0');
+        const isOpen = this.menu.classList.contains("translate-x-0");
         isOpen ? this.closeMenu() : this.openMenu();
     }
 
     openMenu() {
-        this.menu.classList.remove('-translate-x-full');
-        this.menu.classList.add('translate-x-0');
-        this.overlay.classList.remove('hidden');
-        document.body.classList.add('overflow-hidden');
+        this.menu.classList.remove("-translate-x-full");
+        this.menu.classList.add("translate-x-0");
+        this.overlay.classList.remove("hidden");
+        document.body.classList.add("overflow-hidden");
     }
 
     closeMenu() {
-        this.menu.classList.add('-translate-x-full');
-        this.menu.classList.remove('translate-x-0');
-        this.overlay.classList.add('hidden');
-        document.body.classList.remove('overflow-hidden');
+        this.menu.classList.add("-translate-x-full");
+        this.menu.classList.remove("translate-x-0");
+        this.overlay.classList.add("hidden");
+        document.body.classList.remove("overflow-hidden");
     }
 }
 ```
@@ -621,7 +627,7 @@ class MobileMenuController {
 ```blade
 {{-- Catalog Dropdown Component --}}
 <div class="relative" x-data="{ open: false }">
-    <button 
+    <button
         @click="open = !open"
         class="flex items-center gap-x-2 px-4 py-2 text-sm font-medium text-gray-700 hover:text-emerald-600 lg:px-0"
     >
@@ -634,15 +640,15 @@ class MobileMenuController {
         </svg>
     </button>
 
-    <div 
-        x-show="open" 
+    <div
+        x-show="open"
         x-transition
         @click.away="open = false"
         class="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 z-50"
     >
         @foreach($categories as $category)
             <div class="group relative">
-                <a href="{{ route('category.show', $category->slug) }}" 
+                <a href="{{ route('category.show', $category->slug) }}"
                    class="flex items-center justify-between px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600">
                     {{ $category->name }}
                     @if($category->children->count() > 0)
@@ -651,11 +657,11 @@ class MobileMenuController {
                         </svg>
                     @endif
                 </a>
-                
+
                 @if($category->children->count() > 0)
                     <div class="absolute left-full top-0 ml-1 w-48 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                         @foreach($category->children as $subcategory)
-                            <a href="{{ route('category.show', $subcategory->slug) }}" 
+                            <a href="{{ route('category.show', $subcategory->slug) }}"
                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600">
                                 {{ $subcategory->name }}
                             </a>
@@ -700,10 +706,10 @@ class MobileMenuController {
 ```blade
 {{-- Mobile Cart Item Component --}}
 <div class="flex items-center gap-4 p-4 bg-white rounded-lg border border-gray-200">
-    <img src="{{ $item->product->featured_image }}" 
-         alt="{{ $item->product->name }}" 
+    <img src="{{ $item->product->featured_image }}"
+         alt="{{ $item->product->name }}"
          class="w-16 h-16 object-cover rounded-lg">
-    
+
     <div class="flex-1 min-w-0">
         <h3 class="text-sm font-medium text-gray-900 truncate">
             {{ $item->product->name }}
@@ -712,19 +718,19 @@ class MobileMenuController {
             PKR {{ number_format($item->price_pkr / 100, 2) }}
         </p>
     </div>
-    
+
     <div class="flex items-center gap-2">
-        <button type="button" 
+        <button type="button"
                 class="w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-50"
                 onclick="updateQuantity({{ $item->id }}, {{ $item->quantity - 1 }})">
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
             </svg>
         </button>
-        
+
         <span class="w-8 text-center text-sm font-medium">{{ $item->quantity }}</span>
-        
-        <button type="button" 
+
+        <button type="button"
                 class="w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-50"
                 onclick="updateQuantity({{ $item->id }}, {{ $item->quantity + 1 }})">
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -751,7 +757,7 @@ class ResponsiveImageService
         ];
 
         $responsiveImages = [];
-        
+
         foreach ($sizes as $size => $dimensions) {
             $responsiveImages[$size] = $this->resizeImage($imagePath, $dimensions);
         }
@@ -777,11 +783,11 @@ class ResponsiveImageService
 class LazyImageLoader {
     constructor() {
         this.imageObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
+            entries.forEach((entry) => {
                 if (entry.isIntersecting) {
                     const img = entry.target;
                     img.src = img.dataset.src;
-                    img.classList.remove('lazy');
+                    img.classList.remove("lazy");
                     observer.unobserve(img);
                 }
             });
@@ -791,8 +797,8 @@ class LazyImageLoader {
     }
 
     init() {
-        const lazyImages = document.querySelectorAll('img[data-src]');
-        lazyImages.forEach(img => this.imageObserver.observe(img));
+        const lazyImages = document.querySelectorAll("img[data-src]");
+        lazyImages.forEach((img) => this.imageObserver.observe(img));
     }
 }
 ```

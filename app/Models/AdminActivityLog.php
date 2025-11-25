@@ -87,7 +87,7 @@ class AdminActivityLog extends Model
         }
 
         $modelName = class_basename($this->model_type);
-        return ucfirst(str_replace('_', ' ', snake_case($modelName)));
+        return ucfirst(str_replace('_', ' ', \Illuminate\Support\Str::snake($modelName)));
     }
 
     /**

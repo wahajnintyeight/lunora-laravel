@@ -26,7 +26,8 @@ class AdminMiddleware
                 'action' => $request->method() . ' ' . $request->path(),
                 'ip_address' => $request->ip(),
                 'user_agent' => $request->userAgent(),
-                'meta' => json_encode($request->except(['password', '_token', '_method'])),
+                'changes' => $request->except(['password', '_token', '_method']),
+                'performed_at' => now(),
             ]);
         }
 

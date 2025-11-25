@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 
 class DashboardController extends AdminController
 {
@@ -26,8 +27,8 @@ class DashboardController extends AdminController
             ->whereYear('created_at', now()->subMonth()->year)
             ->sum('total_pkr');
 
-        $revenueChange = $previousMonthRevenue > 0 
-            ? (($monthlyRevenue - $previousMonthRevenue) / $previousMonthRevenue) * 100 
+        $revenueChange = $previousMonthRevenue > 0
+            ? (($monthlyRevenue - $previousMonthRevenue) / $previousMonthRevenue) * 100
             : 0;
 
         $totalOrders = Order::count();
@@ -39,8 +40,8 @@ class DashboardController extends AdminController
             ->whereYear('created_at', now()->subMonth()->year)
             ->count();
 
-        $ordersChange = $previousMonthOrders > 0 
-            ? (($monthlyOrders - $previousMonthOrders) / $previousMonthOrders) * 100 
+        $ordersChange = $previousMonthOrders > 0
+            ? (($monthlyOrders - $previousMonthOrders) / $previousMonthOrders) * 100
             : 0;
 
         $lowStockCount = Product::where('is_active', true)
@@ -61,12 +62,12 @@ class DashboardController extends AdminController
             DB::raw('YEAR(created_at) as year'),
             DB::raw('SUM(total_pkr) as total')
         )
-        ->where('status', '!=', 'cancelled')
-        ->where('created_at', '>=', now()->subMonths(11))
-        ->groupBy('year', 'month')
-        ->orderBy('year')
-        ->orderBy('month')
-        ->get();
+            ->where('status', '!=', 'cancelled')
+            ->where('created_at', '>=', now()->subMonths(11))
+            ->groupBy('year', 'month')
+            ->orderBy('year')
+            ->orderBy('month')
+            ->get();
 
         // Order status distribution
         $orderStatusData = Order::select('status', DB::raw('count(*) as count'))

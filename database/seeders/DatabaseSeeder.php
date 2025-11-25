@@ -17,13 +17,22 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             AdminUserSeeder::class,
+            CategorySeeder::class,
+            ProductSeeder::class,
+            CouponSeeder::class,
+            PageSeeder::class,
+            CustomerSeeder::class,
+            PlaceholderImageSeeder::class,
+            OrderSeeder::class,
         ]);
 
-        // User::factory(10)->create();
-
+        // Create test customer user
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'Test Customer',
+            'email' => 'customer@example.com',
+            'role' => 'customer',
+            'is_active' => true,
+            'email_verified_at' => now(),
         ]);
     }
 }

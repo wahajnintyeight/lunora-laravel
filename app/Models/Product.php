@@ -68,6 +68,20 @@ class Product extends Model
     }
 
     /**
+     * Get the featured image for the product.
+     */
+    public function getFeaturedImageAttribute(): ?string
+    {
+        $primaryImage = $this->images()->where('is_primary', true)->first();
+        if ($primaryImage) {
+            return $primaryImage->file_path;
+        }
+        
+        $firstImage = $this->images()->first();
+        return $firstImage ? $firstImage->file_path : null;
+    }
+
+    /**
      * Get the options for the product.
      */
     public function options(): HasMany

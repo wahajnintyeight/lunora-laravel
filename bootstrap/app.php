@@ -21,11 +21,22 @@ return Application::configure(basePath: dirname(__DIR__))
             'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
             'secure.session' => \App\Http\Middleware\SecureSession::class,
             'password.confirm' => \App\Http\Middleware\RequirePasswordConfirmation::class,
+            'input.sanitize' => \App\Http\Middleware\InputSanitizationMiddleware::class,
+            'file.security' => \App\Http\Middleware\FileUploadSecurityMiddleware::class,
+            'rate.limit' => \App\Http\Middleware\EnhancedRateLimitMiddleware::class,
+            'lazy.loading' => \App\Http\Middleware\LazyLoadingMiddleware::class,
         ]);
 
-        // Apply secure session middleware to web routes
+        // Apply security middleware to web routes
         $middleware->web(append: [
             \App\Http\Middleware\SecureSession::class,
+            \App\Http\Middleware\InputSanitizationMiddleware::class,
+            \App\Http\Middleware\LazyLoadingMiddleware::class,
+        ]);
+
+        // Apply CSRF protection
+        $middleware->validateCsrfTokens(except: [
+            // Add any routes that need to be excluded from CSRF protection
         ]);
 
         // Configure throttling for authentication routes

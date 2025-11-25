@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'log'),
+    'default' => env('MAIL_MAILER', 'smtp'),
 
     /*
     |--------------------------------------------------------------------------
@@ -42,11 +42,13 @@ return [
             'scheme' => env('MAIL_SCHEME'),
             'url' => env('MAIL_URL'),
             'host' => env('MAIL_HOST', '127.0.0.1'),
-            'port' => env('MAIL_PORT', 2525),
+            'port' => env('MAIL_PORT', 587),
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
-            'timeout' => null,
+            'timeout' => env('MAIL_TIMEOUT', 60),
             'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string) env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
+            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+            'verify_peer' => env('MAIL_VERIFY_PEER', true),
         ],
 
         'ses' => [
@@ -113,6 +115,56 @@ return [
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Email Queue Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Configure email queuing for better performance and reliability.
+    | Emails will be queued and processed in the background.
+    |
+    */
+
+    'queue' => [
+        'connection' => env('MAIL_QUEUE_CONNECTION', 'database'),
+        'queue' => env('MAIL_QUEUE', 'emails'),
+        'retry_after' => env('MAIL_QUEUE_RETRY_AFTER', 300), // 5 minutes
+        'max_tries' => env('MAIL_QUEUE_MAX_TRIES', 3),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Email Rate Limiting
+    |--------------------------------------------------------------------------
+    |
+    | Configure rate limiting for email sending to prevent abuse
+    | and comply with SMTP provider limits.
+    |
+    */
+
+    'rate_limiting' => [
+        'enabled' => env('MAIL_RATE_LIMITING_ENABLED', true),
+        'max_emails_per_minute' => env('MAIL_MAX_EMAILS_PER_MINUTE', 60),
+        'max_emails_per_hour' => env('MAIL_MAX_EMAILS_PER_HOUR', 1000),
+        'throttle_key' => env('MAIL_THROTTLE_KEY', 'mail_throttle'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Email Logging
+    |--------------------------------------------------------------------------
+    |
+    | Configure email logging for debugging and monitoring purposes.
+    |
+    */
+
+    'logging' => [
+        'enabled' => env('MAIL_LOGGING_ENABLED', true),
+        'channel' => env('MAIL_LOG_CHANNEL', 'mail'),
+        'log_successful' => env('MAIL_LOG_SUCCESSFUL', false),
+        'log_failed' => env('MAIL_LOG_FAILED', true),
     ],
 
 ];

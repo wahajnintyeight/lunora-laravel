@@ -5,20 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductOption;
+use App\Services\CacheService;
+use App\Services\PerformanceOptimizationService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Database\Eloquent\Builder;
 
 class ProductController extends Controller
 {
+    public function __construct(
+        protected CacheService $cacheService,
+        protected PerformanceOptimizationService $performanceService
+    ) {}
     /**
      * Display a listing of products with filtering and search.
      */
     public function index(Request $request): View
     {
-        $query = Product::with(['images', 'category', 'variants'])
-            ->where('is_active', true)
-            ->where('stock', '>', 0);
+        $query = Product::query()->where('is_active', true)->where('stock', '>', 0);
+        
+        // Apply performance optimizations
+        $query = $this->performanceService->optimizeProductQuery($query);
 
         // Apply category filter
         if ($request->filled('category')) {
@@ -83,20 +90,11 @@ class ProductController extends Controller
                 break;
         }
 
-        // Paginate results
-        $products = $query->paginate(12)->withQueryString();
+        // Use efficient pagination for better performance
+        $products = $this->performanceService->createEfficientPagination($query, $request, 12);
 
-        // Get filter options for sidebar
-        $categories = Category::whereNull('parent_id')
-            ->where('is_active', true)
-            ->whereHas('products', function ($query) {
-                $query->where('is_active', true)->where('stock', '>', 0);
-            })
-            ->withCount(['products' => function ($query) {
-                $query->where('is_active', true)->where('stock', '>', 0);
-            }])
-            ->orderBy('name')
-            ->get();
+        // Get cached categories for better performance
+        $categories = $this->cacheService->getCategoriesWithHierarchy();
 
         $materials = Product::where('is_active', true)
             ->where('stock', '>', 0)
@@ -134,22 +132,14 @@ class ProductController extends Controller
      */
     public function show(Product $product): View
     {
-        // Check if product is active and in stock
-        if (!$product->is_active || $product->stock <= 0) {
+        // Use cached product data for better performance
+        $cachedProduct = $this->cacheService->getProductWithRelations($product->slug);
+        
+        if (!$cachedProduct || !$cachedProduct->is_active || $cachedProduct->stock <= 0) {
             abort(404);
         }
-
-        // Load relationships
-        $product->load([
-            'images' => function ($query) {
-                $query->orderBy('sort_order')->orderBy('id');
-            },
-            'category',
-            'options.values',
-            'variants' => function ($query) {
-                $query->where('is_active', true)->where('stock', '>', 0);
-            }
-        ]);
+        
+        $product = $cachedProduct;
 
         // Get related products from the same category
         $relatedProducts = Product::with(['images', 'category'])
@@ -193,32 +183,13 @@ class ProductController extends Controller
             return redirect()->route('products.index');
         }
 
-        $query = Product::with(['images', 'category'])
-            ->where('is_active', true)
-            ->where('stock', '>', 0);
-
-        // Search in multiple fields
-        $searchTermLower = strtolower($searchTerm);
-        $query->where(function (Builder $q) use ($searchTermLower) {
-            $q->whereRaw('LOWER(name) LIKE ?', ["%{$searchTermLower}%"])
-              ->orWhereRaw('LOWER(description) LIKE ?', ["%{$searchTermLower}%"])
-              ->orWhereRaw('LOWER(sku) LIKE ?', ["%{$searchTermLower}%"])
-              ->orWhereRaw('LOWER(material) LIKE ?', ["%{$searchTermLower}%"])
-              ->orWhereRaw('LOWER(brand) LIKE ?', ["%{$searchTermLower}%"]);
-        });
-
-        // Order by relevance (exact matches first, then partial matches)
-        $query->orderByRaw("
-            CASE 
-                WHEN name = ? THEN 1
-                WHEN name LIKE ? THEN 2
-                WHEN description LIKE ? THEN 3
-                WHEN sku LIKE ? THEN 4
-                ELSE 5
-            END
-        ", [$searchTerm, "{$searchTerm}%", "%{$searchTerm}%", "%{$searchTerm}%"]);
-
-        $products = $query->paginate(12)->withQueryString();
+        // Use cached search results for better performance
+        $page = $request->get('page', 1);
+        $searchResults = $this->cacheService->getSearchResults($searchTerm, $page, 12);
+        
+        $products = $searchResults['products'];
+        $total = $searchResults['total'];
+        $hasMore = $searchResults['has_more'];
 
         // Get search suggestions if no results found
         $suggestions = [];

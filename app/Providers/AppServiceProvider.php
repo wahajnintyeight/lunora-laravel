@@ -6,6 +6,11 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Mail\Events\MessageSending;
+use Illuminate\Mail\Events\MessageSent;
+use App\Listeners\EmailSendingListener;
+use App\Listeners\EmailSentListener;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureRateLimiting();
+        $this->configureEmailEvents();
     }
 
     /**
@@ -70,5 +76,14 @@ class AppServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
+    }
+
+    /**
+     * Configure email event listeners.
+     */
+    protected function configureEmailEvents(): void
+    {
+        Event::listen(MessageSending::class, EmailSendingListener::class);
+        Event::listen(MessageSent::class, EmailSentListener::class);
     }
 }
