@@ -5,7 +5,8 @@
     <!-- Required Meta Tags Always Come First -->
     <meta charset="utf-8">
     <meta name="robots" content="max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, viewport-fit=cover">
     <meta name="description" content="@yield('meta_description', 'Lunora - Premium Jewelry eCommerce Platform')">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="search-suggestions-endpoint" content="{{ route('products.suggestions') }}">
@@ -48,7 +49,7 @@
 
     <!-- Preline UI JavaScript -->
     <script src="{{ asset('vendor/preline/dist/index.js') }}"></script>
-    
+
     <!-- Preline UI CDN Fallback -->
     <script>
         // Check if Preline UI loaded, if not load from CDN
@@ -68,46 +69,66 @@
     <script>
         // Initialize Preline UI components after DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize Preline UI
-            if (typeof window.HSStaticMethods !== 'undefined') {
-                window.HSStaticMethods.autoInit();
+            try {
+                // Initialize Preline UI
+                if (typeof window.HSStaticMethods !== 'undefined') {
+                    window.HSStaticMethods.autoInit();
+                }
+            } catch (error) {
+                console.warn('Error initializing Preline UI:', error);
             }
-            
+
             // Force re-initialization for dropdowns specifically
             setTimeout(() => {
-                if (typeof window.HSDropdown !== 'undefined') {
-                    window.HSDropdown.autoInit();
-                    
-                    // Force initialize all dropdown elements
-                    document.querySelectorAll('.hs-dropdown').forEach(dropdown => {
-                        try {
-                            new window.HSDropdown(dropdown);
-                        } catch (e) {
-                            // Ignore errors for already initialized dropdowns
-                        }
-                    });
+                try {
+                    if (typeof window.HSDropdown !== 'undefined') {
+                        window.HSDropdown.autoInit();
+
+                        // Force initialize all dropdown elements
+                        document.querySelectorAll('.hs-dropdown').forEach(dropdown => {
+                            try {
+                                if (dropdown && dropdown.getAttribute) {
+                                    new window.HSDropdown(dropdown);
+                                }
+                            } catch (e) {
+                                // Ignore errors for already initialized dropdowns
+                            }
+                        });
+                    }
+                } catch (error) {
+                    console.warn('Error initializing dropdowns:', error);
                 }
             }, 100);
         });
 
         // Re-initialize on window load for any late-loading elements
         window.addEventListener('load', () => {
-            if (typeof window.HSStaticMethods !== 'undefined') {
-                window.HSStaticMethods.autoInit();
+            try {
+                if (typeof window.HSStaticMethods !== 'undefined') {
+                    window.HSStaticMethods.autoInit();
+                }
+            } catch (error) {
+                console.warn('Error reinitializing Preline UI on load:', error);
             }
-            
+
             // Additional initialization for specific components
-            if (typeof window.HSDropdown !== 'undefined') {
-                window.HSDropdown.autoInit();
-                
-                // Force initialize all dropdown elements again
-                document.querySelectorAll('.hs-dropdown').forEach(dropdown => {
-                    try {
-                        new window.HSDropdown(dropdown);
-                    } catch (e) {
-                        // Ignore errors for already initialized dropdowns
-                    }
-                });
+            try {
+                if (typeof window.HSDropdown !== 'undefined') {
+                    window.HSDropdown.autoInit();
+
+                    // Force initialize all dropdown elements again
+                    document.querySelectorAll('.hs-dropdown').forEach(dropdown => {
+                        try {
+                            if (dropdown && dropdown.getAttribute) {
+                                new window.HSDropdown(dropdown);
+                            }
+                        } catch (e) {
+                            // Ignore errors for already initialized dropdowns
+                        }
+                    });
+                }
+            } catch (error) {
+                console.warn('Error reinitializing dropdowns on load:', error);
             }
         });
 
@@ -159,23 +180,28 @@
 
         /* Mobile-first responsive design improvements */
         @media (max-width: 640px) {
+
             /* Ensure touch targets are at least 44px */
-            button, a, input[type="button"], input[type="submit"] {
+            button,
+            a,
+            input[type="button"],
+            input[type="submit"] {
                 min-height: 44px;
                 min-width: 44px;
             }
-            
+
             /* Improve text readability on mobile */
             body {
                 -webkit-text-size-adjust: 100%;
                 text-size-adjust: 100%;
             }
-            
+
             /* Prevent horizontal scroll */
-            html, body {
+            html,
+            body {
                 overflow-x: hidden;
             }
-            
+
             /* Safe area handling for notched devices */
             body {
                 padding-left: env(safe-area-inset-left);
@@ -224,7 +250,8 @@
 
 <body class="dark:bg-neutral-900 flex flex-col min-h-screen">
     <!-- Skip to main content for accessibility -->
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-emerald-600 text-white px-4 py-2 rounded-md z-50">
+    <a href="#main-content"
+        class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-[#f59e0b] text-white px-4 py-2 rounded-md z-50">
         Skip to main content
     </a>
 
@@ -250,33 +277,34 @@
         // Enhanced mobile support
         document.addEventListener('DOMContentLoaded', function() {
             // Detect mobile device
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator
+                .userAgent);
             if (isMobile) {
                 document.body.classList.add('mobile-device');
             }
-            
+
             // Handle viewport height on mobile (address bar issue)
             function setViewportHeight() {
                 const vh = window.innerHeight * 0.01;
                 document.documentElement.style.setProperty('--vh', `${vh}px`);
             }
-            
+
             setViewportHeight();
             window.addEventListener('resize', setViewportHeight);
             window.addEventListener('orientationchange', () => {
                 setTimeout(setViewportHeight, 100);
             });
-            
+
             // Prevent zoom on double tap for iOS
             let lastTouchEnd = 0;
-            document.addEventListener('touchend', function (event) {
+            document.addEventListener('touchend', function(event) {
                 const now = (new Date()).getTime();
                 if (now - lastTouchEnd <= 300) {
                     event.preventDefault();
                 }
                 lastTouchEnd = now;
             }, false);
-            
+
             // Enhanced performance for mobile
             if (isMobile) {
                 // Reduce animations on low-end devices
@@ -284,20 +312,23 @@
                 if (isLowEndDevice) {
                     document.body.classList.add('reduce-motion');
                 }
-                
+
                 // Optimize scroll performance
                 let ticking = false;
+
                 function updateScrollPosition() {
                     // Add scroll-based optimizations here
                     ticking = false;
                 }
-                
+
                 window.addEventListener('scroll', function() {
                     if (!ticking) {
                         requestAnimationFrame(updateScrollPosition);
                         ticking = true;
                     }
-                }, { passive: true });
+                }, {
+                    passive: true
+                });
             }
         });
     </script>

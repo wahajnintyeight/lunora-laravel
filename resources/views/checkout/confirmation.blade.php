@@ -20,26 +20,26 @@
         <div class="mb-8">
             <div class="flex items-center justify-center">
                 <div class="flex items-center">
-                    <div class="flex items-center text-emerald-600">
-                        <div class="w-8 h-8 bg-emerald-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
+                    <div class="flex items-center text-[#f59e0b]">
+                        <div class="w-8 h-8 bg-[#f59e0b] text-white rounded-full flex items-center justify-center text-sm font-medium">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                             </svg>
                         </div>
                         <span class="ml-2 text-sm font-medium">Cart</span>
                     </div>
-                    <div class="w-16 h-0.5 bg-emerald-600 mx-4"></div>
-                    <div class="flex items-center text-emerald-600">
-                        <div class="w-8 h-8 bg-emerald-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
+                    <div class="w-16 h-0.5 bg-[#f59e0b] mx-4"></div>
+                    <div class="flex items-center text-[#f59e0b]">
+                        <div class="w-8 h-8 bg-[#f59e0b] text-white rounded-full flex items-center justify-center text-sm font-medium">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                             </svg>
                         </div>
                         <span class="ml-2 text-sm font-medium">Checkout</span>
                     </div>
-                    <div class="w-16 h-0.5 bg-emerald-600 mx-4"></div>
-                    <div class="flex items-center text-emerald-600">
-                        <div class="w-8 h-8 bg-emerald-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
+                    <div class="w-16 h-0.5 bg-[#f59e0b] mx-4"></div>
+                    <div class="flex items-center text-[#f59e0b]">
+                        <div class="w-8 h-8 bg-[#f59e0b] text-white rounded-full flex items-center justify-center text-sm font-medium">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                             </svg>
@@ -231,7 +231,7 @@
                     <div class="mt-6 space-y-3">
                         @auth
                             <a href="{{ route('user.order-detail', $order->order_number) }}" 
-                               class="w-full bg-emerald-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 text-center block">
+                               class="w-full bg-[#f59e0b] text-white py-3 px-6 rounded-lg font-semibold hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 text-center block">
                                 View Order Details
                             </a>
                             

@@ -1,10 +1,10 @@
 <!-- Topbar -->
-<div class="bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-    <div class="max-w-[85rem] flex justify-between w-full mx-auto py-2.5 px-4 sm:px-6 lg:px-8">
+<div class="bg-[#450a0a] dark:bg-[#450a0a] border-b border-gold-600 dark:border-gold-700">
+    <div class="max-w-full flex justify-between items-center w-full py-2.5 px-4 sm:px-6 lg:px-8">
         <div class="flex items-center gap-x-5">
             <!-- improved button styling with better hover and focus states -->
             <button type="button" 
-                class="group inline-flex items-center gap-x-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:text-slate-400 dark:hover:text-slate-200 dark:focus:ring-offset-slate-900 transition-colors duration-150"
+                class="group inline-flex items-center gap-x-1.5 text-xs font-medium text-gold-200 hover:text-gold-100 focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 dark:text-gold-300 dark:hover:text-gold-100 dark:focus:ring-offset-maroon-950 transition-colors duration-150"
                 data-hs-overlay="#hs-pro-shmnlcm"
                 aria-label="Specify delivery address">
                 <svg class="shrink-0 size-3.5 group-hover:scale-110 transition-transform duration-150" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -18,9 +18,9 @@
 
         <!-- improved topbar links with better spacing and visual hierarchy -->
         <ul class="flex flex-wrap items-center gap-2 sm:gap-4">
-            <li class="inline-flex items-center relative text-xs text-slate-500 ps-2.5 sm:ps-3.5 first:ps-0 first:after:hidden after:absolute after:top-1/2 after:start-0 after:inline-block after:w-px after:h-2 after:bg-slate-300 after:rounded-full after:-translate-y-1/2 after:rotate-12 dark:text-slate-400 dark:after:bg-slate-700">
+            <li class="inline-flex items-center relative text-xs text-gold-300 ps-2.5 sm:ps-3.5 first:ps-0 first:after:hidden after:absolute after:top-1/2 after:start-0 after:inline-block after:w-px after:h-2 after:bg-[#f59e0b]-400 after:rounded-full after:-translate-y-1/2 after:rotate-12 dark:text-gold-400 dark:after:bg-[#f59e0b]">
                 <button type="button" 
-                    class="group inline-flex items-center gap-x-1 text-xs text-slate-600 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded focus:ring-offset-2 dark:text-slate-400 dark:hover:text-slate-200 dark:focus:ring-offset-slate-900 transition-colors duration-150 py-1 px-1.5"
+                    class="group inline-flex items-center gap-x-1 text-xs text-gold-200 hover:text-gold-100 focus:outline-none focus:ring-2 focus:ring-gold-500 rounded focus:ring-offset-2 dark:text-gold-300 dark:hover:text-gold-100 dark:focus:ring-offset-maroon-950 transition-colors duration-150 py-1 px-1.5"
                     data-hs-overlay="#hs-pro-shmnrsm"
                     aria-label="Language and currency settings">
                     <img class="shrink-0 size-3.5 rounded-full" src="{{ asset('images/flags/us.png') }}" alt="English">
@@ -28,12 +28,12 @@
                     <span class="sm:hidden">USD</span>
                 </button>
             </li>
-            <li class="hidden sm:inline-flex items-center relative text-xs text-slate-500 ps-3.5 first:ps-0 first:after:hidden after:absolute after:top-1/2 after:start-0 after:inline-block after:w-px after:h-2 after:bg-slate-300 after:rounded-full after:-translate-y-1/2 after:rotate-12 dark:text-slate-400 dark:after:bg-slate-700">
-                <a class="text-xs text-slate-600 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded focus:ring-offset-2 dark:text-slate-400 dark:hover:text-slate-200 dark:focus:ring-offset-slate-900 transition-colors duration-150 py-1 px-1.5" 
+            <li class="hidden sm:inline-flex items-center relative text-xs text-gold-300 ps-3.5 first:ps-0 first:after:hidden after:absolute after:top-1/2 after:start-0 after:inline-block after:w-px after:h-2 after:bg-[#f59e0b]-400 after:rounded-full after:-translate-y-1/2 after:rotate-12 dark:text-gold-400 dark:after:bg-[#f59e0b]">
+                <a class="text-xs text-gold-200 hover:text-gold-100 focus:outline-none focus:ring-2 focus:ring-gold-500 rounded focus:ring-offset-2 dark:text-gold-300 dark:hover:text-gold-100 dark:focus:ring-offset-maroon-950 transition-colors duration-150 py-1 px-1.5" 
                     href="#">Help</a>
             </li>
-            <li class="hidden sm:inline-flex items-center relative text-xs text-slate-500 ps-3.5 first:ps-0 first:after:hidden after:absolute after:top-1/2 after:start-0 after:inline-block after:w-px after:h-2 after:bg-slate-300 after:rounded-full after:-translate-y-1/2 after:rotate-12 dark:text-slate-400 dark:after:bg-slate-700">
-                <a class="text-xs text-slate-600 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded focus:ring-offset-2 dark:text-slate-400 dark:hover:text-slate-200 dark:focus:ring-offset-slate-900 transition-colors duration-150 py-1 px-1.5" 
+            <li class="hidden sm:inline-flex items-center relative text-xs text-gold-300 ps-3.5 first:ps-0 first:after:hidden after:absolute after:top-1/2 after:start-0 after:inline-block after:w-px after:h-2 after:bg-[#f59e0b]-400 after:rounded-full after:-translate-y-1/2 after:rotate-12 dark:text-gold-400 dark:after:bg-[#f59e0b]">
+                <a class="text-xs text-gold-200 hover:text-gold-100 focus:outline-none focus:ring-2 focus:ring-gold-500 rounded focus:ring-offset-2 dark:text-gold-300 dark:hover:text-gold-100 dark:focus:ring-offset-maroon-950 transition-colors duration-150 py-1 px-1.5" 
                     href="#">Mobile app</a>
             </li>
             <li class="hidden sm:inline-flex items-center ps-3.5 first:ps-0">

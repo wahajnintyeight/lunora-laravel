@@ -21,7 +21,7 @@
             <div class="mb-8 bg-emerald-50 border border-emerald-200 rounded-lg p-6">
                 <div class="flex items-start">
                     <div class="flex-shrink-0">
-                        <svg class="w-6 h-6 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+                        <svg class="w-6 h-6 text-[#f59e0b]" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
                         </svg>
                     </div>
@@ -31,7 +31,7 @@
                             Create an account to easily track your order status, view order history, and enjoy faster checkout for future purchases.
                         </p>
                         <a href="{{ route('register') }}" 
-                           class="inline-flex items-center px-4 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+                           class="inline-flex items-center px-4 py-2 bg-[#f59e0b] text-white font-semibold rounded-lg hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
                             Create Account
                         </a>
                     </div>
@@ -219,7 +219,7 @@
                     <!-- Action Buttons -->
                     <div class="mt-6 space-y-3">
                         <a href="{{ route('products.index') }}" 
-                           class="w-full bg-emerald-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 text-center block">
+                           class="w-full bg-[#f59e0b] text-white py-3 px-6 rounded-lg font-semibold hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 text-center block">
                             Continue Shopping
                         </a>
                         

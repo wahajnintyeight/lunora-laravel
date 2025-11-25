@@ -113,7 +113,7 @@
                     @endif
 
                     <div class="flex flex-col sm:flex-row gap-2">
-                        <button type="submit" class="flex-1 bg-emerald-600 text-white py-3 px-4 rounded-md hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 font-medium">
+                        <button type="submit" class="flex-1 bg-[#f59e0b] text-white py-3 px-4 rounded-md hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 font-medium">
                             Apply Filters
                         </button>
                         <a href="{{ route('products.index') }}" class="flex-1 bg-gray-200 text-gray-700 py-3 px-4 rounded-md text-center hover:bg-gray-300 font-medium">
@@ -134,7 +134,7 @@
                         {{ $products->total() }} {{ Str::plural('product', $products->total()) }} found
                         @if(request()->hasAny(['search', 'category', 'material', 'brand', 'min_price', 'max_price']))
                             <span class="text-sm">
-                                • <a href="{{ route('products.index') }}" class="text-emerald-600 hover:text-emerald-700">Clear filters</a>
+                                • <a href="{{ route('products.index') }}" class="text-[#f59e0b] hover:text-emerald-700">Clear filters</a>
                             </span>
                         @endif
                     </p>
@@ -170,7 +170,7 @@
                         @if(request('search'))
                             <span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 text-sm px-3 py-1 rounded-full">
                                 Search: "{{ request('search') }}"
-                                <a href="{{ request()->fullUrlWithQuery(['search' => null]) }}" class="text-emerald-600 hover:text-emerald-800">
+                                <a href="{{ request()->fullUrlWithQuery(['search' => null]) }}" class="text-[#f59e0b] hover:text-emerald-800">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                                     </svg>
@@ -252,7 +252,7 @@
                                 
                                 <!-- Product Info -->
                                 <div class="p-4">
-                                    <h3 class="font-semibold text-gray-900 mb-1 line-clamp-2 group-hover:text-emerald-600 transition-colors">
+                                    <h3 class="font-semibold text-gray-900 mb-1 line-clamp-2 group-hover:text-[#f59e0b] transition-colors">
                                         {{ $product->name }}
                                     </h3>
                                     <p class="text-sm text-gray-600 mb-3">{{ $product->category->name }}</p>
@@ -263,7 +263,7 @@
                                             @if($product->compare_at_price_pkr && $product->compare_at_price_pkr > $product->price_pkr)
                                                 <p class="text-sm text-gray-500 line-through">PKR {{ number_format($product->compare_at_price_pkr / 100, 2) }}</p>
                                             @endif
-                                            <p class="text-emerald-600 font-bold text-lg">PKR {{ number_format($product->price_pkr / 100, 2) }}</p>
+                                            <p class="text-[#f59e0b] font-bold text-lg">PKR {{ number_format($product->price_pkr / 100, 2) }}</p>
                                         </div>
                                         
                                         <!-- Badges -->
@@ -306,7 +306,7 @@
                         <h3 class="mt-2 text-sm font-medium text-gray-900">No products found</h3>
                         <p class="mt-1 text-sm text-gray-500">Try adjusting your search or filter criteria.</p>
                         <div class="mt-6">
-                            <a href="{{ route('products.index') }}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700">
+                            <a href="{{ route('products.index') }}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#f59e0b] hover:bg-emerald-700">
                                 View All Products
                             </a>
                         </div>

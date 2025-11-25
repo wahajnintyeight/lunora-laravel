@@ -253,22 +253,27 @@ class MobileFormEnhancer {
     }
 
     addLoadingStates() {
-        // Add loading states to forms
-        document.querySelectorAll('form').forEach(form => {
-            form.addEventListener('submit', () => {
+        // Add loading states to forms (only if not already handled by other scripts)
+        document.querySelectorAll('form:not([data-loading-handled])').forEach(form => {
+            // Mark form as handled to prevent duplicate listeners
+            form.setAttribute('data-loading-handled', 'true');
+            
+            form.addEventListener('submit', (e) => {
                 const submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
-                if (submitButton) {
+                if (submitButton && !submitButton.hasAttribute('data-loading')) {
+                    // Mark button as loading to prevent duplicate spinners
+                    submitButton.setAttribute('data-loading', 'true');
                     submitButton.classList.add('loading');
                     submitButton.disabled = true;
 
                     // Add spinner if not present
-                    if (!submitButton.querySelector('.spinner')) {
+                    if (!submitButton.querySelector('.spinner, .animate-spin')) {
                         const spinner = document.createElement('span');
                         spinner.className = 'spinner inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2';
                         submitButton.insertBefore(spinner, submitButton.firstChild);
                     }
                 }
-            });
+            }, { once: true }); // Use once option to prevent duplicate listeners
         });
     }
 }

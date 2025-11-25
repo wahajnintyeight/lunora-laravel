@@ -561,9 +561,13 @@
             // Handle form submission loading states
             const forms = document.querySelectorAll('form');
             forms.forEach(form => {
-                form.addEventListener('submit', function() {
+                // Mark form as handled to prevent duplicate handlers from app.js
+                form.setAttribute('data-loading-handled', 'true');
+                
+                form.addEventListener('submit', function(e) {
                     const submitButton = form.querySelector('button[type="submit"]');
-                    if (submitButton) {
+                    if (submitButton && !submitButton.hasAttribute('data-loading')) {
+                        submitButton.setAttribute('data-loading', 'true');
                         submitButton.disabled = true;
                         const originalText = submitButton.textContent;
                         submitButton.innerHTML = `
@@ -579,10 +583,11 @@
                             if (submitButton.disabled) {
                                 submitButton.disabled = false;
                                 submitButton.textContent = originalText;
+                                submitButton.removeAttribute('data-loading');
                             }
                         }, 10000);
                     }
-                });
+                }, { once: true });
             });
 
             // Enhanced touch feedback

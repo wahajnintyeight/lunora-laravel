@@ -22,7 +22,7 @@
                     <div class="p-6 sm:p-8">
                         <div class="flex items-start justify-between mb-4">
                             <div class="flex-1">
-                                <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-2 group-hover:text-emerald-600 transition-colors">
+                                <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-2 group-hover:text-[#f59e0b] transition-colors">
                                     {{ $category->name }}
                                 </h3>
                                 @if($category->description)
@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                             <div class="ml-4">
-                                <svg class="w-6 h-6 text-emerald-600 group-hover:text-emerald-700 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-6 h-6 text-[#f59e0b] group-hover:text-emerald-700 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                                 </svg>
                             </div>
@@ -65,7 +65,7 @@
                         
                         <!-- Action Button -->
                         <a href="{{ route('category.show', $category->slug) }}" 
-                           class="inline-flex items-center justify-center w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors group-hover:bg-emerald-700">
+                           class="inline-flex items-center justify-center w-full bg-[#f59e0b] hover:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors group-hover:bg-emerald-700">
                             <span>Explore {{ $category->name }}</span>
                             <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -85,7 +85,7 @@
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
                     <a href="{{ route('products.index') }}" 
-                       class="inline-flex items-center justify-center bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors">
+                       class="inline-flex items-center justify-center bg-[#f59e0b] hover:bg-emerald-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
                         </svg>
@@ -111,7 +111,7 @@
                 <h3 class="text-lg font-medium text-gray-900 mb-2">No categories available</h3>
                 <p class="text-gray-600 mb-6">Categories are being set up. Please check back soon!</p>
                 <a href="{{ route('home') }}" 
-                   class="inline-flex items-center justify-center bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors">
+                   class="inline-flex items-center justify-center bg-[#f59e0b] hover:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors">
                     Return Home
                 </a>
             </div>

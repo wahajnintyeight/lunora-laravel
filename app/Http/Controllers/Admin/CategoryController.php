@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class CategoryController extends AdminController
@@ -63,18 +64,38 @@ class CategoryController extends AdminController
 
     public function store(Request $request)
     {
-        $request->validate([
+        $rules = [
             'name' => 'required|string|max:255',
             'parent_id' => 'nullable|exists:categories,id',
             'description' => 'nullable|string',
+            'image_url' => 'nullable|url',
             'is_active' => 'boolean',
-        ]);
+        ];
+
+        // Only validate image if it's present
+        if ($request->hasFile('image')) {
+            $rules['image'] = 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
+        }
+
+        $request->validate($rules);
+
+        $imageUrl = null;
+
+        // Handle file upload
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $path = $file->store('categories', 'public');
+            $imageUrl = 'storage/' . $path;
+        } elseif ($request->filled('image_url')) {
+            $imageUrl = $request->image_url;
+        }
 
         $category = Category::create([
             'name' => $request->name,
             'slug' => Str::slug($request->name),
             'parent_id' => $request->parent_id,
             'description' => $request->description,
+            'image_url' => $imageUrl,
             'is_active' => $request->boolean('is_active', true),
         ]);
 
@@ -101,18 +122,43 @@ class CategoryController extends AdminController
 
     public function update(Request $request, Category $category)
     {
-        $request->validate([
+        $rules = [
             'name' => 'required|string|max:255',
             'parent_id' => 'nullable|exists:categories,id',
             'description' => 'nullable|string',
+            'image_url' => 'nullable|url',
             'is_active' => 'boolean',
-        ]);
+        ];
+
+        // Only validate image if it's present
+        if ($request->hasFile('image')) {
+            $rules['image'] = 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
+        }
+
+        $request->validate($rules);
+
+        $imageUrl = $category->image_url;
+
+        // Handle file upload
+        if ($request->hasFile('image')) {
+            // Delete old image if it exists and is a local file
+            if ($category->image_url && str_starts_with($category->image_url, 'storage/')) {
+                \Storage::disk('public')->delete(str_replace('storage/', '', $category->image_url));
+            }
+            
+            $file = $request->file('image');
+            $path = $file->store('categories', 'public');
+            $imageUrl = 'storage/' . $path;
+        } elseif ($request->filled('image_url')) {
+            $imageUrl = $request->image_url;
+        }
 
         $category->update([
             'name' => $request->name,
             'slug' => Str::slug($request->name),
             'parent_id' => $request->parent_id,
             'description' => $request->description,
+            'image_url' => $imageUrl,
             'is_active' => $request->boolean('is_active', true),
         ]);
 

@@ -16,7 +16,7 @@
             <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
                 <div class="flex items-center">
                     <div class="flex-shrink-0">
-                        <svg class="h-8 w-8 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+                        <svg class="h-8 w-8 text-[#450a0a]" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
                         </svg>
                     </div>
@@ -58,7 +58,7 @@
             <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
                 <div class="flex items-center">
                     <div class="flex-shrink-0">
-                        <svg class="h-8 w-8 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <svg class="h-8 w-8 text-[#450a0a]" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                         </svg>
                     </div>
@@ -99,7 +99,7 @@
                 </a>
 
                 <a href="{{ route('products.index') }}" 
-                   class="flex items-center justify-center px-4 py-3 min-h-[44px] bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors touch-target">
+                   class="flex items-center justify-center px-4 py-3 min-h-[44px] bg-[#450a0a] text-white rounded-lg hover:bg-[#450a0a] transition-colors touch-target">
                     <svg class="h-5 w-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zM8 6V5a2 2 0 114 0v1H8zm2 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
                     </svg>
@@ -114,7 +114,7 @@
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
                 <h2 class="text-lg font-semibold text-gray-900 mb-2 sm:mb-0">Recent Orders</h2>
                 <a href="{{ route('user.orders') }}" 
-                   class="text-sm font-medium text-emerald-600 hover:text-emerald-500 touch-target">
+                   class="text-sm font-medium text-[#450a0a] hover:text-gold-500 touch-target">
                     View all orders →
                 </a>
             </div>
@@ -142,7 +142,7 @@
                                 </span>
                                 <span class="text-sm font-medium text-gray-900">PKR {{ number_format($order->total_pkr / 100, 2) }}</span>
                                 <a href="{{ route('user.order-detail', $order->order_number) }}" 
-                                   class="text-sm font-medium text-emerald-600 hover:text-emerald-500 touch-target">
+                                   class="text-sm font-medium text-[#450a0a] hover:text-gold-500 touch-target">
                                     View Details
                                 </a>
                             </div>
@@ -161,7 +161,7 @@
             <p class="mt-1 text-sm text-gray-500">Start shopping to see your orders here.</p>
             <div class="mt-6">
                 <a href="{{ route('products.index') }}" 
-                   class="inline-flex items-center px-6 py-3 min-h-[44px] border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 transition-colors touch-target">
+                   class="inline-flex items-center px-6 py-3 min-h-[44px] border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-[#450a0a] hover:bg-[#450a0a] transition-colors touch-target">
                     <svg class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zM8 6V5a2 2 0 114 0v1H8zm2 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
                     </svg>

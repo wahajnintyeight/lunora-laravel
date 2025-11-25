@@ -37,7 +37,7 @@
                                        name="name" 
                                        value="{{ old('name', $user->name) }}"
                                        required
-                                       class="w-full border border-gray-300 rounded-md px-4 py-3 text-base min-h-[44px] focus:ring-emerald-500 focus:border-emerald-500 @error('name') border-red-500 @enderror">
+                                       class="w-full border border-gray-300 rounded-md px-4 py-3 text-base min-h-[44px] focus:ring-gold-500 focus:border-gold-500 @error('name') border-red-500 @enderror">
                                 @error('name')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
@@ -52,7 +52,7 @@
                                        name="email" 
                                        value="{{ old('email', $user->email) }}"
                                        required
-                                       class="w-full border border-gray-300 rounded-md px-4 py-3 text-base min-h-[44px] focus:ring-emerald-500 focus:border-emerald-500 @error('email') border-red-500 @enderror">
+                                       class="w-full border border-gray-300 rounded-md px-4 py-3 text-base min-h-[44px] focus:ring-gold-500 focus:border-gold-500 @error('email') border-red-500 @enderror">
                                 @error('email')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
@@ -82,7 +82,7 @@
 
                         <div class="mt-6">
                             <button type="submit" 
-                                    class="bg-emerald-600 text-white px-6 py-3 min-h-[44px] rounded-md hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-colors touch-target">
+                                    class="bg-[#450a0a] text-white px-6 py-3 min-h-[44px] rounded-md hover:bg-[#450a0a] focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 transition-colors touch-target">
                                 Update Profile
                             </button>
                         </div>
@@ -106,7 +106,7 @@
                                        id="current_password" 
                                        name="current_password" 
                                        required
-                                       class="w-full border border-gray-300 rounded-md px-4 py-3 text-base min-h-[44px] focus:ring-emerald-500 focus:border-emerald-500 @error('current_password') border-red-500 @enderror">
+                                       class="w-full border border-gray-300 rounded-md px-4 py-3 text-base min-h-[44px] focus:ring-gold-500 focus:border-gold-500 @error('current_password') border-red-500 @enderror">
                                 @error('current_password')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
@@ -120,7 +120,7 @@
                                        id="password" 
                                        name="password" 
                                        required
-                                       class="w-full border border-gray-300 rounded-md px-4 py-3 text-base min-h-[44px] focus:ring-emerald-500 focus:border-emerald-500 @error('password') border-red-500 @enderror">
+                                       class="w-full border border-gray-300 rounded-md px-4 py-3 text-base min-h-[44px] focus:ring-gold-500 focus:border-gold-500 @error('password') border-red-500 @enderror">
                                 @error('password')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
@@ -137,13 +137,13 @@
                                        id="password_confirmation" 
                                        name="password_confirmation" 
                                        required
-                                       class="w-full border border-gray-300 rounded-md px-4 py-3 text-base min-h-[44px] focus:ring-emerald-500 focus:border-emerald-500">
+                                       class="w-full border border-gray-300 rounded-md px-4 py-3 text-base min-h-[44px] focus:ring-gold-500 focus:border-gold-500">
                             </div>
                         </div>
 
                         <div class="mt-6">
                             <button type="submit" 
-                                    class="bg-emerald-600 text-white px-6 py-3 min-h-[44px] rounded-md hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-colors touch-target">
+                                    class="bg-[#450a0a] text-white px-6 py-3 min-h-[44px] rounded-md hover:bg-[#450a0a] focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 transition-colors touch-target">
                                 Update Password
                             </button>
                         </div>
@@ -156,19 +156,19 @@
                     
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         <div class="text-center p-4 bg-gray-50 rounded-lg">
-                            <div class="text-xl sm:text-2xl font-bold text-emerald-600">{{ $user->orders->count() }}</div>
+                            <div class="text-xl sm:text-2xl font-bold text-[#450a0a]">{{ $user->orders->count() }}</div>
                             <div class="text-sm text-gray-600">Total Orders</div>
                         </div>
                         
                         <div class="text-center p-4 bg-gray-50 rounded-lg">
-                            <div class="text-xl sm:text-2xl font-bold text-emerald-600">
+                            <div class="text-xl sm:text-2xl font-bold text-[#450a0a]">
                                 PKR {{ number_format($user->orders->sum('total_pkr') / 100, 2) }}
                             </div>
                             <div class="text-sm text-gray-600">Total Spent</div>
                         </div>
                         
                         <div class="text-center p-4 bg-gray-50 rounded-lg">
-                            <div class="text-xl sm:text-2xl font-bold text-emerald-600">
+                            <div class="text-xl sm:text-2xl font-bold text-maroon-600">
                                 {{ $user->orders->where('status', 'pending')->count() }}
                             </div>
                             <div class="text-sm text-gray-600">Pending Orders</div>

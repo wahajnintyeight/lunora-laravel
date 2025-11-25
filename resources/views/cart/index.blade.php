@@ -71,7 +71,7 @@
                                         <div class="flex items-start justify-between">
                                             <div>
                                                 <h3 class="text-lg font-medium text-gray-900">
-                                                    <a href="{{ route('products.show', $item->product->slug) }}" class="hover:text-emerald-600">
+                                                    <a href="{{ route('products.show', $item->product->slug) }}" class="hover:text-[#f59e0b]">
                                                         {{ $item->product->name }}
                                                     </a>
                                                 </h3>
@@ -108,7 +108,7 @@
                                                 <div class="mt-3">
                                                     <button type="button" 
                                                             onclick="toggleCustomization({{ $item->id }})"
-                                                            class="text-sm text-emerald-600 hover:text-emerald-700 font-medium">
+                                                            class="text-sm text-[#f59e0b] hover:text-emerald-700 font-medium">
                                                         <svg class="w-4 h-4 inline mr-1" fill="currentColor" viewBox="0 0 20 20">
                                                             <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/>
                                                         </svg>
@@ -187,7 +187,7 @@
                                                             <!-- Action Buttons -->
                                                             <div class="flex space-x-3">
                                                                 <button type="submit" 
-                                                                        class="px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded-md hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+                                                                        class="px-4 py-2 bg-[#f59e0b] text-white text-sm font-medium rounded-md hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
                                                                     Save Customization
                                                                 </button>
                                                                 <button type="button" 
@@ -265,7 +265,7 @@
                 <!-- Continue Shopping -->
                 <div class="mt-6">
                     <a href="{{ route('products.index') }}" 
-                       class="inline-flex items-center text-emerald-600 hover:text-emerald-700 font-medium">
+                       class="inline-flex items-center text-[#f59e0b] hover:text-emerald-700 font-medium">
                         <svg class="mr-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/>
                         </svg>
@@ -303,7 +303,7 @@
                                         </button>
                                     @else
                                         <button type="submit" 
-                                                class="bg-emerald-600 text-white px-4 py-2 rounded-r-md hover:bg-emerald-700">
+                                                class="bg-[#f59e0b] text-white px-4 py-2 rounded-r-md hover:bg-emerald-700">
                                             Apply
                                         </button>
                                     @endif
@@ -341,7 +341,7 @@
                     <!-- Checkout Button - Mobile Optimized -->
                     <div class="mt-6">
                         <a href="{{ route('checkout.index') }}" 
-                           class="touch-target w-full bg-emerald-600 text-white py-4 sm:py-3 px-6 rounded-lg font-semibold hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 text-center block text-base sm:text-sm transition-colors duration-200"
+                           class="touch-target w-full bg-[#f59e0b] text-white py-4 sm:py-3 px-6 rounded-lg font-semibold hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 text-center block text-base sm:text-sm transition-colors duration-200"
                            data-checkout-button>
                             Proceed to Checkout
                         </a>
@@ -371,7 +371,7 @@
                 <p class="mt-1 text-sm text-gray-500">Start adding some items to your cart to continue shopping.</p>
                 <div class="mt-6">
                     <a href="{{ route('products.index') }}" 
-                       class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700">
+                       class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#f59e0b] hover:bg-emerald-700">
                         <svg class="mr-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zM8 6V5a2 2 0 114 0v1H8zm2 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
                         </svg>
@@ -551,7 +551,7 @@ function removeCoupon() {
                                placeholder="Enter coupon code"
                                class="flex-1 border border-gray-300 rounded-l-md px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500">
                         <button type="submit" 
-                                class="bg-emerald-600 text-white px-4 py-2 rounded-r-md hover:bg-emerald-700">
+                                class="bg-[#f59e0b] text-white px-4 py-2 rounded-r-md hover:bg-emerald-700">
                             Apply
                         </button>
                     </div>

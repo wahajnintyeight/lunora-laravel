@@ -179,11 +179,51 @@
                         </div>
                     @endif
 
-                    <!-- Upload New Images -->
-                    <div>
-                        <label for="images" class="block text-sm font-medium mb-2 dark:text-white">Add New Images</label>
-                        <input type="file" id="images" name="images[]" multiple accept="image/*" class="block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 file:bg-gray-50 file:border-0 file:me-4 file:py-3 file:px-4 dark:file:bg-neutral-700 dark:file:text-neutral-400">
-                        <p class="mt-2 text-sm text-gray-500 dark:text-neutral-500">Upload JPEG, PNG, or WebP images. Maximum 2MB per image.</p>
+                    <!-- Add New Images -->
+                    <div class="space-y-4">
+                        <!-- Image Input Method Toggle -->
+                        <div>
+                            <label class="block text-sm font-medium mb-3 dark:text-white">Add New Images</label>
+                            <div class="flex gap-4 mb-4">
+                                <label class="flex items-center">
+                                    <input type="radio" name="image_input_method" value="upload" checked class="shrink-0 mt-0.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
+                                    <span class="text-sm text-gray-500 ms-2 dark:text-neutral-400">File Upload</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="image_input_method" value="url" class="shrink-0 mt-0.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
+                                    <span class="text-sm text-gray-500 ms-2 dark:text-neutral-400">Image URLs</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- File Upload Section -->
+                        <div id="upload-section">
+                            <input type="file" id="images" name="images[]" multiple accept="image/*" class="block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 file:bg-gray-50 file:border-0 file:me-4 file:py-3 file:px-4 dark:file:bg-neutral-700 dark:file:text-neutral-400">
+                            <p class="mt-2 text-sm text-gray-500 dark:text-neutral-500">Upload JPEG, PNG, or WebP images. Maximum 2MB per image.</p>
+                        </div>
+
+                        <!-- URL Input Section -->
+                        <div id="url-section" class="hidden">
+                            <div id="image-urls-container">
+                                <div class="image-url-input flex gap-2 mb-2">
+                                    <input type="url" name="image_urls[]" placeholder="https://example.com/image.jpg" class="flex-1 py-2 px-3 border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
+                                    <button type="button" class="remove-url-btn py-2 px-3 text-sm font-medium text-red-600 border border-red-200 rounded-lg hover:bg-red-50 focus:outline-none focus:bg-red-50 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-900/20 dark:focus:bg-red-900/20" style="display: none;">
+                                        Remove
+                                    </button>
+                                </div>
+                            </div>
+                            <button type="button" id="add-url-btn" class="mt-2 py-2 px-3 text-sm font-medium text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-50 focus:outline-none focus:bg-blue-50 dark:border-blue-700 dark:text-blue-400 dark:hover:bg-blue-900/20 dark:focus:bg-blue-900/20">
+                                Add Another URL
+                            </button>
+                            <p class="mt-2 text-sm text-gray-500 dark:text-neutral-500">
+                                Enter direct URLs to images. Supported formats: JPEG, PNG, WebP, GIF.
+                            </p>
+                            @if($errors->has('image_urls.*'))
+                                @foreach($errors->get('image_urls.*') as $error)
+                                    <p class="text-sm text-red-600 mt-2">{{ $error[0] }}</p>
+                                @endforeach
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -277,6 +317,12 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const existingImages = document.getElementById('existing-images');
+    const uploadRadio = document.querySelector('input[name="image_input_method"][value="upload"]');
+    const urlRadio = document.querySelector('input[name="image_input_method"][value="url"]');
+    const uploadSection = document.getElementById('upload-section');
+    const urlSection = document.getElementById('url-section');
+    const addUrlBtn = document.getElementById('add-url-btn');
+    const urlContainer = document.getElementById('image-urls-container');
     
     // Make images sortable
     if (existingImages) {
@@ -285,6 +331,59 @@ document.addEventListener('DOMContentLoaded', function() {
             ghostClass: 'sortable-ghost',
             onEnd: function(evt) {
                 updateImageOrder();
+            }
+        });
+    }
+
+    // Toggle between upload and URL sections
+    function toggleImageInputMethod() {
+        if (uploadRadio.checked) {
+            uploadSection.classList.remove('hidden');
+            urlSection.classList.add('hidden');
+            // Clear URL inputs when switching to upload
+            urlContainer.querySelectorAll('input[name="image_urls[]"]').forEach(input => input.value = '');
+        } else {
+            uploadSection.classList.add('hidden');
+            urlSection.classList.remove('hidden');
+            // Clear file input when switching to URL
+            document.getElementById('images').value = '';
+        }
+    }
+
+    uploadRadio.addEventListener('change', toggleImageInputMethod);
+    urlRadio.addEventListener('change', toggleImageInputMethod);
+
+    // Add new URL input
+    addUrlBtn.addEventListener('click', function() {
+        const newInput = document.createElement('div');
+        newInput.className = 'image-url-input flex gap-2 mb-2';
+        newInput.innerHTML = `
+            <input type="url" name="image_urls[]" placeholder="https://example.com/image.jpg" class="flex-1 py-2 px-3 border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
+            <button type="button" class="remove-url-btn py-2 px-3 text-sm font-medium text-red-600 border border-red-200 rounded-lg hover:bg-red-50 focus:outline-none focus:bg-red-50 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-900/20 dark:focus:bg-red-900/20">
+                Remove
+            </button>
+        `;
+        urlContainer.appendChild(newInput);
+        updateRemoveButtons();
+    });
+
+    // Remove URL input
+    urlContainer.addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-url-btn')) {
+            e.target.closest('.image-url-input').remove();
+            updateRemoveButtons();
+        }
+    });
+
+    // Show/hide remove buttons based on number of inputs
+    function updateRemoveButtons() {
+        const inputs = urlContainer.querySelectorAll('.image-url-input');
+        inputs.forEach((input, index) => {
+            const removeBtn = input.querySelector('.remove-url-btn');
+            if (inputs.length > 1) {
+                removeBtn.style.display = 'block';
+            } else {
+                removeBtn.style.display = 'none';
             }
         });
     }
@@ -348,6 +447,9 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error updating image order:', error);
         });
     }
+
+    // Initial setup
+    updateRemoveButtons();
 });
 </script>
 

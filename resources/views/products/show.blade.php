@@ -7,11 +7,11 @@
     <!-- Breadcrumbs -->
     <nav class="mb-6">
         <ol class="flex items-center space-x-2 text-sm">
-            <li><a href="{{ route('home') }}" class="text-emerald-600 hover:text-emerald-700">Home</a></li>
+            <li><a href="{{ route('home') }}" class="text-[#f59e0b] hover:text-emerald-700">Home</a></li>
             <li class="text-gray-400">/</li>
-            <li><a href="{{ route('products.index') }}" class="text-emerald-600 hover:text-emerald-700">Products</a></li>
+            <li><a href="{{ route('products.index') }}" class="text-[#f59e0b] hover:text-emerald-700">Products</a></li>
             <li class="text-gray-400">/</li>
-            <li><a href="{{ route('category.show', $product->category->slug) }}" class="text-emerald-600 hover:text-emerald-700">{{ $product->category->name }}</a></li>
+            <li><a href="{{ route('category.show', $product->category->slug) }}" class="text-[#f59e0b] hover:text-emerald-700">{{ $product->category->name }}</a></li>
             <li class="text-gray-400">/</li>
             <li class="text-gray-500">{{ $product->name }}</li>
         </ol>
@@ -63,7 +63,7 @@
                 @if($product->compare_at_price_pkr && $product->compare_at_price_pkr > $product->price_pkr)
                     <p class="text-lg text-gray-500 line-through">PKR {{ number_format($product->compare_at_price_pkr / 100, 2) }}</p>
                 @endif
-                <p id="current-price" class="text-3xl text-emerald-600 font-bold">PKR {{ number_format($product->price_pkr / 100, 2) }}</p>
+                <p id="current-price" class="text-3xl text-[#f59e0b] font-bold">PKR {{ number_format($product->price_pkr / 100, 2) }}</p>
             </div>
             
             @if($product->description)
@@ -180,7 +180,7 @@
                 <!-- Add to Cart Button -->
                 <button type="submit" 
                         id="add-to-cart-btn"
-                        class="w-full bg-emerald-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        class="w-full bg-[#f59e0b] text-white py-3 px-6 rounded-lg font-semibold hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                         {{ $availableStock == 0 ? 'disabled' : '' }}>
                     @if($availableStock == 0)
                         Out of Stock
@@ -210,7 +210,7 @@
                             @endif
                             <div class="p-4">
                                 <h3 class="font-semibold text-gray-900 mb-1">{{ $relatedProduct->name }}</h3>
-                                <p class="text-emerald-600 font-bold">PKR {{ number_format($relatedProduct->price_pkr / 100, 2) }}</p>
+                                <p class="text-[#f59e0b] font-bold">PKR {{ number_format($relatedProduct->price_pkr / 100, 2) }}</p>
                             </div>
                         </a>
                     </div>

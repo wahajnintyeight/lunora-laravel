@@ -47,7 +47,7 @@ class ProductSeeder extends Seeder
                 'stock' => 8,
                 'is_featured' => true,
             ],
-            
+
             // Wedding Rings
             [
                 'category_slug' => 'wedding-rings',
@@ -66,7 +66,7 @@ class ProductSeeder extends Seeder
                     ['options' => ['Size' => '6', 'Width' => '4mm'], 'sku' => 'WED001-6-4MM', 'stock' => 5],
                 ]
             ],
-            
+
             // Necklaces
             [
                 'category_slug' => 'pendants',
@@ -94,7 +94,7 @@ class ProductSeeder extends Seeder
                     ['options' => ['Length' => '20 inches'], 'sku' => 'CHN001-20', 'stock' => 6],
                 ]
             ],
-            
+
             // Earrings
             [
                 'category_slug' => 'stud-earrings',
@@ -122,7 +122,7 @@ class ProductSeeder extends Seeder
                 'price_pkr' => 9500000, // PKR 95,000
                 'stock' => 18,
             ],
-            
+
             // Bracelets
             [
                 'category_slug' => 'tennis-bracelets',
@@ -135,7 +135,7 @@ class ProductSeeder extends Seeder
                 'stock' => 6,
                 'is_featured' => true,
             ],
-            
+
             // Watches
             [
                 'category_slug' => 'womens-watches',
@@ -148,7 +148,7 @@ class ProductSeeder extends Seeder
                 'stock' => 10,
                 'is_featured' => true,
             ],
-            
+
             // Jewelry Sets
             [
                 'category_slug' => 'bridal-sets',
@@ -171,12 +171,12 @@ class ProductSeeder extends Seeder
 
             $variants = $productData['variants'] ?? [];
             unset($productData['variants'], $productData['category_slug']);
-            
+
             $productData['category_id'] = $category->id;
             $productData['slug'] = \Str::slug($productData['name']);
             $productData['is_active'] = true;
 
-            $product = Product::firstOrCreate(
+            $product = Product::updateOrCreate(
                 ['sku' => $productData['sku']],
                 $productData
             );
@@ -227,10 +227,10 @@ class ProductSeeder extends Seeder
         foreach ($variants as $variantData) {
             $options = $variantData['options'];
             unset($variantData['options']);
-            
+
             $variantData['product_id'] = $product->id;
             $variantData['options_json'] = json_encode($options);
-            
+
             ProductVariant::firstOrCreate(
                 ['sku' => $variantData['sku']],
                 $variantData
@@ -240,16 +240,79 @@ class ProductSeeder extends Seeder
 
     private function createProductImages(Product $product): void
     {
-        // Create placeholder images for each product
-        $imageCount = rand(2, 4);
-        
-        for ($i = 1; $i <= $imageCount; $i++) {
-            ProductImage::firstOrCreate([
+        // Real-world jewelry image URLs mapped by product SKU
+        $imageUrls = [
+            'ENG001' => [ // Classic Solitaire Diamond Ring
+                'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&h=800&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1544376664-80b17f09d399?w=800&h=800&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=800&h=800&fit=crop&crop=center',
+            ],
+            'ENG002' => [ // Vintage Halo Engagement Ring
+                'https://images.unsplash.com/photo-1596944924616-7b38e7cfac36?w=800&h=800&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=800&h=800&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&h=800&fit=crop&crop=center',
+            ],
+            'WED001' => [ // Classic Wedding Band
+                'https://images.unsplash.com/photo-1544376664-80b17f09d399?w=800&h=800&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&h=800&fit=crop&crop=center',
+            ],
+            'PEN001' => [ // Heart Diamond Pendant
+                'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&h=800&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=800&h=800&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1596944924616-7b38e7cfac36?w=800&h=800&fit=crop&crop=center',
+            ],
+            'CHN001' => [ // Gold Chain Necklace
+                'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&h=800&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=800&h=800&fit=crop&crop=center',
+            ],
+            'EAR001' => [ // Diamond Stud Earrings
+                'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800&h=800&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=800&h=800&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&h=800&fit=crop&crop=center',
+            ],
+            'EAR002' => [ // Gold Hoop Earrings
+                'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800&h=800&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=800&h=800&fit=crop&crop=center',
+            ],
+            'BRA001' => [ // Diamond Tennis Bracelet
+                'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&h=800&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1544376664-80b17f09d399?w=800&h=800&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=800&h=800&fit=crop&crop=center',
+            ],
+            'WAT001' => [ // Elegant Ladies Watch
+                'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=800&h=800&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1508057198894-247b23fe5ade?w=800&h=800&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=800&h=800&fit=crop&crop=center',
+            ],
+            'SET001' => [ // Complete Bridal Set
+                'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&h=800&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=800&h=800&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1596944924616-7b38e7cfac36?w=800&h=800&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1544376664-80b17f09d399?w=800&h=800&fit=crop&crop=center',
+            ],
+        ];
+
+        // Get images for this product's SKU, or use default jewelry images
+        $defaultImages = [
+            'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&h=800&fit=crop&crop=center',
+            'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=800&h=800&fit=crop&crop=center',
+            'https://images.unsplash.com/photo-1596944924616-7b38e7cfac36?w=800&h=800&fit=crop&crop=center',
+        ];
+
+        $productImages = $imageUrls[$product->sku] ?? $defaultImages;
+
+        // Delete existing placeholder images first
+        $product->images()->where('file_path', 'like', 'products/placeholder-%')->delete();
+
+        // Create new images with real URLs
+        foreach ($productImages as $index => $imageUrl) {
+            ProductImage::updateOrCreate([
                 'product_id' => $product->id,
-                'file_path' => "products/placeholder-{$product->id}-{$i}.jpg",
-                'alt_text' => $product->name . " - Image {$i}",
-                'sort_order' => $i,
-                'is_primary' => $i === 1,
+                'sort_order' => $index + 1,
+            ], [
+                'file_path' => $imageUrl, // Store URL directly
+                'alt_text' => $product->name . " - Image " . ($index + 1),
+                'is_primary' => $index === 0,
             ]);
         }
     }

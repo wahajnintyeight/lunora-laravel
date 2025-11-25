@@ -71,7 +71,7 @@
                                     @if($product->compare_at_price_pkr && $product->compare_at_price_pkr > $product->price_pkr)
                                         <p class="text-sm text-gray-500 line-through">PKR {{ number_format($product->compare_at_price_pkr / 100, 2) }}</p>
                                     @endif
-                                    <p class="text-emerald-600 font-bold">PKR {{ number_format($product->price_pkr / 100, 2) }}</p>
+                                    <p class="text-[#f59e0b] font-bold">PKR {{ number_format($product->price_pkr / 100, 2) }}</p>
                                 </div>
                                 
                                 <!-- Stock Status -->
@@ -84,7 +84,7 @@
                                         Out of stock
                                     </span>
                                 @elseif($product->is_featured)
-                                    <span class="text-xs text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
+                                    <span class="text-xs text-[#f59e0b] bg-emerald-50 px-2 py-1 rounded-full">
                                         Featured
                                     </span>
                                 @endif
@@ -159,7 +159,7 @@
                 
                 <div class="flex flex-col sm:flex-row gap-3 justify-center">
                     <a href="{{ route('products.index') }}" 
-                       class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 transition-colors">
+                       class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-[#f59e0b] hover:bg-emerald-700 transition-colors">
                         Browse All Products
                     </a>
                     <a href="{{ route('categories.index') }}" 

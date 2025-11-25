@@ -30,7 +30,7 @@
                     <img class="h-full w-full object-cover rounded-t-xl" src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?ixlib=rb-4.0.3&auto=format&fit=crop&w=560&q=80" alt="Search Result">
                 </div>
                 <div class="p-4 md:p-6">
-                    <span class="block mb-1 text-xs font-semibold uppercase text-emerald-600 dark:text-emerald-500">
+                    <span class="block mb-1 text-xs font-semibold uppercase text-[#f59e0b] dark:text-emerald-500">
                         Rings
                     </span>
                     <h3 class="text-xl font-semibold text-gray-800 dark:text-neutral-300 dark:hover:text-white">
@@ -41,7 +41,7 @@
                     </p>
                     <div class="mt-4 flex items-center justify-between">
                         <span class="text-2xl font-bold text-gray-800 dark:text-neutral-200">$999</span>
-                        <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-emerald-600 text-white hover:bg-emerald-700 focus:outline-none focus:bg-emerald-700 disabled:opacity-50 disabled:pointer-events-none">
+                        <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-[#f59e0b] text-white hover:bg-emerald-700 focus:outline-none focus:bg-emerald-700 disabled:opacity-50 disabled:pointer-events-none">
                             Add to Cart
                         </button>
                     </div>

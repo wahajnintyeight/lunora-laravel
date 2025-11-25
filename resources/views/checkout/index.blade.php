@@ -9,15 +9,15 @@
         <div class="mb-6 sm:mb-8" data-checkout-progress>
             <div class="flex items-center justify-center overflow-x-auto">
                 <div class="flex items-center min-w-max px-4">
-                    <div class="flex items-center text-emerald-600">
-                        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-emerald-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
+                    <div class="flex items-center text-[#f59e0b]">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-[#f59e0b] text-white rounded-full flex items-center justify-center text-sm font-medium">
                             1
                         </div>
                         <span class="ml-2 text-sm sm:text-base font-medium">Cart</span>
                     </div>
-                    <div class="w-8 sm:w-16 h-0.5 bg-emerald-600 mx-2 sm:mx-4"></div>
-                    <div class="flex items-center text-emerald-600">
-                        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-emerald-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
+                    <div class="w-8 sm:w-16 h-0.5 bg-[#f59e0b] mx-2 sm:mx-4"></div>
+                    <div class="flex items-center text-[#f59e0b]">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-[#f59e0b] text-white rounded-full flex items-center justify-center text-sm font-medium">
                             2
                         </div>
                         <span class="ml-2 text-sm sm:text-base font-medium">Checkout</span>
@@ -227,7 +227,7 @@
                                    name="billing_same_as_shipping" 
                                    value="1"
                                    {{ old('billing_same_as_shipping', true) ? 'checked' : '' }}
-                                   class="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500">
+                                   class="w-4 h-4 text-[#f59e0b] border-gray-300 rounded focus:ring-emerald-500">
                             <span class="ml-2 text-sm text-gray-700">Same as shipping address</span>
                         </label>
                     </div>
@@ -391,10 +391,10 @@
                                name="terms_accepted" 
                                value="1"
                                required
-                               class="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500 mt-1 @error('terms_accepted') border-red-500 @enderror">
+                               class="w-4 h-4 text-[#f59e0b] border-gray-300 rounded focus:ring-emerald-500 mt-1 @error('terms_accepted') border-red-500 @enderror">
                         <label for="terms_accepted" class="ml-3 text-sm text-gray-700">
-                            I agree to the <a href="#" class="text-emerald-600 hover:text-emerald-700 underline">Terms and Conditions</a> 
-                            and <a href="#" class="text-emerald-600 hover:text-emerald-700 underline">Privacy Policy</a> <span class="text-red-500">*</span>
+                            I agree to the <a href="#" class="text-[#f59e0b] hover:text-emerald-700 underline">Terms and Conditions</a> 
+                            and <a href="#" class="text-[#f59e0b] hover:text-emerald-700 underline">Privacy Policy</a> <span class="text-red-500">*</span>
                         </label>
                     </div>
                     @error('terms_accepted')
@@ -406,7 +406,7 @@
                 <!-- Submit Button -->
                 <div class="mt-6">
                     <button type="submit" 
-                            class="w-full bg-emerald-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 text-base transition-colors duration-200"
+                            class="w-full bg-[#f59e0b] text-white py-4 px-6 rounded-lg font-semibold hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 text-base transition-colors duration-200"
                             data-checkout-submit>
                         Complete Order
                     </button>
@@ -433,7 +433,7 @@
                                             <span class="text-gray-400 text-xs">No Image</span>
                                         </div>
                                     @endif
-                                    <span class="absolute -top-2 -right-2 bg-emerald-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                                    <span class="absolute -top-2 -right-2 bg-[#f59e0b] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                                         {{ $item->quantity }}
                                     </span>
                                 </div>
@@ -506,7 +506,7 @@
                     <div class="mt-6">
                         <button type="submit" 
                                 id="place-order-btn"
-                                class="w-full bg-emerald-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                                class="w-full bg-[#f59e0b] text-white py-3 px-6 rounded-lg font-semibold hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed">
                             <span id="btn-text">Place Order</span>
                             <span id="btn-loading" class="hidden">
                                 <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -565,7 +565,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const btnText = document.getElementById('btn-text');
     const btnLoading = document.getElementById('btn-loading');
     
+    // Mark form as handled to prevent duplicate handlers from app.js
+    form.setAttribute('data-loading-handled', 'true');
+    
     form.addEventListener('submit', function(e) {
+        // Prevent duplicate submissions
+        if (submitBtn.hasAttribute('data-loading')) return;
+        
+        // Mark button as loading
+        submitBtn.setAttribute('data-loading', 'true');
+        
         // Show loading state
         submitBtn.disabled = true;
         btnText.classList.add('hidden');
@@ -576,6 +585,7 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.disabled = false;
             btnText.classList.remove('hidden');
             btnLoading.classList.add('hidden');
+            submitBtn.removeAttribute('data-loading');
         }, 10000);
     });
     
@@ -602,7 +612,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const billingHeader = document.querySelector('#billing-address-fields').previousElementSibling;
     const copyButton = document.createElement('button');
     copyButton.type = 'button';
-    copyButton.className = 'text-sm text-emerald-600 hover:text-emerald-700 underline ml-4';
+    copyButton.className = 'text-sm text-[#f59e0b] hover:text-emerald-700 underline ml-4';
     copyButton.textContent = 'Copy from shipping';
     copyButton.onclick = copyShippingToBilling;
     

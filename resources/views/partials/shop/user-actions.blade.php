@@ -2,7 +2,7 @@
 <div class="flex items-center gap-x-1 sm:gap-x-3">
     <!-- Wishlist Button -->
     <button type="button"
-        class="group hidden sm:inline-flex touch-target relative justify-center items-center text-sm font-medium rounded-lg border border-transparent text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:text-emerald-600 focus:bg-emerald-50 disabled:opacity-50 disabled:pointer-events-none dark:text-slate-400 dark:hover:text-emerald-400 dark:hover:bg-emerald-950/50 dark:focus:text-emerald-400 dark:focus:ring-emerald-600 dark:focus:ring-offset-slate-900 dark:focus:bg-emerald-950/50 transition-all duration-200 py-2 px-2.5"
+        class="group hidden sm:inline-flex touch-target relative justify-center items-center text-sm font-medium rounded-lg border border-transparent text-gold-200 hover:text-gold-100 hover:bg-[#f59e0b]-900/20 focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 focus:text-gold-100 focus:bg-[#f59e0b]-900/20 disabled:opacity-50 disabled:pointer-events-none dark:text-gold-300 dark:hover:text-gold-100 dark:hover:bg-[#f59e0b]-800/30 dark:focus:text-gold-100 dark:focus:ring-gold-400 dark:focus:ring-offset-maroon-900 dark:focus:bg-[#f59e0b]-800/30 transition-all duration-200 py-2 px-2.5"
         aria-label="Wishlist">
         <svg class="shrink-0 size-5 group-hover:scale-110 transition-transform duration-200"
             xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -15,7 +15,7 @@
             @if (auth()->user()->wishlistItems()->count() > 0)
                 <!-- improved badge styling -->
                 <span
-                    class="absolute -top-1.5 -end-1.5 inline-flex items-center py-0.5 px-1.5 rounded-full text-xs font-semibold bg-emerald-500 text-white min-w-[1.25rem] h-5 justify-center shadow-md">
+                    class="absolute -top-1.5 -end-1.5 inline-flex items-center py-0.5 px-1.5 rounded-full text-xs font-semibold bg-[#f59e0b]-500 text-maroon-900 min-w-[1.25rem] h-5 justify-center shadow-md"
                     {{ auth()->user()->wishlistItems()->count() }}
                 </span>
             @endif
@@ -24,7 +24,7 @@
 
     <!-- Shopping Cart Button -->
     <a href="{{ route('cart.index') }}"
-        class="group touch-target relative inline-flex justify-center items-center text-sm font-medium rounded-lg border border-transparent text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:text-emerald-600 focus:bg-emerald-50 disabled:opacity-50 disabled:pointer-events-none dark:text-slate-400 dark:hover:text-emerald-400 dark:hover:bg-emerald-950/50 dark:focus:text-emerald-400 dark:focus:ring-emerald-600 dark:focus:ring-offset-slate-900 dark:focus:bg-emerald-950/50 transition-all duration-200 py-2 px-2.5"
+        class="group touch-target relative inline-flex justify-center items-center text-sm font-medium rounded-lg border border-transparent text-gold-200 hover:text-gold-100 hover:bg-[#f59e0b]-900/20 focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 focus:text-gold-100 focus:bg-[#f59e0b]-900/20 disabled:opacity-50 disabled:pointer-events-none dark:text-gold-300 dark:hover:text-gold-100 dark:hover:bg-[#f59e0b]-800/30 dark:focus:text-gold-100 dark:focus:ring-gold-400 dark:focus:ring-offset-maroon-900 dark:focus:bg-[#f59e0b]-800/30 transition-all duration-200 py-2 px-2.5"
         aria-label="Shopping cart">
         <svg class="shrink-0 size-5 sm:size-5 group-hover:scale-110 transition-transform duration-200"
             xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -41,7 +41,7 @@
         @if ($cartCount > 0)
             <!-- improved cart badge styling -->
             <span
-                class="absolute -top-1.5 -end-1.5 inline-flex items-center py-0.5 px-1.5 rounded-full text-xs font-semibold bg-emerald-500 text-white min-w-[1.25rem] h-5 justify-center shadow-md cart-count">
+                class="absolute -top-1.5 -end-1.5 inline-flex items-center py-0.5 px-1.5 rounded-full text-xs font-semibold bg-[#f59e0b]-500 text-maroon-900 min-w-[1.25rem] h-5 justify-center shadow-md cart-count"
                 {{ $cartCount }}
             </span>
         @endif
@@ -52,10 +52,10 @@
         <div class="hs-dropdown relative inline-flex [&_.hs-dropdown-menu]:absolute">
             <!-- improved button with better focus and hover states -->
             <button id="hs-dropdown-account" type="button"
-                class="hs-dropdown-toggle group touch-target inline-flex justify-center items-center text-sm font-medium rounded-lg border border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:text-slate-900 focus:bg-slate-100 disabled:opacity-50 disabled:pointer-events-none dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800 dark:focus:text-slate-200 dark:focus:ring-emerald-600 dark:focus:ring-offset-slate-900 dark:focus:bg-slate-800 transition-all duration-200 py-2 px-2.5"
+                class="hs-dropdown-toggle group touch-target inline-flex items-center gap-x-1.5 rounded-full border border-transparent text-gold-200 hover:text-gold-100 hover:bg-[#f59e0b]-900/30 focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 focus:text-gold-100 focus:bg-[#f59e0b]-900/30 disabled:opacity-50 disabled:pointer-events-none dark:text-gold-300 dark:hover:text-gold-100 dark:hover:bg-[#f59e0b]-800/40 dark:focus:text-gold-100 dark:focus:ring-gold-400 dark:focus:ring-offset-maroon-900 dark:focus:bg-[#f59e0b]-800/40 transition-all duration-200 py-1 px-1.5"
                 aria-haspopup="menu" aria-expanded="false" aria-label="Account menu">
                 @if (auth()->user()->avatar_url)
-                    <img class="shrink-0 size-6 rounded-full ring-2 ring-transparent group-hover:ring-emerald-500 transition-all duration-200"
+                    <img class="shrink-0 size-6 rounded-full ring-2 ring-transparent group-hover:ring-gold-500 transition-all duration-200"
                         src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}">
                 @else
                     <svg class="shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -65,8 +65,7 @@
                         <circle cx="12" cy="7" r="4"></circle>
                     </svg>
                 @endif
-                <span class="hidden lg:block font-medium">{{ auth()->user()->name }}</span>
-                <svg class="hs-dropdown-open:rotate-180 shrink-0 size-3.5 hidden sm:block group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-all duration-200"
+                <svg class="hs-dropdown-open:rotate-180 shrink-0 size-3.5 text-gold-300 group-hover:text-gold-100 dark:text-gold-400 dark:group-hover:text-gold-200 transition-all duration-200"
                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m6 9 6 6 6-6"></path>
@@ -75,18 +74,18 @@
 
             <!-- improved dropdown menu styling with better shadows and animations -->
             <div id="hs-dropdown-account-menu"
-                class="hs-dropdown-menu transition-[opacity,margin] duration-300 hs-dropdown-open:opacity-100 opacity-0 hidden min-w-64 bg-white shadow-lg rounded-xl p-0 dark:bg-slate-800 dark:border dark:border-slate-700 z-50 divide-y divide-slate-200 dark:divide-slate-700 absolute right-0 top-full mt-2"
+                class="hs-dropdown-menu transition-[opacity,transform] duration-200 hs-dropdown-open:opacity-100 hs-dropdown-open:translate-y-0 opacity-0 -translate-y-1 hidden min-w-[14rem] bg-[#450a0a] shadow-md rounded-xl p-0 dark:bg-[#450a0a] dark:border dark:border-gold-600 z-50 divide-y divide-gold-600 dark:divide-gold-700 absolute right-0 top-full mt-2 origin-top-right"
                 role="menu" aria-orientation="vertical" aria-labelledby="hs-dropdown-account">
-                <div class="py-3 px-5 bg-slate-50 rounded-t-xl dark:bg-slate-700/50">
-                    <p class="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">Signed in as
+                <div class="py-3 px-5 bg-[#450a0a] rounded-t-xl dark:bg-[#450a0a]">
+                    <p class="text-xs text-gold-300 dark:text-gold-400 font-medium uppercase tracking-wide">Signed in as
                     </p>
-                    <p class="text-sm font-semibold text-slate-900 dark:text-slate-200 mt-0.5 truncate">
+                    <p class="text-sm font-semibold text-gold-100 dark:text-gold-200 mt-0.5 truncate">
                         {{ auth()->user()->email }}</p>
                 </div>
                 <div class="p-3 space-y-1">
-                    <a class="group flex items-center gap-x-3 py-2.5 px-3 rounded-lg text-sm text-slate-700 hover:text-slate-900 hover:bg-slate-100 focus:outline-none focus:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-700 dark:focus:bg-slate-700 transition-all duration-150"
+                    <a class="group flex items-center gap-x-3 py-2.5 px-3 rounded-lg text-sm text-gold-200 hover:text-gold-100 hover:bg-[#f59e0b]-900/20 focus:outline-none focus:bg-[#f59e0b]-900/20 dark:text-gold-300 dark:hover:text-gold-100 dark:hover:bg-[#f59e0b]-800/30 dark:focus:bg-[#f59e0b]-800/30 transition-all duration-150"
                         href="{{ route('user.profile') }}">
-                        <svg class="shrink-0 size-4 text-slate-500 group-hover:text-emerald-600 dark:text-slate-600 dark:group-hover:text-emerald-400 transition-colors duration-150"
+                        <svg class="shrink-0 size-4 text-gold-400 group-hover:text-gold-200 dark:text-gold-500 dark:group-hover:text-gold-300 transition-colors duration-150"
                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round">
@@ -95,9 +94,9 @@
                         </svg>
                         <span>Profile</span>
                     </a>
-                    <a class="group flex items-center gap-x-3 py-2.5 px-3 rounded-lg text-sm text-slate-700 hover:text-slate-900 hover:bg-slate-100 focus:outline-none focus:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-700 dark:focus:bg-slate-700 transition-all duration-150"
+                    <a class="group flex items-center gap-x-3 py-2.5 px-3 rounded-lg text-sm text-gold-200 hover:text-gold-100 hover:bg-[#f59e0b]-900/20 focus:outline-none focus:bg-[#f59e0b]-900/20 dark:text-gold-300 dark:hover:text-gold-100 dark:hover:bg-[#f59e0b]-800/30 dark:focus:bg-[#f59e0b]-800/30 transition-all duration-150"
                         href="{{ route('user.orders') }}">
-                        <svg class="shrink-0 size-4 text-slate-500 group-hover:text-emerald-600 dark:text-slate-600 dark:group-hover:text-emerald-400 transition-colors duration-150"
+                        <svg class="shrink-0 size-4 text-gold-400 group-hover:text-gold-200 dark:text-gold-500 dark:group-hover:text-gold-300 transition-colors duration-150"
                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round">
@@ -106,9 +105,9 @@
                         </svg>
                         <span>Orders</span>
                     </a>
-                    <a class="group flex items-center gap-x-3 py-2.5 px-3 rounded-lg text-sm text-slate-700 hover:text-slate-900 hover:bg-slate-100 focus:outline-none focus:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-700 dark:focus:bg-slate-700 transition-all duration-150 sm:hidden"
+                    <a class="group flex items-center gap-x-3 py-2.5 px-3 rounded-lg text-sm text-gold-200 hover:text-gold-100 hover:bg-[#f59e0b]-900/20 focus:outline-none focus:bg-[#f59e0b]-900/20 dark:text-gold-300 dark:hover:text-gold-100 dark:hover:bg-[#f59e0b]-800/30 dark:focus:bg-[#f59e0b]-800/30 transition-all duration-150 sm:hidden"
                         href="#">
-                        <svg class="shrink-0 size-4 text-slate-500 group-hover:text-emerald-600 dark:text-slate-600 dark:group-hover:text-emerald-400 transition-colors duration-150"
+                        <svg class="shrink-0 size-4 text-gold-400 group-hover:text-gold-200 dark:text-gold-500 dark:group-hover:text-gold-300 transition-colors duration-150"
                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round">
@@ -123,8 +122,8 @@
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit"
-                            class="group flex w-full items-center gap-x-3 py-2.5 px-3 rounded-lg text-sm text-slate-700 hover:text-red-600 hover:bg-red-50 focus:outline-none focus:bg-red-50 dark:text-slate-400 dark:hover:text-red-400 dark:hover:bg-red-950/30 dark:focus:bg-red-950/30 transition-all duration-150">
-                            <svg class="shrink-0 size-4 text-slate-500 group-hover:text-red-600 dark:text-slate-600 dark:group-hover:text-red-400 transition-colors duration-150"
+                            class="group flex w-full items-center gap-x-3 py-2.5 px-3 rounded-lg text-sm text-gold-200 hover:text-red-400 hover:bg-red-900/20 focus:outline-none focus:bg-red-900/20 dark:text-gold-300 dark:hover:text-red-400 dark:hover:bg-red-950/30 dark:focus:bg-red-950/30 transition-all duration-150">
+                            <svg class="shrink-0 size-4 text-gold-400 group-hover:text-red-400 dark:text-gold-500 dark:group-hover:text-red-400 transition-colors duration-150"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round">
@@ -142,12 +141,12 @@
         <div class="flex items-center gap-x-1 sm:gap-x-2">
             <!-- improved sign-in button styling -->
             <a href="{{ route('login') }}"
-                class="group hidden sm:inline-flex touch-target justify-center items-center text-sm font-medium rounded-lg border border-slate-300 text-slate-700 hover:text-slate-900 hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:text-slate-900 focus:bg-slate-50 dark:border-slate-600 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:border-slate-500 dark:hover:bg-slate-800 dark:focus:ring-emerald-600 dark:focus:ring-offset-slate-900 dark:focus:text-slate-200 dark:focus:bg-slate-800 transition-all duration-200 py-2 px-3.5">
+                class="group hidden sm:inline-flex touch-target justify-center items-center text-sm font-medium rounded-lg border border-gold-300 text-gold-200 hover:text-gold-100 hover:border-gold-200 hover:bg-[#f59e0b]-900/20 focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 focus:text-gold-100 focus:bg-[#f59e0b]-900/20 dark:border-gold-600 dark:text-gold-300 dark:hover:text-gold-100 dark:hover:border-gold-500 dark:hover:bg-[#f59e0b]-800/30 dark:focus:ring-gold-400 dark:focus:ring-offset-maroon-900 dark:focus:text-gold-100 dark:focus:bg-[#f59e0b]-800/30 transition-all duration-200 py-2 px-3.5"
                 Sign in
             </a>
             <!-- improved sign-up button with gradient and better hover -->
             <a href="{{ route('register') }}"
-                class="group touch-target py-2.5 px-3 sm:px-4 inline-flex items-center justify-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-emerald-600 text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:bg-emerald-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:ring-emerald-600 dark:focus:ring-offset-slate-900 dark:hover:bg-emerald-500 transition-all duration-200 shadow-md hover:shadow-lg">
+                class="group touch-target py-2.5 px-3 sm:px-4 inline-flex items-center justify-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-[#f59e0b] text-maroon-900 hover:bg-[#f59e0b]-500 focus:outline-none focus:ring-2 focus:ring-gold-400 focus:ring-offset-2 focus:bg-[#f59e0b]-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:ring-gold-500 dark:focus:ring-offset-maroon-900 dark:hover:bg-[#f59e0b]-700 transition-all duration-200 shadow-md hover:shadow-lg"
                 <span class="hidden sm:block">Create Account</span>
                 <span class="sm:hidden">Sign up</span>
             </a>

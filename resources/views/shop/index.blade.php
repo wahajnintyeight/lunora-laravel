@@ -10,7 +10,7 @@
         <div class="text-center">
             <h1 class="text-4xl sm:text-6xl font-bold text-gray-800 dark:text-neutral-200">
                 Exquisite
-                <span class="bg-clip-text bg-gradient-to-tl from-emerald-600 to-emerald-400 text-transparent">
+                <span class="bg-clip-text bg-gradient-to-tl from-[#f59e0b] to-emerald-400 text-transparent">
                     Jewelry
                 </span>
             </h1>
@@ -29,7 +29,7 @@
                             <input type="text" name="q" id="hs-search-article-1" class="py-2.5 px-4 block w-full border-transparent rounded-lg focus:border-emerald-500 focus:ring-emerald-500 dark:bg-neutral-900 dark:border-transparent dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" placeholder="Search for rings, necklaces, earrings...">
                         </div>
                         <div class="flex-[0_0_auto]">
-                            <button type="submit" class="size-[46px] inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-emerald-600 text-white hover:bg-emerald-700 focus:outline-none focus:bg-emerald-700 disabled:opacity-50 disabled:pointer-events-none">
+                            <button type="submit" class="size-[46px] inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-[#f59e0b] text-white hover:bg-emerald-700 focus:outline-none focus:bg-emerald-700 disabled:opacity-50 disabled:pointer-events-none">
                                 <svg class="shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <circle cx="11" cy="11" r="8"></circle>
                                     <path d="m21 21-4.35-4.35"></path>
@@ -42,7 +42,7 @@
 
                 <!-- SVG Element -->
                 <div class="hidden md:block absolute top-2 -start-3 -z-[1] size-16 bg-gradient-to-b from-orange-500 to-red-400 rounded-full transform -rotate-12"></div>
-                <div class="hidden md:block absolute bottom-2 -end-3 -z-[1] size-16 bg-gradient-to-t from-emerald-600 to-cyan-400 rounded-full transform rotate-12"></div>
+                <div class="hidden md:block absolute bottom-2 -end-3 -z-[1] size-16 bg-gradient-to-t from-[#f59e0b] to-cyan-400 rounded-full transform rotate-12"></div>
             </div>
 
             <div class="mt-10 sm:mt-20 flex justify-center gap-x-6">
@@ -144,7 +144,7 @@
                 <img class="h-full w-full object-cover rounded-t-xl" src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?ixlib=rb-4.0.3&auto=format&fit=crop&w=560&q=80" alt="Diamond Ring">
             </div>
             <div class="p-4 md:p-6">
-                <span class="block mb-1 text-xs font-semibold uppercase text-emerald-600 dark:text-emerald-500">
+                <span class="block mb-1 text-xs font-semibold uppercase text-[#f59e0b] dark:text-emerald-500">
                     Rings
                 </span>
                 <h3 class="text-xl font-semibold text-gray-800 dark:text-neutral-300 dark:hover:text-white">
@@ -155,7 +155,7 @@
                 </p>
                 <div class="mt-4 flex items-center justify-between">
                     <span class="text-2xl font-bold text-gray-800 dark:text-neutral-200">$2,499</span>
-                    <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-emerald-600 text-white hover:bg-emerald-700 focus:outline-none focus:bg-emerald-700 disabled:opacity-50 disabled:pointer-events-none">
+                    <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-[#f59e0b] text-white hover:bg-emerald-700 focus:outline-none focus:bg-emerald-700 disabled:opacity-50 disabled:pointer-events-none">
                         Add to Cart
                     </button>
                 </div>
@@ -169,7 +169,7 @@
                 <img class="h-full w-full object-cover rounded-t-xl" src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&auto=format&fit=crop&w=560&q=80" alt="Pearl Necklace">
             </div>
             <div class="p-4 md:p-6">
-                <span class="block mb-1 text-xs font-semibold uppercase text-emerald-600 dark:text-emerald-500">
+                <span class="block mb-1 text-xs font-semibold uppercase text-[#f59e0b] dark:text-emerald-500">
                     Necklaces
                 </span>
                 <h3 class="text-xl font-semibold text-gray-800 dark:text-neutral-300 dark:hover:text-white">
@@ -180,7 +180,7 @@
                 </p>
                 <div class="mt-4 flex items-center justify-between">
                     <span class="text-2xl font-bold text-gray-800 dark:text-neutral-200">$899</span>
-                    <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-emerald-600 text-white hover:bg-emerald-700 focus:outline-none focus:bg-emerald-700 disabled:opacity-50 disabled:pointer-events-none">
+                    <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-[#f59e0b] text-white hover:bg-emerald-700 focus:outline-none focus:bg-emerald-700 disabled:opacity-50 disabled:pointer-events-none">
                         Add to Cart
                     </button>
                 </div>
@@ -194,7 +194,7 @@
                 <img class="h-full w-full object-cover rounded-t-xl" src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&auto=format&fit=crop&w=560&q=80" alt="Gold Earrings">
             </div>
             <div class="p-4 md:p-6">
-                <span class="block mb-1 text-xs font-semibold uppercase text-emerald-600 dark:text-emerald-500">
+                <span class="block mb-1 text-xs font-semibold uppercase text-[#f59e0b] dark:text-emerald-500">
                     Earrings
                 </span>
                 <h3 class="text-xl font-semibold text-gray-800 dark:text-neutral-300 dark:hover:text-white">
@@ -205,7 +205,7 @@
                 </p>
                 <div class="mt-4 flex items-center justify-between">
                     <span class="text-2xl font-bold text-gray-800 dark:text-neutral-200">$1,299</span>
-                    <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-emerald-600 text-white hover:bg-emerald-700 focus:outline-none focus:bg-emerald-700 disabled:opacity-50 disabled:pointer-events-none">
+                    <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-[#f59e0b] text-white hover:bg-emerald-700 focus:outline-none focus:bg-emerald-700 disabled:opacity-50 disabled:pointer-events-none">
                         Add to Cart
                     </button>
                 </div>
@@ -215,7 +215,7 @@
     </div>
 
     <div class="mt-12 text-center">
-        <a class="py-3 px-4 inline-flex items-center gap-x-1 text-sm font-medium rounded-full border border-gray-200 bg-white text-emerald-600 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-900 dark:border-neutral-700 dark:text-emerald-400 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#">
+        <a class="py-3 px-4 inline-flex items-center gap-x-1 text-sm font-medium rounded-full border border-gray-200 bg-white text-[#f59e0b] shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-900 dark:border-neutral-700 dark:text-emerald-400 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#">
             View all products
             <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m9 18 6-6-6-6"></path>

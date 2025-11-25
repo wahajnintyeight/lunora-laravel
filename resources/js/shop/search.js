@@ -70,7 +70,7 @@ class RealtimeSearch {
                                                         : ''}
                                                 </div>
                                                 ${item.price
-                                                    ? `<div class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 whitespace-nowrap">${item.price}</div>`
+                                                    ? `<div class="text-xs font-semibold text-[#f59e0b] dark:text-emerald-400 whitespace-nowrap">${item.price}</div>`
                                                     : ''}
                                             </a>
                                         </li>

@@ -199,7 +199,7 @@
             <p class="mt-2">This invoice was generated on {{ now()->format('M d, Y \a\t g:i A') }}</p>
             <p class="mt-4">
                 For questions about this invoice, please contact us at 
-                <a href="mailto:support@lunora.com" class="text-emerald-600 hover:text-emerald-700">support@lunora.com</a>
+                <a href="mailto:support@lunora.com" class="text-[#f59e0b] hover:text-emerald-700">support@lunora.com</a>
                 or call +92 300 1234567
             </p>
         </div>
@@ -207,7 +207,7 @@
         <!-- Print Button (hidden when printing) -->
         <div class="mt-8 text-center no-print">
             <button onclick="window.print()" 
-                    class="bg-emerald-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-700">
+                    class="bg-[#f59e0b] text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-700">
                 Print Invoice
             </button>
             <a href="{{ route('user.order-detail', $order->order_number) }}" 

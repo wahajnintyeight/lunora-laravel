@@ -28,12 +28,12 @@
                                        name="search" 
                                        value="{{ request('search') }}"
                                        placeholder="Search by order number..."
-                                       class="w-full border border-gray-300 rounded-md px-4 py-3 text-base min-h-[44px] focus:ring-emerald-500 focus:border-emerald-500">
+                                       class="w-full border border-gray-300 rounded-md px-4 py-3 text-base min-h-[44px] focus:ring-gold-500 focus:border-gold-500">
                             </div>
                             
                             @if($statuses->count() > 0)
                             <div>
-                                <select name="status" class="w-full border border-gray-300 rounded-md px-4 py-3 text-base min-h-[44px] focus:ring-emerald-500 focus:border-emerald-500">
+                                <select name="status" class="w-full border border-gray-300 rounded-md px-4 py-3 text-base min-h-[44px] focus:ring-gold-500 focus:border-gold-500">
                                     <option value="">All Statuses</option>
                                     @foreach($statuses as $status)
                                         <option value="{{ $status }}" {{ request('status') == $status ? 'selected' : '' }}>
@@ -45,7 +45,7 @@
                             @endif
                             
                             <div>
-                                <select name="sort" class="w-full border border-gray-300 rounded-md px-4 py-3 text-base min-h-[44px] focus:ring-emerald-500 focus:border-emerald-500">
+                                <select name="sort" class="w-full border border-gray-300 rounded-md px-4 py-3 text-base min-h-[44px] focus:ring-gold-500 focus:border-gold-500">
                                     <option value="created_at" {{ request('sort') == 'created_at' ? 'selected' : '' }}>Date</option>
                                     <option value="order_number" {{ request('sort') == 'order_number' ? 'selected' : '' }}>Order Number</option>
                                     <option value="total_pkr" {{ request('sort') == 'total_pkr' ? 'selected' : '' }}>Total Amount</option>
@@ -53,7 +53,7 @@
                             </div>
                             
                             <div class="flex gap-2">
-                                <button type="submit" class="flex-1 bg-emerald-600 text-white px-4 py-3 min-h-[44px] rounded-md hover:bg-emerald-700 transition-colors touch-target">
+                                <button type="submit" class="flex-1 bg-[#450a0a] text-white px-4 py-3 min-h-[44px] rounded-md hover:bg-[#450a0a] transition-colors touch-target">
                                     Filter
                                 </button>
                                 <a href="{{ route('user.orders') }}" class="flex-1 bg-gray-200 text-gray-700 px-4 py-3 min-h-[44px] rounded-md hover:bg-gray-300 transition-colors touch-target text-center flex items-center justify-center">
@@ -107,7 +107,7 @@
                                                 </p>
                                             </div>
                                             <a href="{{ route('user.order-detail', $order->order_number) }}" 
-                                               class="bg-emerald-600 text-white px-4 py-2 rounded-md hover:bg-emerald-700 text-sm">
+                                               class="bg-[#450a0a] text-white px-4 py-2 rounded-md hover:bg-[#450a0a] text-sm">
                                                 View Details
                                             </a>
                                         </div>
@@ -149,7 +149,7 @@
                                 <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
                                     <div class="flex flex-wrap gap-2">
                                         <a href="{{ route('user.order-detail', $order->order_number) }}" 
-                                           class="text-emerald-600 hover:text-emerald-700 text-sm font-medium">
+                                           class="text-[#450a0a] hover:text-[#450a0a] text-sm font-medium">
                                             View Details
                                         </a>
                                         
@@ -199,14 +199,14 @@
                         <p class="mt-1 text-sm text-gray-500">
                             @if(request()->hasAny(['search', 'status']))
                                 Try adjusting your search criteria or 
-                                <a href="{{ route('user.orders') }}" class="text-emerald-600 hover:text-emerald-700">clear filters</a>.
+                                <a href="{{ route('user.orders') }}" class="text-[#450a0a] hover:text-[#450a0a]">clear filters</a>.
                             @else
                                 You haven't placed any orders yet.
                             @endif
                         </p>
                         <div class="mt-6">
                             <a href="{{ route('products.index') }}" 
-                               class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700">
+                               class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#450a0a] hover:bg-[#450a0a]">
                                 <svg class="mr-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zM8 6V5a2 2 0 114 0v1H8zm2 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
                                 </svg>

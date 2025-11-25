@@ -103,7 +103,7 @@
     <!-- Create Account Button -->
     <div>
         <button type="submit" 
-                class="group relative w-full flex justify-center py-3 px-4 min-h-[44px] border border-transparent text-base font-medium rounded-lg text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200">
+                class="group relative w-full flex justify-center py-3 px-4 min-h-[44px] border border-transparent text-base font-medium rounded-lg text-white bg-[#f59e0b] hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200">
             Create account
         </button>
     </div>
@@ -138,16 +138,16 @@
 <div class="text-center space-y-3">
     <p class="text-sm sm:text-base text-gray-600 dark:text-neutral-400 leading-relaxed">
         Already have an account? 
-        <a href="{{ route('login') }}" class="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 touch-target transition-colors duration-200 underline decoration-2 underline-offset-2">
+        <a href="{{ route('login') }}" class="font-medium text-[#f59e0b] hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 touch-target transition-colors duration-200 underline decoration-2 underline-offset-2">
             Sign in here
         </a>
     </p>
     <div class="pt-2 border-t border-gray-200 dark:border-neutral-700">
         <p class="text-xs sm:text-sm text-gray-500 dark:text-neutral-500 leading-relaxed">
             By creating an account, you agree to our 
-            <a href="#" class="text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 underline">Terms of Service</a> 
+            <a href="#" class="text-[#f59e0b] hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 underline">Terms of Service</a> 
             and 
-            <a href="#" class="text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 underline">Privacy Policy</a>
+            <a href="#" class="text-[#f59e0b] hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 underline">Privacy Policy</a>
         </p>
     </div>
 </div>

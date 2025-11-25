@@ -18,6 +18,24 @@
     <!-- Tailwind CSS -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <!-- Preline UI JavaScript -->
+    <script src="{{ asset('vendor/preline/dist/index.js') }}"></script>
+    
+    <!-- Preline UI CDN Fallback -->
+    <script>
+        // Check if Preline UI loaded, if not load from CDN
+        if (typeof window.HSStaticMethods === 'undefined') {
+            const script = document.createElement('script');
+            script.src = '//cdn.jsdelivr.net/npm/preline@latest/dist/preline.js';
+            script.onload = function() {
+                if (typeof window.HSStaticMethods !== 'undefined') {
+                    window.HSStaticMethods.autoInit();
+                }
+            };
+            document.head.appendChild(script);
+        }
+    </script>
+
     <!-- Additional Styles -->
     @stack('styles')
 </head>
@@ -49,7 +67,47 @@
         else if (isLightOrAuto && !html.classList.contains('light')) html.classList.add('light');
     </script>
 
+    <!-- Preline UI Initialization -->
+    <script>
+        // Initialize Preline UI components after DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof window.HSStaticMethods !== 'undefined') {
+                window.HSStaticMethods.autoInit();
+            }
+            
+            // Force re-initialization for dropdowns and other components
+            setTimeout(() => {
+                if (typeof window.HSDropdown !== 'undefined') {
+                    window.HSDropdown.autoInit();
+                }
+                if (typeof window.HSCollapse !== 'undefined') {
+                    window.HSCollapse.autoInit();
+                }
+                if (typeof window.HSTabs !== 'undefined') {
+                    window.HSTabs.autoInit();
+                }
+                if (typeof window.HSAccordion !== 'undefined') {
+                    window.HSAccordion.autoInit();
+                }
+            }, 100);
+        });
+
+        // Re-initialize on window load for any late-loading elements
+        window.addEventListener('load', () => {
+            if (typeof window.HSStaticMethods !== 'undefined') {
+                window.HSStaticMethods.autoInit();
+            }
+        });
+
+        // Helper function to reinitialize Preline components (useful for dynamic content)
+        window.initializePrelineComponents = function() {
+            if (typeof window.HSStaticMethods !== 'undefined') {
+                window.HSStaticMethods.autoInit();
+            }
+        };
+    </script>
+
     @stack('scripts')
-    </body>
+</body>
 
 </html>

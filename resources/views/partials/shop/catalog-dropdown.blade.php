@@ -7,7 +7,7 @@
     <button 
         id="catalog-dropdown-toggle" 
         type="button" 
-        class="hs-dropdown-toggle touch-target relative py-2 sm:py-2.5 px-4 flex items-center gap-x-2 text-sm text-start bg-emerald-600 border border-transparent text-white rounded-full hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-emerald-500 dark:hover:bg-emerald-600 dark:focus:ring-emerald-400 transition-all duration-200" 
+        class="hs-dropdown-toggle touch-target relative py-2 sm:py-2.5 px-4 flex items-center gap-x-2 text-sm text-start bg-[#f59e0b] border border-transparent text-maroon-900 rounded-full hover:bg-[#f59e0b]-500 focus:outline-none focus:ring-2 focus:ring-gold-400 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-[#f59e0b] dark:hover:bg-[#f59e0b]-700 dark:focus:ring-gold-500 transition-all duration-200 font-semibold" 
         aria-haspopup="menu" 
         aria-expanded="false" 
         aria-label="Browse catalog"

@@ -241,7 +241,7 @@ class Order extends Model
     public static function generateOrderNumber(): string
     {
         do {
-            $orderNumber = 'LUN-' . date('Y') . '-' . strtoupper(Str::random(6));
+            $orderNumber = 'ORD-' . date('Y') . '-' . strtoupper(Str::random(6));
         } while (self::where('order_number', $orderNumber)->exists());
 
         return $orderNumber;

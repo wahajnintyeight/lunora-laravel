@@ -12,7 +12,7 @@
                     <li class="text-gray-500 font-medium whitespace-nowrap" aria-current="page">{{ $breadcrumb['name'] }}</li>
                 @else
                     <li class="whitespace-nowrap">
-                        <a href="{{ $breadcrumb['url'] }}" class="text-emerald-600 hover:text-emerald-700 transition-colors">
+                        <a href="{{ $breadcrumb['url'] }}" class="text-[#f59e0b] hover:text-emerald-700 transition-colors">
                             {{ $breadcrumb['name'] }}
                         </a>
                     </li>
@@ -50,12 +50,25 @@
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3 sm:gap-4">
                 @foreach($category->children as $child)
                     <a href="{{ route('category.show', $child->slug) }}" 
-                       class="group bg-white hover:bg-emerald-50 border border-gray-200 hover:border-emerald-200 rounded-lg p-4 text-center transition-all duration-200">
-                        <div class="text-sm sm:text-base font-medium text-gray-900 group-hover:text-emerald-700 mb-1">
-                            {{ $child->name }}
-                        </div>
-                        <div class="text-xs text-gray-500">
-                            {{ $child->products_count }} {{ Str::plural('item', $child->products_count) }}
+                       class="group bg-white hover:bg-emerald-50 border border-gray-200 hover:border-emerald-200 rounded-lg overflow-hidden transition-all duration-200">
+                        @if($child->image_url)
+                            <div class="aspect-square overflow-hidden bg-gray-100">
+                                <img src="{{ $child->image_url }}" alt="{{ $child->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            </div>
+                        @else
+                            <div class="aspect-square bg-gray-100 flex items-center justify-center">
+                                <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                        @endif
+                        <div class="p-3 text-center">
+                            <div class="text-sm sm:text-base font-medium text-gray-900 group-hover:text-emerald-700 mb-1">
+                                {{ $child->name }}
+                            </div>
+                            <div class="text-xs text-gray-500">
+                                {{ $child->products_count }} {{ Str::plural('item', $child->products_count) }}
+                            </div>
                         </div>
                     </a>
                 @endforeach
@@ -86,8 +99,8 @@
                                 @endif
                             </div>
                             <div class="p-4">
-                                <h3 class="font-semibold text-gray-900 mb-1 group-hover:text-emerald-600 transition-colors">{{ $product->name }}</h3>
-                                <p class="text-emerald-600 font-bold text-lg">PKR {{ number_format($product->price_pkr / 100, 2) }}</p>
+                                <h3 class="font-semibold text-gray-900 mb-1 group-hover:text-[#f59e0b] transition-colors">{{ $product->name }}</h3>
+                                <p class="text-[#f59e0b] font-bold text-lg">PKR {{ number_format($product->price_pkr / 100, 2) }}</p>
                                 <span class="inline-block bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded-full mt-2">Featured</span>
                             </div>
                         </a>
@@ -192,7 +205,7 @@
                             @endif
                         </div>
                         <div class="p-4">
-                            <h3 class="font-semibold text-gray-900 mb-1 line-clamp-2 group-hover:text-emerald-600 transition-colors">
+                            <h3 class="font-semibold text-gray-900 mb-1 line-clamp-2 group-hover:text-[#f59e0b] transition-colors">
                                 {{ $product->name }}
                             </h3>
                             <div class="flex items-center justify-between">
@@ -200,7 +213,7 @@
                                     @if($product->compare_at_price_pkr && $product->compare_at_price_pkr > $product->price_pkr)
                                         <p class="text-sm text-gray-500 line-through">PKR {{ number_format($product->compare_at_price_pkr / 100, 2) }}</p>
                                     @endif
-                                    <p class="text-emerald-600 font-bold text-lg">PKR {{ number_format($product->price_pkr / 100, 2) }}</p>
+                                    <p class="text-[#f59e0b] font-bold text-lg">PKR {{ number_format($product->price_pkr / 100, 2) }}</p>
                                 </div>
                                 @if($product->is_featured)
                                     <span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded-full">Featured</span>
@@ -234,7 +247,7 @@
                 </p>
                 <div class="flex flex-col sm:flex-row gap-3 justify-center">
                     <a href="{{ route('products.index') }}" 
-                       class="inline-flex items-center justify-center bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors">
+                       class="inline-flex items-center justify-center bg-[#f59e0b] hover:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors">
                         Browse All Products
                     </a>
                     <a href="{{ route('categories.index') }}" 

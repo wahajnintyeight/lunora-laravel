@@ -1,5 +1,5 @@
 <!-- ========== HEADER ========== -->
-<header class="flex flex-col lg:flex-nowrap z-50 bg-white dark:bg-neutral-900 sticky top-0 shadow-sm">
+<header class="flex flex-col lg:flex-nowrap z-50 bg-[#450a0a] dark:bg-[#450a0a] sticky top-0 shadow-lg shadow-maroon-900/20">
     <!-- Topbar -->
     @include('partials.shop.topbar')
 
@@ -9,7 +9,7 @@
             <!-- Mobile Menu Button (visible only on mobile) -->
             <div class="lg:hidden flex items-center">
                 <button type="button" id="mobile-menu-toggle"
-                    class="touch-target inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-white dark:hover:bg-white/10 dark:focus:ring-emerald-400 transition-all duration-200"
+                    class="touch-target inline-flex justify-center items-center gap-x-2 rounded-lg border border-gold-300 bg-[#f59e0b]-100 text-maroon-800 shadow-sm hover:bg-[#f59e0b]-200 focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-[#f59e0b]-900/20 dark:border-gold-700 dark:text-gold-300 dark:hover:bg-[#f59e0b]-800/30 dark:focus:ring-gold-400 transition-all duration-200"
                     data-hs-collapse="#mobile-menu" aria-controls="mobile-menu" aria-label="Toggle navigation"
                     aria-expanded="false">
                     <svg class="mobile-menu-open:hidden shrink-0 size-4 transition-transform duration-200"
@@ -52,14 +52,14 @@
 
         <!-- Mobile Navigation Menu -->
         <div id="mobile-menu"
-            class="hidden w-full overflow-hidden transition-all duration-300 lg:hidden bg-white dark:bg-neutral-900 border-t border-gray-200 dark:border-neutral-700">
+            class="hidden w-full overflow-hidden transition-all duration-300 lg:hidden bg-[#450a0a] dark:bg-[#450a0a] border-t border-gold-300 dark:border-gold-700">
             <div class="py-4 space-y-4">
                 <!-- Mobile Search -->
                 <div class="px-2">
                     <form action="{{ route('search') }}" method="GET" class="relative" autocomplete="off">
                         <div class="relative">
                             <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5">
-                                <svg class="shrink-0 size-4 text-gray-400 dark:text-neutral-500"
+                                <svg class="shrink-0 size-4 text-gold-300/80 dark:text-gold-400/80"
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round">
@@ -68,7 +68,7 @@
                                 </svg>
                             </div>
                             <input type="text" name="q" value="{{ request('q') }}"
-                                class="form-input py-3 ps-10 pe-4 block w-full border-gray-200 rounded-lg text-base focus:border-emerald-500 focus:ring-emerald-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                                class="form-input py-3 ps-10 pe-4 block w-full border-gold-300 rounded-lg text-base focus:border-gold-500 focus:ring-gold-500 disabled:opacity-50 disabled:pointer-events-none bg-maroon-700 text-gold-100 placeholder-gold-300 dark:bg-maroon-800 dark:border-gold-600 dark:text-gold-100 dark:placeholder-gold-300 dark:focus:ring-gold-400"
                                 placeholder="Search for jewelry..." autocomplete="off" aria-label="Search products"
                                 data-search-input="products">
                             <!-- Realtime search results (mobile) -->
@@ -81,11 +81,27 @@
                 @include('partials.shop.mobile-categories')
 
                 <!-- Mobile Account Links -->
-                <div class="px-2 pt-4 border-t border-gray-200 dark:border-neutral-700">
+                <div class="px-2 pt-4 border-t border-gold-300/60 dark:border-gold-700/60">
                     @auth
+                        <div class="mb-3 flex items-center gap-x-3 px-3">
+                            @if (auth()->user()->avatar_url)
+                                <img class="shrink-0 size-9 rounded-full ring-2 ring-gold-500/60"
+                                    src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}">
+                            @else
+                                <div
+                                    class="shrink-0 size-9 rounded-full bg-maroon-700/80 flex items-center justify-center text-gold-200 text-sm font-semibold">
+                                    {{ strtoupper(mb_substr(auth()->user()->name, 0, 1)) }}
+                                </div>
+                            @endif
+                            <div class="min-w-0">
+                                <p class="text-xs uppercase tracking-wide text-gold-300/80">Signed in as</p>
+                                <p class="text-sm font-semibold text-gold-100 truncate">{{ auth()->user()->email }}</p>
+                            </div>
+                        </div>
+
                         <div class="space-y-2">
                             <a href="{{ route('user.profile') }}"
-                                class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 dark:text-neutral-200 dark:hover:bg-neutral-700">
+                                class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gold-100 hover:bg-[#f59e0b]-900/20 dark:text-gold-200 dark:hover:bg-[#f59e0b]-800/30"
                                 <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round">
@@ -95,7 +111,7 @@
                                 My Account
                             </a>
                             <a href="{{ route('user.orders') }}"
-                                class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 dark:text-neutral-200 dark:hover:bg-neutral-700">
+                                class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gold-100 hover:bg-[#f59e0b]-900/20 dark:text-gold-200 dark:hover:bg-[#f59e0b]-800/30"
                                 <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -105,7 +121,7 @@
                                 My Orders
                             </a>
                             <a href="{{ route('cart.index') }}"
-                                class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 dark:text-neutral-200 dark:hover:bg-neutral-700">
+                                class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gold-100 hover:bg-[#f59e0b]-900/20 dark:text-gold-200 dark:hover:bg-[#f59e0b]-800/30"
                                 <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -120,7 +136,7 @@
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit"
-                                    class="flex w-full items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 dark:text-neutral-200 dark:hover:bg-neutral-700">
+                                    class="flex w-full items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gold-100 hover:bg-[#f59e0b]-900/20 dark:text-gold-200 dark:hover:bg-[#f59e0b]-800/30"
                                     <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
                                         height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -135,7 +151,7 @@
                     @else
                         <div class="space-y-2">
                             <a href="{{ route('login') }}"
-                                class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 dark:text-neutral-200 dark:hover:bg-neutral-700">
+                                class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gold-100 hover:bg-[#f59e0b]-900/20 dark:text-gold-200 dark:hover:bg-[#f59e0b]-800/30"
                                 <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -146,7 +162,7 @@
                                 Sign In
                             </a>
                             <a href="{{ route('register') }}"
-                                class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm bg-emerald-600 text-white hover:bg-emerald-700">
+                                class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm bg-[#f59e0b] text-maroon-900 hover:bg-[#f59e0b]-500 font-semibold"
                                 <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

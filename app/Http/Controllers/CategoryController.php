@@ -247,52 +247,105 @@ class CategoryController extends Controller
      */
     protected function getCatalogCategories()
     {
-        $categories = Category::with(['children' => function ($query) {
-                $query->where('is_active', true)
-                    ->with(['children' => function ($q) {
-                        $q->where('is_active', true)
-                            ->withCount(['products' => function ($pq) {
-                                $pq->where('is_active', true)->where('stock', '>', 0);
-                            }])
-                            ->orderBy('sort_order')
-                            ->orderBy('name');
-                    }])
-                    ->withCount(['products' => function ($q) {
-                        $q->where('is_active', true)->where('stock', '>', 0);
-                    }])
-                    ->orderBy('sort_order')
-                    ->orderBy('name');
-            }])
+        $categories = Category::with([
+                'children' => function ($query) {
+                    $query->where('is_active', true)
+                        ->with([
+                            'children' => function ($q) {
+                                $q->where('is_active', true)
+                                    ->withCount(['products' => function ($pq) {
+                                        $pq->where('is_active', true)->where('stock', '>', 0);
+                                    }])
+                                    ->having('products_count', '>', 0)
+                                    ->orderBy('sort_order')
+                                    ->orderBy('name');
+                            },
+                            'products' => function ($q) {
+                                $q->where('is_active', true)
+                                    ->where('stock', '>', 0)
+                                    ->with(['images'])
+                                    ->orderBy('is_featured', 'desc')
+                                    ->orderBy('name')
+                                    ->limit(6); // Limit products per category for dropdown
+                            }
+                        ])
+                        ->withCount(['products' => function ($q) {
+                            $q->where('is_active', true)->where('stock', '>', 0);
+                        }])
+                        ->having('products_count', '>', 0)
+                        ->orderBy('sort_order')
+                        ->orderBy('name');
+                },
+                'products' => function ($query) {
+                    $query->where('is_active', true)
+                        ->where('stock', '>', 0)
+                        ->with(['images'])
+                        ->orderBy('is_featured', 'desc')
+                        ->orderBy('name')
+                        ->limit(6); // Limit products per category for dropdown
+                }
+            ])
             ->whereNull('parent_id')
             ->where('is_active', true)
             ->withCount(['products' => function ($query) {
                 $query->where('is_active', true)->where('stock', '>', 0);
             }])
+
             ->orderBy('sort_order')
             ->orderBy('name')
             ->get();
 
         return response()->json([
-            'categories' => $categories->map(function ($category) {
+            'categories' => $categories->filter(function ($category) {
+                // Only include categories that have products or children with products
+                return $category->products_count > 0 || $category->children->count() > 0;
+            })->map(function ($category) {
                 return [
                     'id' => $category->id,
                     'name' => $category->name,
                     'slug' => $category->slug,
                     'url' => route('category.show', $category->slug),
+                    'image_url' => $category->image_url,
                     'products_count' => $category->products_count,
+                    'products' => $category->products->map(function ($product) {
+                        return [
+                            'id' => $product->id,
+                            'name' => $product->name,
+                            'slug' => $product->slug,
+                            'url' => route('products.show', $product->slug),
+                            'price_pkr' => $product->price_pkr,
+                            'formatted_price' => 'PKR ' . number_format($product->price_pkr / 100, 0),
+                            'image_url' => $product->images->first()?->url,
+                            'is_featured' => $product->is_featured,
+                        ];
+                    }),
                     'children' => $category->children->map(function ($child) {
                         return [
                             'id' => $child->id,
                             'name' => $child->name,
                             'slug' => $child->slug,
                             'url' => route('category.show', $child->slug),
+                            'image_url' => $child->image_url,
                             'products_count' => $child->products_count,
+                            'products' => $child->products->map(function ($product) {
+                                return [
+                                    'id' => $product->id,
+                                    'name' => $product->name,
+                                    'slug' => $product->slug,
+                                    'url' => route('products.show', $product->slug),
+                                    'price_pkr' => $product->price_pkr,
+                                    'formatted_price' => 'PKR ' . number_format($product->price_pkr / 100, 0),
+                                    'image_url' => $product->images->first()?->url,
+                                    'is_featured' => $product->is_featured,
+                                ];
+                            }),
                             'children' => $child->children->map(function ($grandchild) {
                                 return [
                                     'id' => $grandchild->id,
                                     'name' => $grandchild->name,
                                     'slug' => $grandchild->slug,
                                     'url' => route('category.show', $grandchild->slug),
+                                    'image_url' => $grandchild->image_url,
                                     'products_count' => $grandchild->products_count,
                                 ];
                             })

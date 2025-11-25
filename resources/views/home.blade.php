@@ -13,11 +13,11 @@
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="{{ route('products.index') }}" 
-                   class="bg-emerald-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-emerald-700 transition-colors">
+                   class="bg-[#f59e0b] text-white px-8 py-3 rounded-lg font-semibold hover:bg-emerald-700 transition-colors">
                     Shop All Products
                 </a>
                 <a href="{{ route('categories.index') }}" 
-                   class="bg-white text-emerald-600 border-2 border-emerald-600 px-8 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors">
+                   class="bg-white text-[#f59e0b] border-2 border-[#f59e0b] px-8 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors">
                     Browse Categories
                 </a>
             </div>
@@ -48,14 +48,14 @@
                                     </div>
                                 @endif
                                 <div class="absolute top-2 right-2">
-                                    <span class="bg-emerald-600 text-white text-xs px-2 py-1 rounded-full">Featured</span>
+                                    <span class="bg-[#f59e0b] text-white text-xs px-2 py-1 rounded-full">Featured</span>
                                 </div>
                             </div>
                             <div class="p-4">
                                 <h3 class="font-semibold text-gray-900 mb-1">{{ $product->name }}</h3>
                                 <p class="text-sm text-gray-600 mb-2">{{ $product->category->name }}</p>
                                 <div class="flex items-center justify-between">
-                                    <p class="text-emerald-600 font-bold">PKR {{ number_format($product->price_pkr / 100, 2) }}</p>
+                                    <p class="text-[#f59e0b] font-bold">PKR {{ number_format($product->price_pkr / 100, 2) }}</p>
                                     @if($product->stock <= 5)
                                         <span class="text-orange-600 text-xs">Low Stock</span>
                                     @endif
@@ -67,7 +67,7 @@
             </div>
             <div class="text-center mt-8">
                 <a href="{{ route('products.index', ['sort' => 'featured']) }}" 
-                   class="inline-flex items-center text-emerald-600 hover:text-emerald-700 font-medium">
+                   class="inline-flex items-center text-[#f59e0b] hover:text-emerald-700 font-medium">
                     View All Featured Products
                     <svg class="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
@@ -90,7 +90,7 @@
                         <a href="{{ route('category.show', $category->slug) }}" class="block">
                             <div class="p-6 text-center">
                                 <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-emerald-200 transition-colors">
-                                    <svg class="w-8 h-8 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <svg class="w-8 h-8 text-[#f59e0b]" fill="currentColor" viewBox="0 0 20 20">
                                         <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
                                     </svg>
                                 </div>
@@ -98,7 +98,7 @@
                                 @if($category->description)
                                     <p class="text-gray-600 text-sm mb-3">{{ Str::limit($category->description, 100) }}</p>
                                 @endif
-                                <p class="text-emerald-600 font-medium">{{ $category->products_count }} Products</p>
+                                <p class="text-[#f59e0b] font-medium">{{ $category->products_count }} Products</p>
                             </div>
                         </a>
                     </div>
@@ -135,7 +135,7 @@
                             <div class="p-4">
                                 <h3 class="font-semibold text-gray-900 mb-1">{{ $product->name }}</h3>
                                 <p class="text-sm text-gray-600 mb-2">{{ $product->category->name }}</p>
-                                <p class="text-emerald-600 font-bold">PKR {{ number_format($product->price_pkr / 100, 2) }}</p>
+                                <p class="text-[#f59e0b] font-bold">PKR {{ number_format($product->price_pkr / 100, 2) }}</p>
                             </div>
                         </a>
                     </div>
@@ -143,7 +143,7 @@
             </div>
             <div class="text-center mt-8">
                 <a href="{{ route('products.index', ['sort' => 'newest']) }}" 
-                   class="inline-flex items-center text-emerald-600 hover:text-emerald-700 font-medium">
+                   class="inline-flex items-center text-[#f59e0b] hover:text-emerald-700 font-medium">
                     View All New Arrivals
                     <svg class="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
@@ -165,7 +165,7 @@
                         @endif
                     </div>
                     <a href="{{ route('category.show', $category->slug) }}" 
-                       class="text-emerald-600 hover:text-emerald-700 font-medium">
+                       class="text-[#f59e0b] hover:text-emerald-700 font-medium">
                         View All
                     </a>
                 </div>
@@ -184,7 +184,7 @@
                                 @endif
                                 <div class="p-4">
                                     <h4 class="font-semibold text-gray-900 mb-1">{{ $product->name }}</h4>
-                                    <p class="text-emerald-600 font-bold">PKR {{ number_format($product->price_pkr / 100, 2) }}</p>
+                                    <p class="text-[#f59e0b] font-bold">PKR {{ number_format($product->price_pkr / 100, 2) }}</p>
                                 </div>
                             </a>
                         </div>
@@ -208,7 +208,7 @@
                            placeholder="Search for jewelry..."
                            class="flex-1 border border-gray-300 rounded-l-lg px-4 py-2 focus:ring-emerald-500 focus:border-emerald-500">
                     <button type="submit" 
-                            class="bg-emerald-600 text-white px-6 py-2 rounded-r-lg hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500">
+                            class="bg-[#f59e0b] text-white px-6 py-2 rounded-r-lg hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500">
                         Search
                     </button>
                 </form>

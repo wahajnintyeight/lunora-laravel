@@ -67,6 +67,7 @@ class ProductController extends AdminController
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
             'images.*' => 'image|mimes:jpeg,png,webp|max:2048',
+            'image_urls.*' => 'nullable|url|max:2048',
         ]);
 
         DB::beginTransaction();
@@ -85,6 +86,11 @@ class ProductController extends AdminController
             // Handle image uploads
             if ($request->hasFile('images')) {
                 $this->uploadProductImages($product, $request->file('images'));
+            }
+
+            // Handle image URLs
+            if ($request->filled('image_urls')) {
+                $this->saveProductImageUrls($product, array_filter($request->image_urls));
             }
 
             DB::commit();
@@ -127,6 +133,8 @@ class ProductController extends AdminController
             'stock' => 'required|integer|min:0',
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
+            'images.*' => 'image|mimes:jpeg,png,webp|max:2048',
+            'image_urls.*' => 'nullable|url|max:2048',
         ]);
 
         DB::beginTransaction();
@@ -147,6 +155,11 @@ class ProductController extends AdminController
             // Handle new image uploads
             if ($request->hasFile('images')) {
                 $this->uploadProductImages($product, $request->file('images'));
+            }
+
+            // Handle image URLs
+            if ($request->filled('image_urls')) {
+                $this->saveProductImageUrls($product, array_filter($request->image_urls));
             }
 
             DB::commit();
@@ -488,6 +501,52 @@ class ProductController extends AdminController
                 'alt_text' => $product->name,
                 'sort_order' => $product->images()->count() + $index + 1,
             ]);
+        }
+    }
+
+    private function saveProductImageUrls(Product $product, array $imageUrls)
+    {
+        foreach ($imageUrls as $index => $url) {
+            // Validate URL is accessible and is an image
+            if ($this->validateImageUrl($url)) {
+                ProductImage::create([
+                    'product_id' => $product->id,
+                    'file_path' => $url, // Store URL directly in file_path
+                    'alt_text' => $product->name,
+                    'sort_order' => $product->images()->count() + $index + 1,
+                ]);
+            }
+        }
+    }
+
+    private function validateImageUrl($url)
+    {
+        try {
+            // Check if URL is valid
+            if (!filter_var($url, FILTER_VALIDATE_URL)) {
+                return false;
+            }
+
+            // Check if URL points to an image by checking headers
+            $headers = @get_headers($url, 1);
+            if (!$headers) {
+                return false;
+            }
+
+            // Check if the response is successful
+            if (strpos($headers[0], '200') === false) {
+                return false;
+            }
+
+            // Check content type
+            $contentType = isset($headers['Content-Type']) ? $headers['Content-Type'] : '';
+            if (is_array($contentType)) {
+                $contentType = $contentType[0];
+            }
+
+            return strpos($contentType, 'image/') === 0;
+        } catch (\Exception $e) {
+            return false;
         }
     }
 }

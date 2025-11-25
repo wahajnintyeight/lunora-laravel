@@ -20,9 +20,9 @@
                            value="{{ $orderNumber }}"
                            placeholder="Enter order number (e.g., ORD-2024-001)"
                            required
-                           class="flex-1 border border-gray-300 rounded-l-md px-4 py-3 focus:ring-emerald-500 focus:border-emerald-500">
+                           class="flex-1 border border-gray-300 rounded-l-md px-4 py-3 focus:ring-gold-500 focus:border-gold-500">
                     <button type="submit" 
-                            class="bg-emerald-600 text-white px-6 py-3 rounded-r-md hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+                            class="bg-[#f59e0b] text-white px-6 py-3 rounded-r-md hover:bg-[#f59e0b]-700 focus:ring-2 focus:ring-gold-500 focus:ring-offset-2">
                         Track Order
                     </button>
                 </div>
@@ -107,10 +107,10 @@
                                     $isCurrent = $index === $currentStatusIndex;
                                 @endphp
                                 
-                                <div class="flex flex-col items-center {{ $isCompleted ? 'text-emerald-600' : 'text-gray-400' }}">
+                                <div class="flex flex-col items-center {{ $isCompleted ? 'text-gold-600' : 'text-gray-400' }}">
                                     <div class="w-10 h-10 rounded-full border-2 flex items-center justify-center mb-2 
-                                        {{ $isCompleted ? 'border-emerald-600 bg-emerald-600 text-white' : 'border-gray-300' }}
-                                        {{ $isCurrent ? 'ring-4 ring-emerald-200' : '' }}">
+                                        {{ $isCompleted ? 'border-gold-600 bg-[#f59e0b] text-white' : 'border-gray-300' }}
+                                        {{ $isCurrent ? 'ring-4 ring-gold-200' : '' }}">
                                         @if($isCompleted && !$isCurrent)
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
@@ -121,12 +121,12 @@
                                     </div>
                                     <span class="text-xs text-center font-medium">{{ $statusLabel }}</span>
                                     @if($isCurrent)
-                                        <span class="text-xs text-emerald-600 mt-1">Current</span>
+                                        <span class="text-xs text-gold-600 mt-1">Current</span>
                                     @endif
                                 </div>
                                 
                                 @if(!$loop->last)
-                                    <div class="flex-1 h-0.5 mx-4 {{ $index < $currentStatusIndex ? 'bg-emerald-600' : 'bg-gray-300' }}"></div>
+                                    <div class="flex-1 h-0.5 mx-4 {{ $index < $currentStatusIndex ? 'bg-[#f59e0b]' : 'bg-gray-300' }}"></div>
                                 @endif
                             @endforeach
                         </div>
@@ -191,7 +191,7 @@
                     <div class="mt-6 pt-4 border-t border-gray-200">
                         <div class="flex justify-between items-center">
                             <span class="text-lg font-semibold text-gray-900">Order Total:</span>
-                            <span class="text-lg font-bold text-emerald-600">
+                            <span class="text-lg font-bold text-gold-600">
                                 PKR {{ number_format($order->total_pkr / 100, 2) }}
                             </span>
                         </div>
@@ -244,7 +244,7 @@
                 <!-- Action Buttons -->
                 <div class="flex flex-wrap gap-4 justify-center">
                     <a href="{{ route('user.order-detail', $order->order_number) }}" 
-                       class="bg-emerald-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-700">
+                       class="bg-[#f59e0b] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#f59e0b]-700">
                         View Full Order Details
                     </a>
                     

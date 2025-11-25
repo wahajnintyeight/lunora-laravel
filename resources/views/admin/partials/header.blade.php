@@ -1,18 +1,19 @@
 <!-- ========== HEADER ========== -->
-<header class="lg:ms-[260px] fixed top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 bg-white border-b border-gray-200 dark:bg-neutral-800 dark:border-neutral-700">
-    <div class="flex justify-between xl:grid xl:grid-cols-3 basis-full items-center w-full py-2.5 px-2 sm:px-5">
-        <div class="xl:col-span-1 flex items-center md:gap-x-3">
-            <div class="lg:hidden">
-                <!-- Sidebar Toggle -->
-                <button type="button" class="w-7 h-[38px] inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-pro-sidebar" aria-label="Toggle navigation" data-hs-overlay="#hs-pro-sidebar">
-                    <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M17 8L21 12L17 16M3 12H13M3 6H13M3 18H13" />
-                    </svg>
-                </button>
-                <!-- End Sidebar Toggle -->
-            </div>
+<!-- ========== HEADER ========== -->
+<header class="sticky top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full bg-white border-b border-gray-200 dark:bg-neutral-800 dark:border-neutral-700">
+    <nav class="flex basis-full items-center w-full mx-auto py-2.5 px-4 sm:px-6 lg:px-8" aria-label="Global">
+        <div class="me-5 lg:me-0 lg:hidden">
+            <!-- Sidebar Toggle -->
+            <button type="button" class="w-7 h-[38px] inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-pro-sidebar" aria-label="Toggle navigation" data-hs-overlay="#hs-pro-sidebar">
+                <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 8L21 12L17 16M3 12H13M3 6H13M3 18H13" />
+                </svg>
+            </button>
+            <!-- End Sidebar Toggle -->
+        </div>
 
-            <div class="hidden lg:block min-w-80 xl:w-full">
+        <div class="flex items-center justify-end w-full sm:gap-x-3">
+            <div class="w-full lg:w-3/4 xl:w-2/3 2xl:w-1/2">
                 <!-- Search Input -->
                 <div class="relative">
                     <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5">
@@ -25,21 +26,8 @@
                 </div>
                 <!-- End Search Input -->
             </div>
-        </div>
 
-        <div class="xl:col-span-2 flex justify-end items-center gap-x-2">
-            <div class="flex items-center">
-                <div class="lg:hidden">
-                    <!-- Search Button Icon -->
-                    <button type="button" class="inline-flex shrink-0 justify-center items-center gap-x-2 size-[38px] rounded-full text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
-                        <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="11" cy="11" r="8" />
-                            <path d="m21 21-4.3-4.3" />
-                        </svg>
-                    </button>
-                    <!-- End Search Button Icon -->
-                </div>
-
+            <div class="flex items-center sm:gap-x-3">
                 <!-- View Site Link -->
                 <div class="hs-tooltip [--placement:bottom] inline-block">
                     <a href="{{ route('home') }}" target="_blank" class="hs-tooltip-toggle size-[38px] inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
@@ -60,7 +48,7 @@
                         <img class="shrink-0 size-[38px] rounded-full" src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=3&w=320&h=320&q=80" alt="{{ auth()->user()->name }}">
                     </button>
 
-                    <div class="hs-dropdown-menu hs-dropdown-open:opacity-100 w-60 transition-[opacity,margin] duration opacity-0 hidden z-10 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:shadow-[0_10px_40px_10px_rgba(0,0,0,0.2)] dark:bg-neutral-900" role="menu" aria-orientation="vertical" aria-labelledby="hs-pro-dnud">
+                    <div class="hs-dropdown-menu hs-dropdown-open:opacity-100 end-0 w-60 transition-[opacity,margin] duration opacity-0 hidden z-10 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:shadow-[0_10px_40px_10px_rgba(0,0,0,0.2)] dark:bg-neutral-900" role="menu" aria-orientation="vertical" aria-labelledby="hs-pro-dnud">
                         <div class="py-3 px-5 bg-gray-100 rounded-t-xl dark:bg-neutral-700">
                             <p class="text-sm text-gray-500 dark:text-neutral-500">Signed in as</p>
                             <p class="text-sm font-medium text-gray-800 dark:text-neutral-300">{{ auth()->user()->name }}</p>
@@ -93,6 +81,6 @@
                 <!-- End User Dropdown -->
             </div>
         </div>
-    </div>
+    </nav>
 </header>
 <!-- ========== END HEADER ========== -->

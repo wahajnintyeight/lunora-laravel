@@ -51,6 +51,14 @@ class LoginController extends Controller
             // Update last login timestamp
             Auth::user()->update(['last_login_at' => now()]);
 
+            // Redirect admins to admin dashboard, others to home
+            $user = Auth::user();
+
+            if (method_exists($user, 'isAdmin') && $user->isAdmin()) {
+                return redirect()->intended(route('admin.dashboard'))
+                    ->with('success', 'Welcome back, admin!');
+            }
+
             return redirect()->intended(route('home'))
                 ->with('success', 'Welcome back!');
         } catch (\Illuminate\Validation\ValidationException $e) {

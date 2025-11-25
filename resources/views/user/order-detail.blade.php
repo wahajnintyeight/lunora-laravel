@@ -31,9 +31,9 @@
             <!-- Breadcrumb -->
             <nav class="mt-4">
                 <ol class="flex items-center space-x-2 text-sm">
-                    <li><a href="{{ route('user.profile') }}" class="text-emerald-600 hover:text-emerald-700">Account</a></li>
+                    <li><a href="{{ route('user.profile') }}" class="text-[#f59e0b] hover:text-emerald-700">Account</a></li>
                     <li class="text-gray-400">/</li>
-                    <li><a href="{{ route('user.orders') }}" class="text-emerald-600 hover:text-emerald-700">Orders</a></li>
+                    <li><a href="{{ route('user.orders') }}" class="text-[#f59e0b] hover:text-emerald-700">Orders</a></li>
                     <li class="text-gray-400">/</li>
                     <li class="text-gray-500">#{{ $order->order_number }}</li>
                 </ol>
@@ -54,8 +54,8 @@
                 @endphp
                 
                 @foreach($statuses as $index => $status)
-                    <div class="flex flex-col items-center {{ $index <= $currentStatusIndex ? 'text-emerald-600' : 'text-gray-400' }}">
-                        <div class="w-8 h-8 rounded-full border-2 flex items-center justify-center {{ $index <= $currentStatusIndex ? 'border-emerald-600 bg-emerald-600 text-white' : 'border-gray-300' }}">
+                    <div class="flex flex-col items-center {{ $index <= $currentStatusIndex ? 'text-[#f59e0b]' : 'text-gray-400' }}">
+                        <div class="w-8 h-8 rounded-full border-2 flex items-center justify-center {{ $index <= $currentStatusIndex ? 'border-[#f59e0b] bg-[#f59e0b] text-white' : 'border-gray-300' }}">
                             @if($index < $currentStatusIndex)
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
@@ -68,7 +68,7 @@
                     </div>
                     
                     @if(!$loop->last)
-                        <div class="flex-1 h-0.5 mx-4 {{ $index < $currentStatusIndex ? 'bg-emerald-600' : 'bg-gray-300' }}"></div>
+                        <div class="flex-1 h-0.5 mx-4 {{ $index < $currentStatusIndex ? 'bg-[#f59e0b]' : 'bg-gray-300' }}"></div>
                     @endif
                 @endforeach
             </div>
@@ -156,7 +156,7 @@
                             <!-- Product Details -->
                             <div class="flex-1 min-w-0">
                                 <h3 class="text-lg font-medium text-gray-900">
-                                    <a href="{{ route('products.show', $item->product->slug) }}" class="hover:text-emerald-600">
+                                    <a href="{{ route('products.show', $item->product->slug) }}" class="hover:text-[#f59e0b]">
                                         {{ $item->product->name }}
                                     </a>
                                 </h3>
@@ -264,7 +264,7 @@
                 <form method="POST" action="{{ route('user.order.reorder', $order->order_number) }}" class="inline">
                     @csrf
                     <button type="submit" 
-                            class="bg-emerald-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-700">
+                            class="bg-[#f59e0b] text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-700">
                         Reorder Items
                     </button>
                 </form>

@@ -91,7 +91,7 @@
     <!-- Reset Password Button -->
     <div>
         <button type="submit" 
-                class="group relative w-full flex justify-center py-3 px-4 min-h-[44px] border border-transparent text-base font-medium rounded-lg text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200">
+                class="group relative w-full flex justify-center py-3 px-4 min-h-[44px] border border-transparent text-base font-medium rounded-lg text-white bg-[#f59e0b] hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200">
             <span class="absolute left-0 inset-y-0 flex items-center pl-3">
                 <svg class="h-5 w-5 text-emerald-500 group-hover:text-emerald-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
@@ -107,14 +107,14 @@
 <div class="text-center space-y-3">
     <p class="text-sm sm:text-base text-gray-600 dark:text-neutral-400 leading-relaxed">
         Remember your password? 
-        <a href="{{ route('login') }}" class="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 touch-target transition-colors duration-200 underline decoration-2 underline-offset-2">
+        <a href="{{ route('login') }}" class="font-medium text-[#f59e0b] hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 touch-target transition-colors duration-200 underline decoration-2 underline-offset-2">
             Back to sign in
         </a>
     </p>
     <div class="pt-2 border-t border-gray-200 dark:border-neutral-700">
         <p class="text-xs sm:text-sm text-gray-500 dark:text-neutral-500 leading-relaxed">
             Need help? Contact our 
-            <a href="#" class="text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 underline">support team</a>
+            <a href="#" class="text-[#f59e0b] hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 underline">support team</a>
         </p>
     </div>
 </div>

@@ -17,7 +17,7 @@
             </a>
             <button type="button" 
                     onclick="openUploadModal()"
-                    class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700">
+                    class="px-4 py-2 bg-[#f59e0b] text-white rounded-lg hover:bg-emerald-700">
                 Upload Images
             </button>
         </div>
@@ -49,7 +49,7 @@
                         <div class="image-item relative group" data-image-id="{{ $image->id }}">
                             <!-- Primary Badge -->
                             @if($image->is_primary)
-                                <div class="absolute top-2 left-2 z-10 px-2 py-1 bg-emerald-600 text-white text-xs rounded">
+                                <div class="absolute top-2 left-2 z-10 px-2 py-1 bg-[#f59e0b] text-white text-xs rounded">
                                     Primary
                                 </div>
                             @endif
@@ -96,7 +96,7 @@
                                     @if(!$image->is_primary)
                                         <button type="button" 
                                                 onclick="setPrimaryImage({{ $image->id }})"
-                                                class="p-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700"
+                                                class="p-2 bg-[#f59e0b] text-white rounded-lg hover:bg-emerald-700"
                                                 title="Set as Primary">
                                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
@@ -126,7 +126,7 @@
                     <div class="mt-6">
                         <button type="button" 
                                 onclick="openUploadModal()"
-                                class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700">
+                                class="px-4 py-2 bg-[#f59e0b] text-white rounded-lg hover:bg-emerald-700">
                             Upload Images
                         </button>
                     </div>
@@ -161,7 +161,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
                     </svg>
                     <p class="mt-2 text-sm text-gray-600">
-                        <span class="font-medium text-emerald-600 hover:text-emerald-500 cursor-pointer" onclick="document.getElementById('file-input').click()">
+                        <span class="font-medium text-[#f59e0b] hover:text-emerald-500 cursor-pointer" onclick="document.getElementById('file-input').click()">
                             Click to upload
                         </span>
                         or drag and drop
@@ -185,7 +185,7 @@
                     </button>
                     <button type="submit" 
                             id="upload-btn"
-                            class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                            class="px-4 py-2 bg-[#f59e0b] text-white rounded-lg hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed">
                         Upload Images
                     </button>
                 </div>
