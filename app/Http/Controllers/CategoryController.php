@@ -161,6 +161,7 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
+        // Get all root categories with their children
         $categories = Category::with(['children' => function ($query) {
                 $query->where('is_active', true)
                     ->withCount(['products' => function ($q) {
@@ -172,13 +173,30 @@ class CategoryController extends Controller
             }])
             ->whereNull('parent_id')
             ->where('is_active', true)
-            ->withCount(['products' => function ($query) {
-                $query->where('is_active', true)->where('stock', '>', 0);
-            }])
-            ->having('products_count', '>', 0)
             ->orderBy('sort_order')
             ->orderBy('name')
-            ->get();
+            ->get()
+            ->map(function ($category) {
+                // Get all category IDs including subcategories recursively
+                $categoryIds = $this->getAllDescendantIds($category);
+                $categoryIds->push($category->id);
+                
+                // Count products in this category and all subcategories
+                $productsCount = Product::whereIn('category_id', $categoryIds)
+                    ->where('is_active', true)
+                    ->where('stock', '>', 0)
+                    ->count();
+                
+                // Add the products_count to the category
+                $category->products_count = $productsCount;
+                
+                return $category;
+            })
+            ->filter(function ($category) {
+                // Only include categories that have products (including in subcategories)
+                return $category->products_count > 0;
+            })
+            ->values();
 
         if ($request->expectsJson()) {
             return response()->json([
@@ -384,5 +402,30 @@ class CategoryController extends Controller
         ]);
 
         return $breadcrumbs;
+    }
+
+    /**
+     * Recursively get all descendant category IDs (only active categories).
+     */
+    private function getAllDescendantIds(Category $category): \Illuminate\Support\Collection
+    {
+        $ids = collect();
+        
+        // Load children if not already loaded, only active ones
+        if (!$category->relationLoaded('children')) {
+            $category->load(['children' => function ($query) {
+                $query->where('is_active', true);
+            }]);
+        }
+        
+        foreach ($category->children as $child) {
+            if ($child->is_active) {
+                $ids->push($child->id);
+                // Recursively get descendants
+                $ids = $ids->merge($this->getAllDescendantIds($child));
+            }
+        }
+        
+        return $ids;
     }
 }

@@ -17,7 +17,7 @@
                 <p class="text-lg text-gray-600">Handpicked pieces from our premium collection</p>
             </div>
             
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 items-stretch">
                 @forelse($featuredProducts ?? [] as $product)
                     <x-product-card 
                         :product="$product"
@@ -50,7 +50,7 @@
                 <p class="text-lg text-gray-600">Latest additions to our collection</p>
             </div>
             
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
                 @foreach($newArrivals as $product)
                     <x-product-card 
                         :product="$product"

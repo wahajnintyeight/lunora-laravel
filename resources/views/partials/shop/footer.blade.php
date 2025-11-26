@@ -66,11 +66,31 @@
                 <h4 class="font-semibold text-gray-100 mb-4">Support</h4>
 
                 <div class="grid space-y-3">
-                    <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 transition-colors" href="#">Size Guide</a></p>
-                    <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 transition-colors" href="#">Care Instructions</a></p>
-                    <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 transition-colors" href="#">Shipping Info</a></p>
-                    <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 transition-colors" href="#">Returns & Exchanges</a></p>
-                    <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 transition-colors" href="#">Contact Us</a></p>
+                    @if($hasPage('size-guide'))
+                        <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 transition-colors" href="{{ route('page.show', $getPage('size-guide')->slug) }}">{{ $getPage('size-guide')->title }}</a></p>
+                    @else
+                        <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 transition-colors" href="#">Size Guide</a></p>
+                    @endif
+                    @if($hasPage('care-instructions'))
+                        <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 transition-colors" href="{{ route('page.show', $getPage('care-instructions')->slug) }}">{{ $getPage('care-instructions')->title }}</a></p>
+                    @else
+                        <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 transition-colors" href="#">Care Instructions</a></p>
+                    @endif
+                    @if($hasPage('shipping'))
+                        <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 transition-colors" href="{{ route('page.show', $getPage('shipping')->slug) }}">{{ $getPage('shipping')->title }}</a></p>
+                    @else
+                        <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 transition-colors" href="{{ route('shipping') }}">Shipping Info</a></p>
+                    @endif
+                    @if($hasPage('returns'))
+                        <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 transition-colors" href="{{ route('page.show', $getPage('returns')->slug) }}">{{ $getPage('returns')->title }}</a></p>
+                    @else
+                        <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 transition-colors" href="{{ route('returns') }}">Returns & Exchanges</a></p>
+                    @endif
+                    @if($hasPage('contact'))
+                        <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 transition-colors" href="{{ route('page.show', $getPage('contact')->slug) }}">{{ $getPage('contact')->title }}</a></p>
+                    @else
+                        <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 transition-colors" href="{{ route('contact') }}">Contact Us</a></p>
+                    @endif
                 </div>
             </div>
             <!-- End Col -->

@@ -9,19 +9,47 @@
             <h4 class="footer-title">Quick Links</h4>
             <ul class="footer-links">
                 <li><a href="{{ route('shop.index') }}">Shop</a></li>
-                <li><a href="{{ route('about') }}">About Us</a></li>
-                <li><a href="{{ route('blog.index') }}">Blog</a></li>
-                <li><a href="{{ route('contact') }}">Contact</a></li>
+                @if($hasPage('about'))
+                    <li><a href="{{ route('page.show', $getPage('about')->slug) }}">{{ $getPage('about')->title }}</a></li>
+                @else
+                    <li><a href="{{ route('about') }}">About Us</a></li>
+                @endif
+                @if($hasPage('blog'))
+                    <li><a href="{{ route('page.show', $getPage('blog')->slug) }}">{{ $getPage('blog')->title }}</a></li>
+                @else
+                    <li><a href="{{ route('blog.index') }}">Blog</a></li>
+                @endif
+                @if($hasPage('contact'))
+                    <li><a href="{{ route('page.show', $getPage('contact')->slug) }}">{{ $getPage('contact')->title }}</a></li>
+                @else
+                    <li><a href="{{ route('contact') }}">Contact</a></li>
+                @endif
             </ul>
         </div>
         
         <div class="footer-section">
             <h4 class="footer-title">Customer Service</h4>
             <ul class="footer-links">
-                <li><a href="{{ route('faq') }}">FAQ</a></li>
-                <li><a href="{{ route('shipping') }}">Shipping Info</a></li>
-                <li><a href="{{ route('returns') }}">Returns Policy</a></li>
-                <li><a href="{{ route('warranty') }}">Warranty</a></li>
+                @if($hasPage('faq'))
+                    <li><a href="{{ route('page.show', $getPage('faq')->slug) }}">{{ $getPage('faq')->title }}</a></li>
+                @else
+                    <li><a href="{{ route('faq') }}">FAQ</a></li>
+                @endif
+                @if($hasPage('shipping'))
+                    <li><a href="{{ route('page.show', $getPage('shipping')->slug) }}">{{ $getPage('shipping')->title }}</a></li>
+                @else
+                    <li><a href="{{ route('shipping') }}">Shipping Info</a></li>
+                @endif
+                @if($hasPage('returns'))
+                    <li><a href="{{ route('page.show', $getPage('returns')->slug) }}">{{ $getPage('returns')->title }}</a></li>
+                @else
+                    <li><a href="{{ route('returns') }}">Returns Policy</a></li>
+                @endif
+                @if($hasPage('warranty'))
+                    <li><a href="{{ route('page.show', $getPage('warranty')->slug) }}">{{ $getPage('warranty')->title }}</a></li>
+                @else
+                    <li><a href="{{ route('warranty') }}">Warranty</a></li>
+                @endif
             </ul>
         </div>
         

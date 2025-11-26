@@ -1,5 +1,7 @@
 <!-- ========== HEADER ========== -->
-<!-- ========== HEADER ========== -->
+@php
+    use Illuminate\Support\Facades\Storage;
+@endphp
 <header class="sticky top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full bg-white border-b border-gray-200 dark:bg-neutral-800 dark:border-neutral-700">
     <nav class="flex basis-full items-center w-full mx-auto py-2.5 px-4 sm:px-6 lg:px-8" aria-label="Global">
         <div class="me-5 lg:me-0 lg:hidden">
@@ -13,20 +15,6 @@
         </div>
 
         <div class="flex items-center justify-end w-full sm:gap-x-3">
-            <div class="w-full lg:w-3/4 xl:w-2/3 2xl:w-1/2">
-                <!-- Search Input -->
-                <div class="relative">
-                    <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5">
-                        <svg class="shrink-0 size-4 text-gray-400 dark:text-white/60" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="11" cy="11" r="8" />
-                            <path d="m21 21-4.3-4.3" />
-                        </svg>
-                    </div>
-                    <input type="text" class="py-2 ps-10 pe-16 block w-full bg-white border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-200 focus:ring-0 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder:text-neutral-400 dark:focus:ring-neutral-600" placeholder="Search Lunora Admin">
-                </div>
-                <!-- End Search Input -->
-            </div>
-
             <div class="flex items-center sm:gap-x-3">
                 <!-- View Site Link -->
                 <div class="hs-tooltip [--placement:bottom] inline-block">
@@ -45,7 +33,13 @@
                 <!-- User Dropdown -->
                 <div class="hs-dropdown [--placement:bottom-right] relative inline-flex">
                     <button id="hs-pro-dnud" type="button" class="size-[38px] inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-                        <img class="shrink-0 size-[38px] rounded-full" src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=3&w=320&h=320&q=80" alt="{{ auth()->user()->name }}">
+                        @if(auth()->user()->avatar)
+                            <img class="shrink-0 size-[38px] rounded-full object-cover" src="{{ Storage::url(auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}">
+                        @else
+                            <div class="shrink-0 size-[38px] rounded-full bg-gradient-to-br from-[#881337] to-[#78350f] flex items-center justify-center text-white font-semibold text-sm">
+                                {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                            </div>
+                        @endif
                     </button>
 
                     <div class="hs-dropdown-menu hs-dropdown-open:opacity-100 end-0 w-60 transition-[opacity,margin] duration opacity-0 hidden z-10 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:shadow-[0_10px_40px_10px_rgba(0,0,0,0.2)] dark:bg-neutral-900" role="menu" aria-orientation="vertical" aria-labelledby="hs-pro-dnud">
@@ -60,6 +54,14 @@
                                     <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                                 </svg>
                                 Dashboard
+                            </a>
+
+                            <a class="flex gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="{{ route('admin.profile') }}">
+                                <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                                My Profile
                             </a>
 
                             <div class="my-1 border-t border-gray-200 dark:border-neutral-800"></div>

@@ -7,10 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\View;
 use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Mail\Events\MessageSent;
 use App\Listeners\EmailSendingListener;
 use App\Listeners\EmailSentListener;
+use App\ViewComposers\PagesViewComposer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->configureRateLimiting();
         $this->configureEmailEvents();
+        $this->registerViewComposers();
     }
 
     /**
@@ -85,5 +88,13 @@ class AppServiceProvider extends ServiceProvider
     {
         Event::listen(MessageSending::class, EmailSendingListener::class);
         Event::listen(MessageSent::class, EmailSentListener::class);
+    }
+
+    /**
+     * Register view composers.
+     */
+    protected function registerViewComposers(): void
+    {
+        View::composer('*', PagesViewComposer::class);
     }
 }

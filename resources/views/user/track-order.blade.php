@@ -21,10 +21,9 @@
                            placeholder="Enter order number (e.g., ORD-2024-001)"
                            required
                            class="flex-1 border border-gray-300 rounded-l-md px-4 py-3 focus:ring-gold-500 focus:border-gold-500">
-                    <button type="submit" 
-                            class="bg-[#f59e0b] text-white px-6 py-3 rounded-r-md hover:bg-[#f59e0b]-700 focus:ring-2 focus:ring-gold-500 focus:ring-offset-2">
+                    <x-button type="submit" variant="gold" size="md" class="rounded-r-md">
                         Track Order
-                    </button>
+                    </x-button>
                 </div>
             </form>
         </div>

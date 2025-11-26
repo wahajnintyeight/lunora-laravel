@@ -18,6 +18,9 @@
     <!-- Tailwind CSS -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <!-- Admin Dashboard CSS -->
+    <link rel="stylesheet" href="{{ asset('css/main.min.css') }}">
+
     <!-- Preline UI JavaScript -->
     <script src="{{ asset('vendor/preline/dist/index.js') }}"></script>
     

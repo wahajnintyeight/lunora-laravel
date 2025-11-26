@@ -12,8 +12,52 @@
             <li><a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a></li>
             <li><a href="{{ route('shop.index') }}" class="nav-link {{ request()->routeIs('shop.*') || request()->routeIs('products.*') ? 'active' : '' }}">Shop</a></li>
             <li><a href="{{ route('collections.index') }}" class="nav-link {{ request()->routeIs('collections.*') || request()->routeIs('categories.*') ? 'active' : '' }}">Collections</a></li>
-            <li><a href="{{ route('about') }}" class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}">About</a></li>
-            <li><a href="{{ route('contact') }}" class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a></li>
+            
+            @php
+                // Helper functions for pages (with fallback if view composer didn't run)
+                $hasPage = $hasPage ?? function($slug) {
+                    return \App\Models\Page::published()->where('slug', $slug)->exists();
+                };
+                $getPage = $getPage ?? function($slug) {
+                    return \App\Models\Page::published()->where('slug', $slug)->first();
+                };
+            @endphp
+            
+            @if(is_callable($hasPage) && $hasPage('about'))
+                @php $aboutPage = is_callable($getPage) ? $getPage('about') : null; @endphp
+                @if($aboutPage)
+                    <li><a href="{{ route('page.show', $aboutPage->slug) }}" class="nav-link {{ (request()->routeIs('page.show') && request()->route('page') && request()->route('page')->slug === 'about') || request()->routeIs('about') ? 'active' : '' }}">{{ $aboutPage->title }}</a></li>
+                @else
+                    <li><a href="{{ route('about') }}" class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}">About</a></li>
+                @endif
+            @else
+                <li><a href="{{ route('about') }}" class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}">About</a></li>
+            @endif
+            
+            @if(is_callable($hasPage) && $hasPage('contact'))
+                @php $contactPage = is_callable($getPage) ? $getPage('contact') : null; @endphp
+                @if($contactPage)
+                    <li><a href="{{ route('page.show', $contactPage->slug) }}" class="nav-link {{ (request()->routeIs('page.show') && request()->route('page') && request()->route('page')->slug === 'contact') || request()->routeIs('contact') ? 'active' : '' }}">{{ $contactPage->title }}</a></li>
+                @else
+                    <li><a href="{{ route('contact') }}" class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a></li>
+                @endif
+            @else
+                <li><a href="{{ route('contact') }}" class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a></li>
+            @endif
+            
+            @if(is_callable($hasPage) && $hasPage('faq'))
+                @php $faqPage = is_callable($getPage) ? $getPage('faq') : null; @endphp
+                @if($faqPage)
+                    <li><a href="{{ route('page.show', $faqPage->slug) }}" class="nav-link {{ request()->routeIs('page.show') && request()->route('page') && request()->route('page')->slug === 'faq' ? 'active' : '' }}">{{ $faqPage->title }}</a></li>
+                @endif
+            @endif
+            
+            @if(is_callable($hasPage) && $hasPage('blog'))
+                @php $blogPage = is_callable($getPage) ? $getPage('blog') : null; @endphp
+                @if($blogPage)
+                    <li><a href="{{ route('page.show', $blogPage->slug) }}" class="nav-link {{ request()->routeIs('page.show') && request()->route('page') && request()->route('page')->slug === 'blog' ? 'active' : '' }}">{{ $blogPage->title }}</a></li>
+                @endif
+            @endif
         </ul>
 
         <!-- Right Section: Search, Cart, User Menu -->
@@ -170,12 +214,72 @@
             <a href="{{ route('collections.index') }}" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 {{ request()->routeIs('collections.*') || request()->routeIs('categories.*') ? 'bg-gray-100 font-semibold' : '' }}">
                 Collections
             </a>
-            <a href="{{ route('about') }}" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 {{ request()->routeIs('about') ? 'bg-gray-100 font-semibold' : '' }}">
-                About
-            </a>
-            <a href="{{ route('contact') }}" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 {{ request()->routeIs('contact') ? 'bg-gray-100 font-semibold' : '' }}">
-                Contact
-            </a>
+            
+            @php
+                // Helper functions for pages (with fallback if view composer didn't run)
+                if (!isset($hasPage) || !is_callable($hasPage)) {
+                    $hasPage = function($slug) {
+                        return \App\Models\Page::published()->where('slug', $slug)->exists();
+                    };
+                }
+                if (!isset($getPage) || !is_callable($getPage)) {
+                    $getPage = function($slug) {
+                        return \App\Models\Page::published()->where('slug', $slug)->first();
+                    };
+                }
+            @endphp
+            
+            @if($hasPage('about'))
+                @php $aboutPage = $getPage('about'); @endphp
+                @if($aboutPage)
+                    <a href="{{ route('page.show', $aboutPage->slug) }}" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 {{ ((request()->routeIs('page.show') && request()->route('page') && request()->route('page')->slug === 'about') || request()->routeIs('about')) ? 'bg-gray-100 font-semibold' : '' }}">
+                        {{ $aboutPage->title }}
+                    </a>
+                @else
+                    <a href="{{ route('about') }}" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 {{ request()->routeIs('about') ? 'bg-gray-100 font-semibold' : '' }}">
+                        About
+                    </a>
+                @endif
+            @else
+                <a href="{{ route('about') }}" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 {{ request()->routeIs('about') ? 'bg-gray-100 font-semibold' : '' }}">
+                    About
+                </a>
+            @endif
+            
+            @if($hasPage('contact'))
+                @php $contactPage = $getPage('contact'); @endphp
+                @if($contactPage)
+                    <a href="{{ route('page.show', $contactPage->slug) }}" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 {{ ((request()->routeIs('page.show') && request()->route('page') && request()->route('page')->slug === 'contact') || request()->routeIs('contact')) ? 'bg-gray-100 font-semibold' : '' }}">
+                        {{ $contactPage->title }}
+                    </a>
+                @else
+                    <a href="{{ route('contact') }}" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 {{ request()->routeIs('contact') ? 'bg-gray-100 font-semibold' : '' }}">
+                        Contact
+                    </a>
+                @endif
+            @else
+                <a href="{{ route('contact') }}" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 {{ request()->routeIs('contact') ? 'bg-gray-100 font-semibold' : '' }}">
+                    Contact
+                </a>
+            @endif
+            
+            @if($hasPage('faq'))
+                @php $faqPage = $getPage('faq'); @endphp
+                @if($faqPage)
+                    <a href="{{ route('page.show', $faqPage->slug) }}" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 {{ request()->routeIs('page.show') && request()->route('page') && request()->route('page')->slug === 'faq' ? 'bg-gray-100 font-semibold' : '' }}">
+                        {{ $faqPage->title }}
+                    </a>
+                @endif
+            @endif
+            
+            @if($hasPage('blog'))
+                @php $blogPage = $getPage('blog'); @endphp
+                @if($blogPage)
+                    <a href="{{ route('page.show', $blogPage->slug) }}" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 {{ request()->routeIs('page.show') && request()->route('page') && request()->route('page')->slug === 'blog' ? 'bg-gray-100 font-semibold' : '' }}">
+                        {{ $blogPage->title }}
+                    </a>
+                @endif
+            @endif
         </div>
 
         <!-- Mobile User Section -->

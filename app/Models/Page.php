@@ -18,6 +18,7 @@ class Page extends Model
         'slug',
         'content',
         'excerpt',
+        'meta_description',
         'meta_data',
         'is_published',
         'sort_order',
@@ -51,7 +52,7 @@ class Page extends Model
      */
     public function getUrlAttribute(): string
     {
-        return route('pages.show', $this->slug);
+        return route('page.show', $this->slug);
     }
 
     /**

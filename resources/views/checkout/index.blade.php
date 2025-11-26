@@ -405,11 +405,9 @@
 
                 <!-- Submit Button -->
                 <div class="mt-6">
-                    <button type="submit" 
-                            class="w-full bg-[#f59e0b] text-white py-4 px-6 rounded-lg font-semibold hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 text-base transition-colors duration-200"
-                            data-checkout-submit>
+                    <x-button type="submit" variant="gold" size="lg" fullWidth data-checkout-submit>
                         Complete Order
-                    </button>
+                    </x-button>
                 </div>
             </form>
 

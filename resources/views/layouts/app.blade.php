@@ -103,7 +103,7 @@
                 class="relative w-full max-w-2xl transform divide-y divide-gray-200 overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 transition-all">
 
                 <!-- Search Input Form -->
-                <form action="{{ route('search') }}" method="GET" class="relative">
+                <form action="{{ route('products.index') }}" method="GET" class="relative">
                     <div class="relative flex items-center">
                         <!-- Search Icon (Left) -->
                         <div class="absolute left-0 flex items-center justify-center pl-5 pointer-events-none">
@@ -118,7 +118,7 @@
                         <input x-ref="searchInput" 
                                x-model="query" 
                                type="text" 
-                               name="q"
+                               name="search"
                                class="h-16 w-full border-0 bg-transparent pl-14 pr-20 text-gray-900 placeholder-gray-400 focus:ring-0 text-base sm:text-lg transition-all duration-200"
                                placeholder="Search for jewelry, rings, necklaces..." 
                                autocomplete="off"

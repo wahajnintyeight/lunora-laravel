@@ -61,10 +61,9 @@
                                             </label>
 
                                             @if ($user->avatar)
-                                                <button type="button" onclick="removeAvatar()"
-                                                    class="inline-flex items-center gap-2 px-4 py-2 border border-red-300 rounded-md text-sm font-medium text-red-700 bg-white hover:bg-red-50 focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                                                <x-button type="button" onclick="removeAvatar()" variant="outline" size="sm" class="border-red-300 text-red-700 hover:bg-red-50">
                                                     Remove
-                                                </button>
+                                                </x-button>
                                                 <input type="hidden" name="remove_avatar" id="remove_avatar"
                                                     value="0">
                                             @endif
@@ -150,10 +149,9 @@
                                 @endif
                             </div>
 
-                            <button type="submit"
-                                class="w-full md:w-auto bg-maroon-600 hover:bg-maroon-700 text-white font-medium px-6 py-2.5 rounded-md focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 transition-colors">
+                            <x-button type="submit" variant="primary" size="md" class="w-full md:w-auto">
                                 Save Changes
-                            </button>
+                            </x-button>
                         </form>
                     </section>
 
@@ -196,10 +194,9 @@
                                 @enderror
                             </div>
 
-                            <button type="submit"
-                                class="w-full md:w-auto bg-maroon-600 hover:bg-maroon-700 text-white font-medium px-6 py-2.5 rounded-md focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 transition-colors">
+                            <x-button type="submit" variant="primary" size="md" class="w-full md:w-auto">
                                 Update Password
-                            </button>
+                            </x-button>
                         </form>
                     </section>
 

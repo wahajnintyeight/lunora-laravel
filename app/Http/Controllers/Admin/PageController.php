@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 class PageController extends AdminController
 {
@@ -64,6 +65,9 @@ class PageController extends AdminController
 
         Page::create($validated);
 
+        // Clear published pages cache
+        Cache::forget('published_pages');
+
         return redirect()->route('admin.pages.index')
             ->with('success', 'Page created successfully.');
     }
@@ -105,6 +109,9 @@ class PageController extends AdminController
 
         $page->update($validated);
 
+        // Clear published pages cache
+        Cache::forget('published_pages');
+
         return redirect()->route('admin.pages.index')
             ->with('success', 'Page updated successfully.');
     }
@@ -112,6 +119,9 @@ class PageController extends AdminController
     public function destroy(Page $page)
     {
         $page->delete();
+
+        // Clear published pages cache
+        Cache::forget('published_pages');
 
         return redirect()->route('admin.pages.index')
             ->with('success', 'Page deleted successfully.');

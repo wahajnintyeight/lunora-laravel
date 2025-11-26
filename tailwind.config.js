@@ -11,59 +11,15 @@ export default {
             fontFamily: {
                 sans: ['Inter', 'ui-sans-serif', 'system-ui'],
             },
-            colors: {
-                transparent: 'transparent',
-                current: 'currentColor',
-                'white': '#ffffff',
-                'black': '#000000',
-                'gray': {
-                    50: '#f9fafb',
-                    100: '#f3f4f6',
-                    200: '#e5e7eb',
-                    300: '#d1d5db',
-                    400: '#9ca3af',
-                    500: '#6b7280',
-                    600: '#4b5563',
-                    700: '#374151',
-                    800: '#1f2937',
-                    900: '#111827',
-                    950: '#030712',
-                },
-                // Custom brand colors - Lunora Jewelry Theme
-                'gold': {
-                    50: '#fffbeb',
-                    100: '#fef3c7',
-                    200: '#fde68a',
-                    300: '#fcd34d',
-                    400: '#fbbf24',
-                    500: '#f59e0b', // Primary gold - accent color
-                    600: '#d97706',
-                    700: '#b45309',
-                    800: '#92400e',
-                    900: '#78350f',
-                    950: '#451a03',
-                },
-                'maroon': {
-                    50: '#fdf2f2',
-                    100: '#fce7e7',
-                    200: '#fbd5d5',
-                    300: '#f8b4b4',
-                    400: '#f87171',
-                    500: '#ef4444',
-                    600: '#dc2626',
-                    700: '#b91c1c',
-                    800: '#991b1b',
-                    900: '#7f1d1d',
-                    950: '#450a0a', // Primary maroon - main brand color
-                },
-                // Lunora brand primary colors
-                'lunora': {
-                    'primary': '#450a0a',      // Maroon - main brand color
-                    'accent': '#f59e0b',       // Gold - accent color
-                    'light': '#fef3c7',        // Light gold
-                    'dark': '#2a0606',         // Dark maroon for dark mode
-                },
+            // Icon alignment utilities
+            spacing: {
+                'icon-xs': '0.75rem',
+                'icon-sm': '1rem',
+                'icon-md': '1.25rem',
+                'icon-lg': '1.5rem',
             },
+            // Colors are now defined in CSS @theme block (Tailwind v4)
+            // See resources/css/app.css for color definitions
         },
     },
     plugins: [],

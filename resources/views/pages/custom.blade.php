@@ -102,9 +102,9 @@
                     <textarea rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Tell us about your dream piece..." required></textarea>
                 </div>
                 
-                <button type="submit" class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-300">
+                <x-button type="submit" variant="primary" size="md" fullWidth>
                     Submit Design Request
-                </button>
+                </x-button>
             </form>
         </div>
     </div>

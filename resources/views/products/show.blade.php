@@ -178,21 +178,22 @@
                 </div>
 
                 <!-- Add to Cart Button -->
-                <button type="submit" 
-                        id="add-to-cart-btn"
-                        class="w-full bg-gold-500 text-white py-4 px-6 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:bg-gold-600 hover:-translate-y-0.5 focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-lg disabled:hover:translate-y-0 transition-all duration-200"
-                        {{ $availableStock == 0 ? 'disabled' : '' }}>
+                <x-button 
+                    type="submit" 
+                    id="add-to-cart-btn"
+                    variant="gold"
+                    size="lg"
+                    fullWidth
+                    :disabled="$availableStock == 0"
+                    icon="shopping-cart"
+                    iconPosition="left"
+                    class="hover:-translate-y-0.5 disabled:hover:translate-y-0">
                     @if($availableStock == 0)
                         Out of Stock
                     @else
-                        <span class="flex items-center justify-center gap-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-                            </svg>
-                            Add to Cart
-                        </span>
+                        Add to Cart
                     @endif
-                </button>
+                </x-button>
             </form>
         </div>
     </div>

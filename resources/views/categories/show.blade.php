@@ -80,7 +80,7 @@
     @if($featuredProducts->count() > 0)
         <div class="mb-8 sm:mb-12">
             <h2 class="text-lg sm:text-xl font-semibold text-gray-900 mb-6">Featured in {{ $category->name }}</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 items-stretch">
                 @foreach($featuredProducts as $product)
                     <x-product-card 
                         :product="$product"
@@ -170,7 +170,7 @@
 
     <!-- Products Grid -->
     @if($products->count() > 0)
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 items-stretch">
             @foreach($products as $product)
                 <x-product-card 
                     :product="$product"

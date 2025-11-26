@@ -206,14 +206,12 @@
 
         <!-- Print Button (hidden when printing) -->
         <div class="mt-8 text-center no-print">
-            <button onclick="window.print()" 
-                    class="bg-[#f59e0b] text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-700">
+            <x-button onclick="window.print()" variant="gold" size="md">
                 Print Invoice
-            </button>
-            <a href="{{ route('user.order-detail', $order->order_number) }}" 
-               class="ml-4 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300">
+            </x-button>
+            <x-button href="{{ route('user.order-detail', $order->order_number) }}" variant="secondary" size="md" class="ml-4">
                 Back to Order
-            </a>
+            </x-button>
         </div>
     </div>
 </div>

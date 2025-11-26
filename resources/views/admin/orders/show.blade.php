@@ -55,8 +55,7 @@
     </div>
 </div>
 <!-- End Page Header -->
-<div c
-lass="grid lg:grid-cols-3 gap-6">
+<div class="grid lg:grid-cols-3 gap-6">
     <!-- Order Details -->
     <div class="lg:col-span-2 space-y-6">
         <!-- Order Status -->
@@ -149,8 +148,22 @@ lass="grid lg:grid-cols-3 gap-6">
                                 @if($item->customizations)
                                     <div class="mt-2 p-2 bg-blue-50 rounded-lg dark:bg-blue-900/20">
                                         <h5 class="text-xs font-medium text-blue-900 dark:text-blue-300 mb-1">Customizations:</h5>
-                                        @foreach(json_decode($item->customizations, true) as $key => $value)
-                                            <p class="text-xs text-blue-800 dark:text-blue-400">{{ $key }}: {{ $value }}</p>
+                                        @foreach($item->customizations as $key => $value)
+                                            <p class="text-xs text-blue-800 dark:text-blue-400">
+                                                {{ $key }}: 
+                                                @if(is_array($value))
+                                                    @php
+                                                        if (array_is_list($value)) {
+                                                            $displayValue = implode(', ', array_map('strval', $value));
+                                                        } else {
+                                                            $displayValue = json_encode($value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+                                                        }
+                                                    @endphp
+                                                    {{ $displayValue }}
+                                                @else
+                                                    {{ $value }}
+                                                @endif
+                                            </p>
                                         @endforeach
                                     </div>
                                 @endif
@@ -329,8 +342,8 @@ lass="grid lg:grid-cols-3 gap-6">
             </div>
         </div>
     </div>
-</div><!-- St
-atus Update Modal -->
+</div>
+<!-- Status Update Modal -->
 <div id="statusModal" class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto">
     <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
         <div class="bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-neutral-800 dark:border-neutral-700">
@@ -376,8 +389,8 @@ atus Update Modal -->
             </div>
         </div>
     </div>
-</div><!-
-- Cancel Order Modal -->
+</div>
+<!-- Cancel Order Modal -->
 <div id="cancelModal" class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto">
     <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
         <div class="bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-neutral-800 dark:border-neutral-700">
@@ -458,8 +471,8 @@ atus Update Modal -->
             </div>
         </div>
     </div>
-</div><sc
-ript>
+</div>
+<script>
 function openStatusModal() {
     document.getElementById('statusModal').classList.remove('hidden');
     document.getElementById('statusModal').classList.add('hs-overlay-open');

@@ -16,36 +16,45 @@ document.addEventListener('open-search-modal', () => {
 });
 
 // Add to Cart Function
-window.addToCart = function(productId) {
+window.addToCart = function(productId, quantity = 1) {
     console.log('Adding product', productId, 'to cart');
     
     // Make AJAX request to add product to cart
-    fetch(`/cart/add/${productId}`, {
+    fetch('/cart/add', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         },
         body: JSON.stringify({
-            quantity: 1
+            product_id: productId,
+            quantity: quantity
         })
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(err => Promise.reject(err));
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.success) {
             // Show success message
-            showNotification('Product added to cart!', 'success');
+            showNotification(data.message || 'Product added to cart!', 'success');
             // Update cart count if available
-            if (window.updateCartCount) {
-                window.updateCartCount(data.cartCount);
+            if (window.updateCartCount && data.cart_count) {
+                window.updateCartCount(data.cart_count);
             }
+            // Dispatch cart updated event
+            window.dispatchEvent(new Event('cart-updated'));
         } else {
             showNotification(data.message || 'Failed to add product to cart', 'error');
         }
     })
     .catch(error => {
         console.error('Error adding to cart:', error);
-        showNotification('Error adding product to cart', 'error');
+        const message = error.message || 'Error adding product to cart';
+        showNotification(message, 'error');
     });
 };
 
@@ -540,3 +549,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 100);
     });
 });
+

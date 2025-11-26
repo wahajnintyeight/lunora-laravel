@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
+use App\Models\Page;
 use Illuminate\Support\Facades\Route;
 
 // Home route
@@ -19,36 +20,69 @@ Route::get('/shop', [ProductController::class, 'index'])->name('shop.index');
 // Collections routes
 Route::get('/collections', [CategoryController::class, 'index'])->name('collections.index');
 
-// Static pages
+// Static pages - ALWAYS check for dynamic pages first, fallback to static views only if no dynamic page exists
+// These routes will use dynamic pages when they exist, otherwise fall back to static blade views
 Route::get('/about', function () {
+    $page = Page::published()->where('slug', 'about')->first();
+    if ($page) {
+        return view('pages.show', compact('page'));
+    }
     return view('pages.about');
 })->name('about');
 
 Route::get('/contact', function () {
+    $page = Page::published()->where('slug', 'contact')->first();
+    if ($page) {
+        return view('pages.show', compact('page'));
+    }
     return view('pages.contact');
 })->name('contact');
 
 Route::get('/faq', function () {
+    $page = Page::published()->where('slug', 'faq')->first();
+    if ($page) {
+        return view('pages.show', compact('page'));
+    }
     return view('pages.faq');
 })->name('faq');
 
 Route::get('/shipping', function () {
+    $page = Page::published()->where('slug', 'shipping')->first();
+    if ($page) {
+        return view('pages.show', compact('page'));
+    }
     return view('pages.shipping');
 })->name('shipping');
 
 Route::get('/returns', function () {
+    $page = Page::published()->where('slug', 'returns')->first();
+    if ($page) {
+        return view('pages.show', compact('page'));
+    }
     return view('pages.returns');
 })->name('returns');
 
 Route::get('/warranty', function () {
+    $page = Page::published()->where('slug', 'warranty')->first();
+    if ($page) {
+        return view('pages.show', compact('page'));
+    }
     return view('pages.warranty');
 })->name('warranty');
 
 Route::get('/blog', function () {
+    $page = Page::published()->where('slug', 'blog')->first();
+    if ($page) {
+        return view('pages.show', compact('page'));
+    }
     return view('pages.blog');
 })->name('blog.index');
 
 Route::get('/custom', function () {
+    $page = Page::published()->where('slug', 'custom')->first();
+    if ($page) {
+        return view('pages.show', compact('page'));
+    }
     return view('pages.custom');
 })->name('custom.index');
 
@@ -146,6 +180,9 @@ Route::middleware('auth')->group(function () {
 
 // Admin routes (protected by admin middleware)
 Route::middleware(['auth', 'admin', 'rate.limit:admin-actions', 'file.security'])->prefix('admin')->name('admin.')->group(function () {
+    // Admin Profile
+    Route::get('profile', [\App\Http\Controllers\Admin\AdminController::class, 'profile'])->name('profile');
+    Route::put('profile', [\App\Http\Controllers\Admin\AdminController::class, 'updateProfile'])->name('profile.update');
     Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     
     // Categories
