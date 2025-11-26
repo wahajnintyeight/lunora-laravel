@@ -74,6 +74,7 @@
                 
                 <form action="{{ route('newsletter.subscribe') }}" method="POST" class="newsletter-form">
                     @csrf
+                    @honeypot
                     <div class="newsletter-input-group">
                         <input type="email" name="email" class="newsletter-input" 
                                placeholder="Enter your email address" required>

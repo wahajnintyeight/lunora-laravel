@@ -9,6 +9,7 @@
 @section('content')
 <form method="POST" action="{{ route('login') }}" class="space-y-6">
     @csrf
+    @honeypot
 
     <div>
         <label for="email" class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">

@@ -9,6 +9,7 @@
 @section('content')
 <form method="POST" action="{{ route('register') }}" class="space-y-5">
     @csrf
+    @honeypot
 
     <div>
         <label for="name" class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">

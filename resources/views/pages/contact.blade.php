@@ -19,6 +19,7 @@
                         <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-8">Send us a Message</h2>
                         <form action="#" method="POST" class="space-y-6">
                             @csrf
+                            @honeypot
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label for="first_name" class="block text-sm font-medium text-gray-700 mb-2">First

@@ -9,6 +9,7 @@
 @section('content')
 <form method="POST" action="{{ route('password.update') }}" class="space-y-6">
     @csrf
+    @honeypot
 
     <!-- Password Reset Token -->
     <input type="hidden" name="token" value="{{ $token }}">

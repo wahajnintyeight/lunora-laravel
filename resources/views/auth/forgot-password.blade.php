@@ -9,6 +9,7 @@
 @section('content')
 <form method="POST" action="{{ route('password.email') }}" class="space-y-6">
     @csrf
+    @honeypot
 
     <!-- Email -->
     <div>

@@ -98,7 +98,7 @@ Route::get('/orders', function () {
 Route::post('/newsletter/subscribe', function () {
     // Newsletter subscription logic here
     return back()->with('success', 'Thank you for subscribing to our newsletter!');
-})->name('newsletter.subscribe');
+})->middleware(\Spatie\Honeypot\ProtectAgainstSpam::class)->name('newsletter.subscribe');
 
 // Product routes
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
@@ -141,18 +141,21 @@ Route::get('/api/shipping-rates', [\App\Http\Controllers\CheckoutController::cla
 Route::middleware('guest')->group(function () {
     // Registration
     Route::get('/register', [RegisterController::class, 'create'])->name('register');
-    Route::post('/register', [RegisterController::class, 'store']);
+    Route::post('/register', [RegisterController::class, 'store'])
+        ->middleware(\Spatie\Honeypot\ProtectAgainstSpam::class);
 
     // Login
     Route::get('/login', [LoginController::class, 'create'])->name('login');
-    Route::post('/login', [LoginController::class, 'store'])->middleware('rate.limit:login');
+    Route::post('/login', [LoginController::class, 'store'])
+        ->middleware(['rate.limit:login', \Spatie\Honeypot\ProtectAgainstSpam::class]);
 
     // Password Reset
     Route::get('/forgot-password', [PasswordResetController::class, 'create'])->name('password.request');
     Route::post('/forgot-password', [PasswordResetController::class, 'store'])->name('password.email')
-        ->middleware('rate.limit:password-reset');
+        ->middleware(['rate.limit:password-reset', \Spatie\Honeypot\ProtectAgainstSpam::class]);
     Route::get('/reset-password/{token}', [PasswordResetController::class, 'edit'])->name('password.reset');
-    Route::post('/reset-password', [PasswordResetController::class, 'update'])->name('password.update');
+    Route::post('/reset-password', [PasswordResetController::class, 'update'])->name('password.update')
+        ->middleware(\Spatie\Honeypot\ProtectAgainstSpam::class);
 
     // Google OAuth
     Route::get('/auth/google', [SocialiteController::class, 'redirectToGoogle'])->name('auth.google');
