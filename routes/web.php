@@ -231,6 +231,7 @@ Route::middleware(['auth', 'admin', 'rate.limit:admin-actions', 'file.security']
     
     // Pages
     Route::resource('pages', \App\Http\Controllers\Admin\PageController::class);
+    Route::post('upload-image', [\App\Http\Controllers\Admin\PageController::class, 'uploadImage'])->name('upload-image');
     
     // Activity Logs
     Route::get('activity-logs', [\App\Http\Controllers\Admin\ActivityLogController::class, 'index'])->name('activity-logs.index');

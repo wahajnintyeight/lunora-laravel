@@ -114,9 +114,23 @@ class ProductController extends AdminController
     public function edit(Product $product)
     {
         $product->load(['images', 'variants']);
-        $categories = Category::orderBy('name')->get();
+        $categories = Category::with('parent')->orderBy('name')->get();
         
-        return view('admin.products.edit', compact('product', 'categories'));
+        // Format categories to show hierarchy
+        $formattedCategories = $categories->map(function ($category) {
+            $name = $category->name;
+            if ($category->parent) {
+                $name = $category->parent->name . ' > ' . $name;
+            }
+            return [
+                'id' => $category->id,
+                'name' => $name,
+                'original_name' => $category->name,
+                'parent_name' => $category->parent ? $category->parent->name : null,
+            ];
+        });
+        
+        return view('admin.products.edit', compact('product', 'categories', 'formattedCategories'));
     }
 
     public function update(Request $request, Product $product)

@@ -39,8 +39,15 @@
         }
     </script>
 
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
     <!-- Additional Styles -->
     @stack('styles')
+    
+    <!-- SweetAlert2 Component -->
+    @include('admin.components.sweetalert')
 </head>
 
 <body class="bg-gray-50 dark:bg-neutral-900">

@@ -179,6 +179,12 @@
                             </th>
 
                             <th scope="col" class="px-6 py-3 text-start">
+                                <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-neutral-200">
+                                    Actions
+                                </span>
+                            </th>
+
+                            <th scope="col" class="px-6 py-3 text-start">
                                 <div class="flex items-center gap-x-2">
                                     <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-neutral-200">
                                         Name
@@ -210,11 +216,6 @@
                                 </div>
                             </th>
 
-                            <th scope="col" class="px-6 py-3 text-end">
-                                <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-neutral-200">
-                                    Actions
-                                </span>
-                            </th>
                         </tr>
                     </thead>
 
@@ -225,6 +226,39 @@
                                     <div class="ps-6 py-3">
                                         <div class="flex items-center">
                                             <input type="checkbox" name="categories[]" value="{{ $category->id }}" class="category-checkbox shrink-0 border-gray-200 rounded text-blue-600 focus:ring-blue-500 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="size-px whitespace-nowrap">
+                                    <div class="px-6 py-1.5">
+                                        <div class="hs-dropdown [--placement:bottom-right] relative inline-block">
+                                            <button id="hs-table-dropdown-{{ $category->id }}" type="button" class="hs-dropdown-toggle py-1.5 px-2 inline-flex justify-center items-center gap-2 rounded-lg text-gray-700 align-middle disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:text-neutral-400 dark:hover:text-white dark:focus:ring-offset-gray-800" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
+                                                <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <circle cx="12" cy="12" r="1"/>
+                                                    <circle cx="19" cy="12" r="1"/>
+                                                    <circle cx="5" cy="12" r="1"/>
+                                                </svg>
+                                            </button>
+                                            <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden divide-y divide-gray-200 min-w-40 z-10 bg-white shadow-2xl rounded-lg p-2 mt-2 dark:divide-neutral-700 dark:bg-neutral-800 dark:border dark:border-neutral-700" role="menu" aria-orientation="vertical" aria-labelledby="hs-table-dropdown-{{ $category->id }}">
+                                                <div class="py-2 first:pt-0 last:pb-0">
+                                                    <a class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300" href="{{ route('admin.categories.show', $category) }}">
+                                                        View
+                                                    </a>
+                                                    <a class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300" href="{{ route('admin.categories.edit', $category) }}">
+                                                        Edit
+                                                    </a>
+                                                </div>
+                                                <div class="py-2 first:pt-0 last:pb-0">
+                                                    <form action="{{ route('admin.categories.destroy', $category) }}" method="POST" class="delete-form" data-title="Delete Category" data-text="Are you sure you want to delete this category? This action cannot be undone.">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-red-500 dark:text-red-500 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </td>
@@ -315,7 +349,7 @@
                                                     </a>
                                                 </div>
                                                 <div class="py-2 first:pt-0 last:pb-0">
-                                                    <form action="{{ route('admin.categories.destroy', $category) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this category?')">
+                                                    <form action="{{ route('admin.categories.destroy', $category) }}" method="POST" class="delete-form" data-title="Delete Category" data-text="Are you sure you want to delete this category? This action cannot be undone.">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-red-600 hover:bg-red-50 focus:ring-2 focus:ring-red-500 dark:text-red-500 dark:hover:bg-red-800/30">
@@ -455,16 +489,44 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if (action === 'delete') {
-            if (!confirm(`Are you sure you want to delete ${checkedBoxes.length} category(ies)? This action cannot be undone.`)) {
-                e.preventDefault();
-                return;
-            }
+            e.preventDefault();
+            AdminSwal.delete(
+                'Delete Categories?',
+                `Are you sure you want to delete ${checkedBoxes.length} category(ies)? This action cannot be undone.`
+            ).then((result) => {
+                if (result.isConfirmed) {
+                    bulkActionForm.submit();
+                }
+            });
+            return;
         } else {
-            if (!confirm(`Are you sure you want to ${action} ${checkedBoxes.length} category(ies)?`)) {
-                e.preventDefault();
-                return;
-            }
+            e.preventDefault();
+            AdminSwal.confirm(
+                `${action.charAt(0).toUpperCase() + action.slice(1)} Categories?`,
+                `Are you sure you want to ${action} ${checkedBoxes.length} category(ies)?`
+            ).then((result) => {
+                if (result.isConfirmed) {
+                    bulkActionForm.submit();
+                }
+            });
+            return;
         }
+    });
+
+    // Handle delete forms with SweetAlert
+    document.querySelectorAll('.delete-form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const form = this;
+            const title = form.dataset.title || 'Delete Item?';
+            const text = form.dataset.text || "You won't be able to revert this!";
+            
+            AdminSwal.delete(title, text).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
     });
 });
 </script>

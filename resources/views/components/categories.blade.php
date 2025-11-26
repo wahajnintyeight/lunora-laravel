@@ -24,79 +24,110 @@
     ];
 @endphp
 
-<section class="categories-section">
-    <div class="container">
-        <h2 class="section-title">Shop by Category</h2>
-        <p class="section-subtitle">Explore our finest jewelry collections</p>
+<section class="modern-categories-section">
+    <div class="modern-categories-container">
+        <div class="modern-categories-header">
+            <h2 class="modern-categories-title">Shop by Category</h2>
+            <p class="modern-categories-subtitle">Discover our exquisite collections, curated for every occasion</p>
+        </div>
         
-        <div class="categories-grid">
+        <div class="modern-categories-grid">
             @forelse($categories as $category)
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border-2 border-gold-500 hover:border-gold-400 group">
-                    <div class="category-image">
+                <a href="{{ route('shop.index', ['category' => $category->slug]) }}" class="modern-category-card group">
+                    <div class="modern-category-image-wrapper">
                         @if($category->image_url)
-                            <img src="{{ $category->image_url }}" alt="{{ $category->name }}" class="category-img">
+                            <img src="{{ $category->image_url }}" alt="{{ $category->name }}" class="modern-category-image">
+                            <div class="modern-category-overlay"></div>
                         @else
-                            <div class="placeholder-image">
-                                <i class="{{ $categoryIcons[strtolower($category->slug)] ?? 'fas fa-gem' }}"></i>
+                            <div class="modern-category-placeholder">
+                                <div class="modern-category-icon-wrapper">
+                                    <i class="{{ $categoryIcons[strtolower($category->slug)] ?? 'fas fa-gem' }} modern-category-icon"></i>
+                                </div>
                             </div>
+                            <div class="modern-category-overlay"></div>
                         @endif
+                        <div class="modern-category-badge">
+                            <span>{{ $category->products_count }}+</span>
+                        </div>
                     </div>
-                    <div class="category-info">
-                        <h3 class="category-name">{{ $category->name }}</h3>
-                        <p class="category-count">{{ $category->products_count }}+ Items</p>
-                        <a href="{{ route('shop.index', ['category' => $category->slug]) }}" class="inline-block bg-maroon-950 text-white px-6 py-2 rounded-lg font-semibold hover:bg-maroon-900 border-2 border-gold-500 hover:border-gold-400 transition-all duration-200">
-                            Browse <i class="fas fa-arrow-right ml-1"></i>
-                        </a>
+                    <div class="modern-category-content">
+                        <h3 class="modern-category-name">{{ $category->name }}</h3>
+                        <p class="modern-category-count">{{ $category->products_count }} {{ Str::plural('item', $category->products_count) }}</p>
+                        <div class="modern-category-cta">
+                            <span>Shop Now</span>
+                            <i class="fas fa-arrow-right modern-category-arrow"></i>
+                        </div>
                     </div>
-                </div>
+                </a>
             @empty
                 <!-- Fallback categories if no data -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border-2 border-gold-500 hover:border-gold-400 group">
-                    <div class="category-image">
-                        <div class="placeholder-image">
-                            <i class="fas fa-ring"></i>
+                <a href="{{ route('shop.index') }}" class="modern-category-card group">
+                    <div class="modern-category-image-wrapper">
+                        <div class="modern-category-placeholder">
+                            <div class="modern-category-icon-wrapper">
+                                <i class="fas fa-ring modern-category-icon"></i>
+                            </div>
+                        </div>
+                        <div class="modern-category-overlay"></div>
+                        <div class="modern-category-badge">
+                            <span>New</span>
                         </div>
                     </div>
-                    <div class="category-info">
-                        <h3 class="category-name">Rings</h3>
-                        <p class="category-count">Coming Soon</p>
-                        <a href="{{ route('shop.index') }}" class="inline-block bg-maroon-950 text-white px-6 py-2 rounded-lg font-semibold hover:bg-maroon-900 border-2 border-gold-500 hover:border-gold-400 transition-all duration-200">
-                            Browse <i class="fas fa-arrow-right ml-1"></i>
-                        </a>
+                    <div class="modern-category-content">
+                        <h3 class="modern-category-name">Rings</h3>
+                        <p class="modern-category-count">Coming Soon</p>
+                        <div class="modern-category-cta">
+                            <span>Explore</span>
+                            <i class="fas fa-arrow-right modern-category-arrow"></i>
+                        </div>
                     </div>
-                </div>
+                </a>
                 
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border-2 border-gold-500 hover:border-gold-400 group">
-                    <div class="category-image">
-                        <div class="placeholder-image">
-                            <i class="fas fa-gem"></i>
+                <a href="{{ route('shop.index') }}" class="modern-category-card group">
+                    <div class="modern-category-image-wrapper">
+                        <div class="modern-category-placeholder">
+                            <div class="modern-category-icon-wrapper">
+                                <i class="fas fa-gem modern-category-icon"></i>
+                            </div>
+                        </div>
+                        <div class="modern-category-overlay"></div>
+                        <div class="modern-category-badge">
+                            <span>New</span>
                         </div>
                     </div>
-                    <div class="category-info">
-                        <h3 class="category-name">Necklaces</h3>
-                        <p class="category-count">Coming Soon</p>
-                        <a href="{{ route('shop.index') }}" class="inline-block bg-maroon-950 text-white px-6 py-2 rounded-lg font-semibold hover:bg-maroon-900 border-2 border-gold-500 hover:border-gold-400 transition-all duration-200">
-                            Browse <i class="fas fa-arrow-right ml-1"></i>
-                        </a>
+                    <div class="modern-category-content">
+                        <h3 class="modern-category-name">Necklaces</h3>
+                        <p class="modern-category-count">Coming Soon</p>
+                        <div class="modern-category-cta">
+                            <span>Explore</span>
+                            <i class="fas fa-arrow-right modern-category-arrow"></i>
+                        </div>
                     </div>
-                </div>
+                </a>
             @endforelse
             
             <!-- Custom Orders - Always show -->
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border-2 border-gold-500 hover:border-gold-400 group">
-                <div class="category-image">
-                    <div class="placeholder-image">
-                        <i class="fas fa-wand-magic-sparkles"></i>
+            <a href="{{ route('custom.index') }}" class="modern-category-card group modern-category-card-special">
+                <div class="modern-category-image-wrapper">
+                    <div class="modern-category-placeholder modern-category-placeholder-special">
+                        <div class="modern-category-icon-wrapper">
+                            <i class="fas fa-wand-magic-sparkles modern-category-icon"></i>
+                        </div>
+                    </div>
+                    <div class="modern-category-overlay"></div>
+                    <div class="modern-category-badge modern-category-badge-special">
+                        <span>Custom</span>
                     </div>
                 </div>
-                <div class="category-info">
-                    <h3 class="category-name">Custom Orders</h3>
-                    <p class="category-count">Bespoke Design</p>
-                    <a href="{{ route('custom.index') }}" class="inline-block bg-maroon-950 text-white px-6 py-2 rounded-lg font-semibold hover:bg-maroon-900 border-2 border-gold-500 hover:border-gold-400 transition-all duration-200">
-                        Get Started <i class="fas fa-arrow-right ml-1"></i>
-                    </a>
+                <div class="modern-category-content">
+                    <h3 class="modern-category-name">Custom Orders</h3>
+                    <p class="modern-category-count">Bespoke Design</p>
+                    <div class="modern-category-cta">
+                        <span>Get Started</span>
+                        <i class="fas fa-arrow-right modern-category-arrow"></i>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 </section>

@@ -80,9 +80,20 @@ class Page extends Model
     /**
      * Get the meta description or fallback to excerpt.
      */
-    public function getMetaDescriptionAttribute(): string
+    public function getMetaDescriptionAttribute($value): string
     {
-        return $this->meta_data['description'] ?? $this->excerpt;
+        // If meta_description column has a value, use it
+        if ($value !== null) {
+            return $value;
+        }
+        
+        // Fall back to meta_data['description'] if available
+        if (isset($this->meta_data['description'])) {
+            return $this->meta_data['description'];
+        }
+        
+        // Finally fall back to excerpt
+        return $this->excerpt;
     }
 
     /**

@@ -162,7 +162,7 @@
             @else
                 <span class="text-red-700 font-semibold bg-red-50 px-2.5 py-1 rounded-lg">Out of Stock</span>
             @endif
-            <span class="text-slate-500 ml-auto">SKU: {{ $product->sku }}</span>
+         
         </div>
 
         <!-- <CHANGE> Enhanced action buttons with better mobile responsiveness -->

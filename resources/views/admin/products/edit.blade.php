@@ -240,15 +240,29 @@
                 <div class="p-6 space-y-4">
                     <!-- Category -->
                     <div>
-                        <label for="category_id" class="block text-sm font-medium mb-2 dark:text-white">Category</label>
-                        <select id="category_id" name="category_id" class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:focus:ring-neutral-600" required>
-                            <option value="">Select Category</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <label for="category_id" class="block text-sm font-medium mb-2 dark:text-white">
+                            Category
+                            <span class="text-xs text-gray-500 dark:text-neutral-400">(Search to find quickly)</span>
+                        </label>
+                        <div class="relative">
+                            <input 
+                                type="text" 
+                                id="category_search" 
+                                autocomplete="off"
+                                placeholder="Type to search categories..." 
+                                class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                            >
+                            <input type="hidden" id="category_id" name="category_id" value="{{ old('category_id', $product->category_id) }}" required>
+                            <div id="category_dropdown" class="hidden absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-auto dark:bg-neutral-800 dark:border-neutral-700">
+                                <!-- Options will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        <p class="mt-1 text-xs text-gray-500 dark:text-neutral-400">
+                            Categories are shown with their parent (e.g., "Jewelry > Rings")
+                        </p>
+                        @error('category_id')
+                            <p class="text-sm text-red-600 mt-2">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Status Toggles -->
@@ -394,14 +408,17 @@ document.addEventListener('DOMContentLoaded', function() {
             const btn = e.target.closest('.delete-image-btn');
             const imageId = btn.dataset.imageId;
             
-            if (confirm('Are you sure you want to delete this image?')) {
-                deleteImage(imageId);
-            }
+            AdminSwal.delete('Delete Image?', 'Are you sure you want to delete this image? This action cannot be undone.')
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        deleteImage(imageId);
+                    }
+                });
         }
     });
 
     function deleteImage(imageId) {
-        fetch(`{{ route('admin.products.images.delete', ['image' => '__IMAGE_ID__']) }}`.replace('__IMAGE_ID__', imageId), {
+        fetch(`{{ route('admin.products.images.destroy', ['image' => '__IMAGE_ID__']) }}`.replace('__IMAGE_ID__', imageId), {
             method: 'DELETE',
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),

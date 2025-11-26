@@ -6,6 +6,8 @@ use App\Models\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\JsonResponse;
 
 class PageController extends AdminController
 {
@@ -125,5 +127,29 @@ class PageController extends AdminController
 
         return redirect()->route('admin.pages.index')
             ->with('success', 'Page deleted successfully.');
+    }
+
+    /**
+     * Handle image uploads from WYSIWYG editor
+     */
+    public function uploadImage(Request $request): JsonResponse
+    {
+        $request->validate([
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ]);
+
+        try {
+            $file = $request->file('file');
+            $filename = 'page-content-' . time() . '-' . Str::random(8) . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('pages/content', $filename, 'public');
+
+            return response()->json([
+                'location' => Storage::url($path)
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Failed to upload image: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

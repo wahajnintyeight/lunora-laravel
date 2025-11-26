@@ -67,10 +67,14 @@ class ProductImage extends Model
         }
 
         $pathInfo = pathinfo($this->file_path);
-        $thumbnailPath = $pathInfo['dirname'] . '/thumbnails/' . $pathInfo['filename'] . '-thumb.' . $pathInfo['extension'];
+        $extension = $pathInfo['extension'] ?? null;
+        
+        if ($extension && isset($pathInfo['dirname']) && isset($pathInfo['filename'])) {
+            $thumbnailPath = $pathInfo['dirname'] . '/thumbnails/' . $pathInfo['filename'] . '-thumb.' . $extension;
 
-        if (Storage::exists($thumbnailPath)) {
-            return Storage::url($thumbnailPath);
+            if (Storage::disk('public')->exists($thumbnailPath)) {
+                return Storage::url($thumbnailPath);
+            }
         }
 
         return $this->url;
@@ -86,10 +90,14 @@ class ProductImage extends Model
         }
 
         $pathInfo = pathinfo($this->file_path);
-        $mediumPath = $pathInfo['dirname'] . '/medium/' . $pathInfo['filename'] . '-medium.' . $pathInfo['extension'];
+        $extension = $pathInfo['extension'] ?? null;
+        
+        if ($extension && isset($pathInfo['dirname']) && isset($pathInfo['filename'])) {
+            $mediumPath = $pathInfo['dirname'] . '/medium/' . $pathInfo['filename'] . '-medium.' . $extension;
 
-        if (Storage::exists($mediumPath)) {
-            return Storage::url($mediumPath);
+            if (Storage::disk('public')->exists($mediumPath)) {
+                return Storage::url($mediumPath);
+            }
         }
 
         return $this->url;
@@ -122,21 +130,25 @@ class ProductImage extends Model
             }
 
             // Delete the actual file when the model is deleted
-            if (Storage::exists($image->file_path)) {
-                Storage::delete($image->file_path);
+            if (Storage::disk('public')->exists($image->file_path)) {
+                Storage::disk('public')->delete($image->file_path);
             }
 
-            // Delete thumbnails and medium images
+            // Delete thumbnails and medium images (only if extension exists)
             $pathInfo = pathinfo($image->file_path);
-            $thumbnailPath = $pathInfo['dirname'] . '/thumbnails/' . $pathInfo['filename'] . '-thumb.' . $pathInfo['extension'];
-            $mediumPath = $pathInfo['dirname'] . '/medium/' . $pathInfo['filename'] . '-medium.' . $pathInfo['extension'];
-
-            if (Storage::exists($thumbnailPath)) {
-                Storage::delete($thumbnailPath);
-            }
+            $extension = $pathInfo['extension'] ?? null;
             
-            if (Storage::exists($mediumPath)) {
-                Storage::delete($mediumPath);
+            if ($extension && isset($pathInfo['dirname']) && isset($pathInfo['filename'])) {
+                $thumbnailPath = $pathInfo['dirname'] . '/thumbnails/' . $pathInfo['filename'] . '-thumb.' . $extension;
+                $mediumPath = $pathInfo['dirname'] . '/medium/' . $pathInfo['filename'] . '-medium.' . $extension;
+
+                if (Storage::disk('public')->exists($thumbnailPath)) {
+                    Storage::disk('public')->delete($thumbnailPath);
+                }
+                
+                if (Storage::disk('public')->exists($mediumPath)) {
+                    Storage::disk('public')->delete($mediumPath);
+                }
             }
         });
     }

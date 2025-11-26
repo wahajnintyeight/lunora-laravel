@@ -71,15 +71,23 @@ class ImageUploadService
      */
     public function deleteProductImage(ProductImage $image): bool
     {
+        // Skip deletion for external URLs
+        if ($this->isExternalUrl($image->file_path)) {
+            return $image->delete();
+        }
+        
         $pathInfo = pathinfo($image->file_path);
-        $filename = $pathInfo['basename'];
+        $extension = $pathInfo['extension'] ?? '';
+        $filename = $pathInfo['basename'] ?? basename($image->file_path);
         
         // Delete all image variants
-        $paths = [
-            $image->file_path,
-            "products/thumbnails/" . str_replace('.' . $pathInfo['extension'], '-thumb.' . $pathInfo['extension'], $filename),
-            "products/medium/" . str_replace('.' . $pathInfo['extension'], '-medium.' . $pathInfo['extension'], $filename),
-        ];
+        $paths = [$image->file_path];
+        
+        // Only add thumbnail and medium paths if we have an extension
+        if ($extension) {
+            $paths[] = "products/thumbnails/" . str_replace('.' . $extension, '-thumb.' . $extension, $filename);
+            $paths[] = "products/medium/" . str_replace('.' . $extension, '-medium.' . $extension, $filename);
+        }
         
         foreach ($paths as $path) {
             if (Storage::disk('public')->exists($path)) {
@@ -88,6 +96,14 @@ class ImageUploadService
         }
         
         return $image->delete();
+    }
+    
+    /**
+     * Check if a path is an external URL
+     */
+    protected function isExternalUrl(string $path): bool
+    {
+        return preg_match('#^https?://#i', $path) === 1;
     }
 
     /**
