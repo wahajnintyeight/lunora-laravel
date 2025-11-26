@@ -77,7 +77,7 @@ return [
     */
 
     'headers' => [
-        'x_frame_options' => 'DENY',
+        'x_frame_options' => env('APP_ENV') === 'production' ? 'DENY' : 'SAMEORIGIN',
         'x_content_type_options' => 'nosniff',
         'x_xss_protection' => '1; mode=block',
         'referrer_policy' => 'strict-origin-when-cross-origin',

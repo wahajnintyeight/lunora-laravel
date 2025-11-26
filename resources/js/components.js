@@ -95,24 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Listen for cart updates
     window.addEventListener('cart-updated', updateCartCount);
 
-    // Add loading states to buttons
-    document.querySelectorAll('form').forEach(form => {
-        form.addEventListener('submit', function() {
-            const submitBtn = this.querySelector('button[type="submit"]');
-            if (submitBtn) {
-                const originalText = submitBtn.innerHTML;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
-                submitBtn.disabled = true;
-                
-                // Reset button after 5 seconds as fallback
-                setTimeout(() => {
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                }, 5000);
-            }
-        });
-    });
-
     // Add hover effects to category cards
     document.querySelectorAll('.category-card').forEach(card => {
         card.addEventListener('mouseenter', function() {

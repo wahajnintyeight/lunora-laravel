@@ -34,7 +34,32 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'phone' => 'nullable|string|max:20',
+            'date_of_birth' => 'nullable|date|before:today',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'remove_avatar' => 'boolean',
         ]);
+
+        // Handle avatar upload
+        if ($request->hasFile('avatar')) {
+            // Delete old avatar if exists
+            if ($user->avatar) {
+                \Storage::disk('public')->delete($user->avatar);
+            }
+            
+            // Store new avatar
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+            $validated['avatar'] = $avatarPath;
+        } elseif ($request->boolean('remove_avatar')) {
+            // Remove existing avatar
+            if ($user->avatar) {
+                \Storage::disk('public')->delete($user->avatar);
+            }
+            $validated['avatar'] = null;
+        }
+
+        // Remove the remove_avatar field from validated data
+        unset($validated['remove_avatar']);
 
         $user->update($validated);
 

@@ -11,15 +11,15 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->web(append: [
-            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-        ]);
+        // $middleware->web(append: [
+        //     \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+        // ]);
 
         // Register custom middleware aliases
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
             'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
-            'secure.session' => \App\Http\Middleware\SecureSession::class,
+            // 'secure.session' => \App\Http\Middleware\SecureSession::class,
             'password.confirm' => \App\Http\Middleware\RequirePasswordConfirmation::class,
             'input.sanitize' => \App\Http\Middleware\InputSanitizationMiddleware::class,
             'file.security' => \App\Http\Middleware\FileUploadSecurityMiddleware::class,

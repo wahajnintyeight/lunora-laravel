@@ -43,7 +43,17 @@
             <!-- User Menu -->
             <div class="relative" x-data="{ open: false }" @click.away="open = false">
                 <button @click="open = !open" class="user-menu-toggle icon-btn" title="Account">
-                    <i class="fas fa-user-circle"></i>
+                    @auth
+                        @if(auth()->user()->getAvatarUrl())
+                            <img src="{{ auth()->user()->getAvatarUrl() }}" 
+                                 alt="{{ auth()->user()->name }}" 
+                                 class="w-8 h-8 rounded-full object-cover border-2 border-gold-300">
+                        @else
+                            <i class="fas fa-user-circle"></i>
+                        @endif
+                    @else
+                        <i class="fas fa-user-circle"></i>
+                    @endauth
                 </button>
                 <div x-show="open" 
                      x-transition:enter="transition ease-out duration-100"
@@ -56,10 +66,25 @@
                      style="display: none;">
                     @auth
                         <div class="px-4 py-3 border-b border-gray-100">
-                            <span class="text-sm text-gray-500">Hello,</span>
-                            <p class="text-sm font-semibold text-gray-900 truncate">{{ auth()->user()->name }}</p>
+                            <div class="flex items-center space-x-3">
+                                @if(auth()->user()->getAvatarUrl())
+                                    <img src="{{ auth()->user()->getAvatarUrl() }}" 
+                                         alt="{{ auth()->user()->name }}" 
+                                         class="w-10 h-10 rounded-full object-cover border-2 border-gold-300">
+                                @else
+                                    <div class="w-10 h-10 rounded-full bg-gold-100 flex items-center justify-center border-2 border-gold-300">
+                                        <svg class="w-5 h-5 text-gold-500" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </div>
+                                @endif
+                                <div>
+                                    <span class="text-sm text-gray-500">Hello,</span>
+                                    <p class="text-sm font-semibold text-gray-900 truncate">{{ auth()->user()->name }}</p>
+                                </div>
+                            </div>
                         </div>
-                        <a href="{{ route('profile.show') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <a href="{{ route('user.profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                             <i class="fas fa-cog mr-2"></i> My Account
                         </a>
                         <a href="{{ route('user.orders') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
@@ -156,10 +181,28 @@
         <!-- Mobile User Section -->
         <div class="border-t pt-4 pb-4">
             @auth
-                <div class="px-4 py-2 text-sm text-gray-500">
-                    Hello, {{ auth()->user()->name }}
+                <div class="px-4 py-3 flex items-center space-x-3">
+                    @if(auth()->user()->avatar)
+                        <img src="{{ Storage::url(auth()->user()->avatar) }}" 
+                             alt="{{ auth()->user()->name }}" 
+                             class="w-10 h-10 rounded-full object-cover border-2 border-gold-300">
+                    @elseif(auth()->user()->getAvatarUrl())
+                        <img src="{{ auth()->user()->getAvatarUrl() }}" 
+                             alt="{{ auth()->user()->name }}" 
+                             class="w-10 h-10 rounded-full object-cover border-2 border-gold-300">
+                    @else
+                        <div class="w-10 h-10 rounded-full bg-gold-100 flex items-center justify-center border-2 border-gold-300">
+                            <svg class="w-5 h-5 text-gold-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    @endif
+                    <div>
+                        <span class="text-sm text-gray-500">Hello,</span>
+                        <p class="text-sm font-semibold text-gray-900">{{ auth()->user()->name }}</p>
+                    </div>
                 </div>
-                <a href="{{ route('profile.show') }}" class="block px-4 py-3 text-gray-700 hover:bg-gray-100">
+                <a href="{{ route('user.profile') }}" class="block px-4 py-3 text-gray-700 hover:bg-gray-100">
                     <i class="fas fa-cog mr-2"></i> My Account
                 </a>
                 <a href="{{ route('user.orders') }}" class="block px-4 py-3 text-gray-700 hover:bg-gray-100">

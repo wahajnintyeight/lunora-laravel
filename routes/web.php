@@ -203,12 +203,6 @@ Route::middleware(['auth', 'admin', 'rate.limit:admin-actions', 'file.security']
     Route::post('users/{user}/reset-password', [\App\Http\Controllers\Admin\UserController::class, 'resetPassword'])->name('users.reset-password');
 });
 
-// Verified email required routes
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/profile', function () {
-        return view('profile.show');
-    })->name('profile.show');
-});
 
 // User account routes
 Route::middleware(['auth', 'verified'])->prefix('account')->name('user.')->group(function () {

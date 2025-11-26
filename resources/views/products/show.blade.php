@@ -3,9 +3,9 @@
 @section('title', $product->name . ' - Lunora Jewelry')
 
 @section('content')
-<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-12 lg:pt-20 lg:pb-20">
     <!-- Breadcrumbs -->
-    <nav class="mb-8">
+    <nav class="mb-12">
         <ol class="flex items-center space-x-2 text-sm">
             <li><a href="{{ route('home') }}" class="text-[#f59e0b] hover:text-emerald-700">Home</a></li>
             <li class="text-gray-400">/</li>
@@ -17,7 +17,7 @@
         </ol>
     </nav>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
         <!-- Product Images -->
         <div>
             @if($product->images->count() > 0)
@@ -51,15 +51,15 @@
         
         <!-- Product Details -->
         <div>
-            <div class="mb-4">
+            <div class="mb-6">
                 @if($product->is_featured)
                     <span class="bg-gold-100 text-gold-800 text-sm px-3 py-1 rounded-full">Featured</span>
                 @endif
             </div>
 
-            <h1 class="text-3xl font-bold text-gray-900 mb-4">{{ $product->name }}</h1>
+            <h1 class="text-4xl font-bold text-gray-900 mb-6">{{ $product->name }}</h1>
             
-            <div class="mb-4">
+            <div class="mb-8">
                 @if($product->compare_at_price_pkr && $product->compare_at_price_pkr > $product->price_pkr)
                     <p class="text-lg text-gray-500 line-through">PKR {{ number_format($product->compare_at_price_pkr / 100, 2) }}</p>
                 @endif
@@ -67,8 +67,8 @@
             </div>
             
             @if($product->description)
-                <div class="mb-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Description</h3>
+                <div class="mb-10">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3">Description</h3>
                     <div class="text-gray-700 prose prose-sm">
                         {!! nl2br(e($product->description)) !!}
                     </div>
@@ -76,7 +76,7 @@
             @endif
 
             <!-- Product Details -->
-            <div class="mb-6 space-y-2">
+            <div class="mb-10 space-y-3">
                 <p class="text-sm text-gray-600"><span class="font-medium">Category:</span> {{ $product->category->name }}</p>
                 @if($product->sku)
                     <p class="text-sm text-gray-600"><span class="font-medium">SKU:</span> <span id="current-sku">{{ $product->sku }}</span></p>
@@ -95,13 +95,13 @@
                 </p>
             </div>
 
-            <form id="add-to-cart-form" class="space-y-6">
+            <form id="add-to-cart-form" class="space-y-8 mt-10">
                 @csrf
                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                 <input type="hidden" name="variant_id" id="selected-variant-id" value="">
 
                 @if($hasVariants)
-                    <div class="space-y-4">
+                    <div class="space-y-5">
                         <h3 class="text-lg font-semibold text-gray-900">Options</h3>
                         @foreach($productOptions as $optionName => $optionValues)
                             <div>
@@ -180,12 +180,17 @@
                 <!-- Add to Cart Button -->
                 <button type="submit" 
                         id="add-to-cart-btn"
-                        class="w-full bg-gold-500 text-white py-3 px-6 rounded-lg font-semibold hover:bg-gold-600 focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        class="w-full bg-gold-500 text-white py-4 px-6 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:bg-gold-600 hover:-translate-y-0.5 focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-lg disabled:hover:translate-y-0 transition-all duration-200"
                         {{ $availableStock == 0 ? 'disabled' : '' }}>
                     @if($availableStock == 0)
                         Out of Stock
                     @else
-                        Add to Cart
+                        <span class="flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                            </svg>
+                            Add to Cart
+                        </span>
                     @endif
                 </button>
             </form>

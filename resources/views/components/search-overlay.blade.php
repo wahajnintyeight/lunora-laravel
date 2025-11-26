@@ -19,7 +19,7 @@
             <!-- Search form -->
             <form action="{{ route('products.index') }}" method="GET" class="relative" @keydown.window.escape="open=false">
                 <input x-model="query" type="text" name="search"
-                    placeholder="Search for jewelry, rings, necklaces..."
+                    placeholder="Sdwdwdearch for jewelry, rings, necklaces..."
                     class="w-full block bg-white border-2 border-gold-500 rounded-xl py-4 pl-12 pr-16 text-base focus:ring-2 focus:ring-gold-500 focus:border-gold-500 placeholder-gray-400 shadow-lg"
                     autocomplete="off" autofocus>
                 <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -22,12 +23,16 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
         'name',
         'email',
+        'phone',
+        'date_of_birth',
         'password',
         'google_id',
         'avatar_url',
+        'avatar',
         'role',
         'is_active',
         'last_login_at',
+        'email_verified_at'
     ];
 
     /**
@@ -52,7 +57,32 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
             'last_login_at' => 'datetime',
             'is_active' => 'boolean',
+            'date_of_birth' => 'date',
         ];
+    }
+
+    /**
+     * Get the user's avatar URL.
+     */
+    public function getAvatarUrlAttribute(): ?string
+    {
+        return $this->getAvatarUrl();
+    }
+
+    /**
+     * Get the user's avatar URL safely.
+     */
+    public function getAvatarUrl(): ?string
+    {
+        if ($this->avatar) {
+            return Storage::url($this->avatar);
+        }
+
+        if (isset($this->attributes['avatar_url']) && $this->attributes['avatar_url']) {
+            return $this->attributes['avatar_url'];
+        }
+
+        return null;
     }
 
     /**
@@ -88,10 +118,22 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         // Return empty collection for now - wishlist functionality will be implemented later
         return new class {
-            public function count() { return 0; }
-            public function get() { return collect([]); }
-            public function first() { return null; }
-            public function exists() { return false; }
+            public function count()
+            {
+                return 0;
+            }
+            public function get()
+            {
+                return collect([]);
+            }
+            public function first()
+            {
+                return null;
+            }
+            public function exists()
+            {
+                return false;
+            }
         };
     }
 

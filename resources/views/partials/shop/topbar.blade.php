@@ -40,6 +40,40 @@
                 @include('partials.shop.dark-mode-toggle')
             </li>
         </ul>
+
+        <div class="hidden sm:flex items-center gap-x-3">
+            @auth
+                <div class="flex items-center gap-x-2">
+                    @if (auth()->user()->getAvatarUrl())
+                        <img class="shrink-0 size-8 rounded-full ring-2 ring-gold-500/70"
+                            src="{{ auth()->user()->getAvatarUrl() }}" alt="{{ auth()->user()->name }}">
+                    @else
+                        <div
+                            class="shrink-0 size-8 rounded-full bg-maroon-700/80 flex items-center justify-center text-gold-200 text-xs font-semibold ring-2 ring-gold-500/70">
+                            {{ strtoupper(mb_substr(auth()->user()->name, 0, 1)) }}
+                        </div>
+                    @endif
+                    <div class="hidden md:block min-w-0">
+                        <p class="text-[10px] uppercase tracking-wide text-gold-300/80">Signed in</p>
+                        <p class="text-xs font-medium text-gold-100 truncate max-w-[8rem]">
+                            {{ auth()->user()->name }}
+                        </p>
+                    </div>
+                </div>
+            @else
+                <div class="flex items-center gap-x-2">
+                    <a href="{{ route('login') }}"
+                        class="text-xs font-medium text-gold-100 hover:text-gold-50">
+                        Sign in
+                    </a>
+                    <span class="text-gold-400/60 text-[10px]">·</span>
+                    <a href="{{ route('register') }}"
+                        class="text-xs font-semibold text-[#f59e0b] hover:text-[#fbbf24]">
+                        Join
+                    </a>
+                </div>
+            @endauth
+        </div>
     </div>
 </div>
 <!-- End Topbar -->

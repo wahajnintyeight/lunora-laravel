@@ -54,9 +54,9 @@
             <button id="hs-dropdown-account" type="button"
                 class="hs-dropdown-toggle group touch-target inline-flex items-center gap-x-1.5 rounded-full border border-transparent text-gold-200 hover:text-gold-100 hover:bg-[#f59e0b]-900/30 focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 focus:text-gold-100 focus:bg-[#f59e0b]-900/30 disabled:opacity-50 disabled:pointer-events-none dark:text-gold-300 dark:hover:text-gold-100 dark:hover:bg-[#f59e0b]-800/40 dark:focus:text-gold-100 dark:focus:ring-gold-400 dark:focus:ring-offset-maroon-900 dark:focus:bg-[#f59e0b]-800/40 transition-all duration-200 py-1 px-1.5"
                 aria-haspopup="menu" aria-expanded="false" aria-label="Account menu">
-                @if (auth()->user()->avatar_url)
+                @if (auth()->user()->getAvatarUrl())
                     <img class="shrink-0 size-6 rounded-full ring-2 ring-transparent group-hover:ring-gold-500 transition-all duration-200"
-                        src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}">
+                        src="{{ auth()->user()->getAvatarUrl() }}" alt="{{ auth()->user()->name }}">
                 @else
                     <svg class="shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"

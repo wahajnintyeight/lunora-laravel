@@ -91,9 +91,9 @@
                 <div class="px-2 pt-4 border-t border-gold-300/60 dark:border-gold-700/60">
                     @auth
                         <div class="mb-3 flex items-center gap-x-3 px-3">
-                            @if (auth()->user()->avatar_url)
+                            @if (auth()->user()->getAvatarUrl())
                                 <img class="shrink-0 size-9 rounded-full ring-2 ring-gold-500/60"
-                                    src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}">
+                                    src="{{ auth()->user()->getAvatarUrl() }}" alt="{{ auth()->user()->nam">
                             @else
                                 <div
                                     class="shrink-0 size-9 rounded-full bg-maroon-700/80 flex items-center justify-center text-gold-200 text-sm font-semibold">
